@@ -1,0 +1,14 @@
+{
+  "name": "mobi-cedro-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "serve": "node index.js"
+  },
+  "repository": "git@github.com:joaquimfirmo/mobi-cedro-api.git",
+  "author": "Joaquim Firmo <joaquimnt18@gmail.com>",
+  "license": "MIT",
+  "dependencies": {
+    "@hapi/hapi": "^21.3.2"
+  }
+}
