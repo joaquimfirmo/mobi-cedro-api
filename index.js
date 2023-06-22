@@ -2,6 +2,7 @@ const Hapi = require("@hapi/hapi");
 const mysql = require('./plugin-teste');
 const cidade = require("./cidade");
 const Cidade = require("./cidade");
+const transaction = require("./transaction")
 
 const initServer = async () => {
   
@@ -18,11 +19,23 @@ const initServer = async () => {
     {
       method: "GET",
       path: "/",
-      handler: (request, h) => {
-
-        console.log(request.server.app)
-      
-        return request.server.app.reposity.create();    
+      handler: async (request, h) => {
+        let conn;
+        try {
+          await transaction.open();
+          conn = transaction.get();
+          const [rows, fields] = await conn.execute('select * from cidades limit 10');
+  
+        
+          return rows;    
+          
+        } catch (error) {
+          console.log(error);
+          
+        }finally{
+          if (conn)  await transaction.close();
+        }
+       
         
       },
     },
