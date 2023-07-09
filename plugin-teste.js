@@ -1,23 +1,10 @@
-
-
-
-const attachConnection =  async (request, h) => {
-
- 
-      return "DB Conectado aqui";
-
-   
-};
-
-
-
+const attachConnection = async (request, h) => "DB Conectado aqui";
 
 module.exports = {
   name: "mysql",
   version: "1.0.0",
-  register: async function (server, options) {
-
-        server.app.mysql = attachConnection();
+  async register(server, options) {
+    server.app.mysql = attachConnection();
     // server.events.on('response', attachConnection);
     // server.ext('onPreAuth', attachConnection);
   },
