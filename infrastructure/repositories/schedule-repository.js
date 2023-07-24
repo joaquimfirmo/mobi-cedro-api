@@ -1,6 +1,6 @@
-const HorarioRepositoryInterface = require("../../domain/repositories/horario-repository");
+const HorarioRepositoryInterface = require("../../domain/repositories/schedule-repository");
 const transaction = require("../database/transaction");
-const Schedule = require("../../domain/entities/horario");
+const Schedule = require("../../domain/entities/schedule");
 
 class HorarioRepository extends HorarioRepositoryInterface {
   async all() {

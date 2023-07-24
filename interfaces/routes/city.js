@@ -1,4 +1,4 @@
-const CidadeController = require("../controllers/cidade-controller");
+const CidadeController = require("../controllers/city-controller");
 
 const cidadeController = new CidadeController();
 
