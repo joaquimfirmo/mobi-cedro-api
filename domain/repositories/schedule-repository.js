@@ -1,7 +1,7 @@
-class HorarioRepositoryInterface {
+class ScheduleRepositoryInterface {
   async all() {
-    throw new Error("Método não implementado");
+    throw new Error('Método não implementado')
   }
 }
 
-module.exports = HorarioRepositoryInterface;
+module.exports = ScheduleRepositoryInterface

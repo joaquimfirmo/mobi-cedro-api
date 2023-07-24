@@ -1,25 +1,25 @@
-const CidadeRepositoryInterface = require("../../domain/repositories/cidade-repository");
-const transaction = require("../database/transaction");
-const Cidades = require("../../domain/entities/cidade");
+const CityRepositoryInterface = require('../../domain/repositories/city-repository')
+const transaction = require('../database/transaction')
+const City = require('../../domain/entities/city')
 
-class CidadeRepository extends CidadeRepositoryInterface {
+class CityRepository extends CityRepositoryInterface {
   async all() {
     try {
-      await transaction.open();
-      const conn = await transaction.get();
+      await transaction.open()
+      const conn = await transaction.get()
       const [rows] = await conn.execute(
-        "select * from cidades  ORDER BY created_at DESC limit 10"
-      );
+        'select * from cidades  ORDER BY created_at DESC limit 10'
+      )
 
-      const cities = rows.map((row) => new Cidades(row));
+      const cities = rows.map((row) => new City(row))
 
-      return cities;
+      return cities
     } catch (error) {
-      throw new Error(error);
+      throw new Error(error)
     } finally {
-      await transaction.close();
+      await transaction.close()
     }
   }
 }
 
-module.exports = CidadeRepository;
+module.exports = CityRepository

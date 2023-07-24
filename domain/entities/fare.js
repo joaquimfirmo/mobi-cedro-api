@@ -1,9 +1,9 @@
-class Tarifa {
+class Fare {
   constructor({ id, valor, ativo }) {
-    this.id = id;
-    this.valor = valor;
-    this.ativo = ativo;
+    this.id = id
+    this.valor = valor
+    this.ativo = ativo
   }
 }
 
-module.exports = Tarifa;
+module.exports = Fare

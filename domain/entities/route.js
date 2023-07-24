@@ -1,4 +1,4 @@
-class Rotas {
+class Route {
   constructor({
     id,
     nome,
@@ -9,15 +9,15 @@ class Rotas {
     cidadeId,
     ativo,
   }) {
-    this.id = id;
-    this.nome = nome;
-    this.cidadeOrigem = cidadeOrigem;
-    this.cidadeDestino = cidadeDestino;
-    this.empresaId = empresaId;
-    this.tarifaId = tarifaId;
-    this.cidadeId = cidadeId;
-    this.ativo = ativo;
+    this.id = id
+    this.nome = nome
+    this.cidadeOrigem = cidadeOrigem
+    this.cidadeDestino = cidadeDestino
+    this.empresaId = empresaId
+    this.tarifaId = tarifaId
+    this.cidadeId = cidadeId
+    this.ativo = ativo
   }
 }
 
-module.exports = Rotas;
+module.exports = Route

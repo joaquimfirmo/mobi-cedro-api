@@ -1,19 +1,19 @@
-const HorarioRepositoryInterface = require("../../domain/repositories/schedule-repository");
-const transaction = require("../database/transaction");
-const Schedule = require("../../domain/entities/schedule");
+const ScheduleRepositoryInterface = require('../../domain/repositories/schedule-repository')
+const transaction = require('../database/transaction')
+const Schedule = require('../../domain/entities/schedule')
 
-class HorarioRepository extends HorarioRepositoryInterface {
+class ScheduleRepository extends ScheduleRepositoryInterface {
   async all() {
-    await transaction.open();
-    const conn = await transaction.get();
+    await transaction.open()
+    const conn = await transaction.get()
     const [rows] = await conn.execute(
-      "select * from horarios ORDER BY created_at DESC limit 10"
-    );
+      'select * from horarios ORDER BY created_at DESC limit 10'
+    )
 
-    const schedules = rows.map((row) => new Schedule(row));
+    const schedules = rows.map((row) => new Schedule(row))
 
-    return schedules;
+    return schedules
   }
 }
 
-module.exports = HorarioRepository;
+module.exports = ScheduleRepository
