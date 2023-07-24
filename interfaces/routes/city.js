@@ -1,13 +1,13 @@
-const CidadeController = require("../controllers/city-controller");
+const CityController = require('../controllers/city-controller')
 
-const cidadeController = new CidadeController();
+const cityController = new CityController()
 
 module.exports = {
-  method: "GET",
-  path: "/cidades",
-  handler: cidadeController.all,
+  method: 'GET',
+  path: '/cidades',
+  handler: cityController.all,
   options: {
-    description: "Lista todas as cidades",
-    tags: ["api"],
+    description: 'Lista todas as cidades',
+    tags: ['api'],
   },
-};
+}
