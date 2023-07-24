@@ -1,4 +1,4 @@
-const AllCities = require("../../application/use_cases/cidade/list-all-cities");
+const AllCities = require("../../application/use_cases/cities/list-all-cities");
 // por enquanto os reposiories serão importados e passados para o use-case no controller
 const CitiesRepository = require("../../infrastructure/repositories/cidade-repository");
 
