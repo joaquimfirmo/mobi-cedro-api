@@ -1,6 +1,6 @@
 const AllSchedules = require("../../application/use_cases/horarios/list-all- schedules");
 // por enquanto os reposiories serão importados e passados para o use-case no controller
-const ScheduleRepository = require("../../infrastructure/repositories/horario-repository");
+const ScheduleRepository = require("../../infrastructure/repositories/schedules-repository");
 
 class CidadeController {
   async all() {
