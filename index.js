@@ -1,6 +1,6 @@
 const Hapi = require("@hapi/hapi");
 const cidadeRoutes = require("./interfaces/routes/cidades");
-const scheduleRoutes = require("./interfaces/routes/schedules");
+const scheduleRoutes = require("./interfaces/routes/horario");
 
 const initServer = async () => {
   const server = Hapi.server({

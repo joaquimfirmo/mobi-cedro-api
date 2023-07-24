@@ -1,4 +1,4 @@
-const ScheduleController = require("../controllers/schedule-controller");
+const ScheduleController = require("../controllers/horario-controller");
 
 const scheduleController = new ScheduleController();
 
