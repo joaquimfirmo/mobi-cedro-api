@@ -1,4 +1,4 @@
-const HorarioRepositoryInterface = require("../../domain/repositories/horario-repository");
+const HorarioRepositoryInterface = require("../../domain/repositories/schedules-repository");
 const transaction = require("../database/transaction");
 const Schedule = require("../../domain/entities/horario");
 
