@@ -14,6 +14,18 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
 
     return schedules
   }
+
+  async findById(id) {
+    await transaction.open()
+    const conn = await transaction.get()
+    const [rows] = await conn.execute(
+      'select * from horarios where `id` = ? ORDER BY created_at DESC limit 10',
+      [id]
+    )
+
+    const schedules = new Schedule(rows[0])
+    return schedules
+  }
 }
 
 module.exports = ScheduleRepository
