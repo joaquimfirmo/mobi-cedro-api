@@ -31,4 +31,14 @@ module.exports = [
       tags: ['api'],
     },
   },
+
+  {
+    method: ['PUT', 'PATCH'],
+    path: '/horario/{id}',
+    handler: scheduleController.update,
+    options: {
+      description: 'Atualiza um horário pelo id',
+      tags: ['api'],
+    },
+  },
 ]

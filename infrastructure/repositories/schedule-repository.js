@@ -19,11 +19,11 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
     await transaction.open()
     const conn = await transaction.get()
     const [rows] = await conn.execute(
-      'select * from horarios where `id` = ? ORDER BY created_at DESC limit 10',
+      'select * from horarios where `id` = ? limit 1',
       [id]
     )
 
-    const schedules = new Schedule(rows[0])
+    const schedules = rows[0] ? new Schedule(rows[0]) : ''
     return schedules
   }
 
@@ -48,6 +48,22 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
       const result = await conn.execute('DELETE from horarios WHERE `id` = ?', [
         id,
       ])
+      return result[0].affectedRows
+    } catch (error) {
+      console.log(error)
+      return
+    }
+  }
+
+  async update({ id, diaSemana, chegada, saida, ativo }) {
+    await transaction.open()
+    const conn = await transaction.get()
+    try {
+      const result = await conn.execute(
+        'UPDATE horarios SET diaSemana = ?, saida = ? , chegada = ?, ativo = ? where `id` = ? limit 1',
+        [diaSemana, chegada, saida, ativo, id]
+      )
+
       return result[0].affectedRows
     } catch (error) {
       console.log(error)
