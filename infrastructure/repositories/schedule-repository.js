@@ -26,6 +26,20 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
     const schedules = new Schedule(rows[0])
     return schedules
   }
+
+  async create({ id, diaSemana, chegada, saida, ativo }) {
+    await transaction.open()
+    const conn = await transaction.get()
+    try {
+      const rows = await conn.execute(
+        'insert into horarios(id, diaSemana,saida, chegada, ativo) values (?, ?, ?, ?, ?);',
+        [id, diaSemana, chegada, saida, ativo]
+      )
+      return rows
+    } catch (error) {
+      console.log(error)
+    }
+  }
 }
 
 module.exports = ScheduleRepository

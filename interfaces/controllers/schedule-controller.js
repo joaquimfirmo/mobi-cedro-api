@@ -1,5 +1,6 @@
 const AllSchedules = require('../../application/use_cases/schedules/list-all-schedules')
 const FindSchedulesById = require('../../application/use_cases/schedules/find-schedule-by-id')
+const CreateSchedule = require('../../application/use_cases/schedules/create-schedule')
 // por enquanto os reposiories serão importados e passados para o use-case no controller
 const ScheduleRepository = require('../../infrastructure/repositories/schedule-repository')
 
@@ -17,6 +18,14 @@ class ScheduleController {
     const findSchedulesById = new FindSchedulesById(schedulesRepository)
     const { id } = request.params
     const schedule = await findSchedulesById.execute(id)
+
+    return schedule
+  }
+
+  async create(request) {
+    const schedulesRepository = new ScheduleRepository()
+    const createSchedule = new CreateSchedule(schedulesRepository)
+    const schedule = await createSchedule.execute(request.payload)
 
     return schedule
   }

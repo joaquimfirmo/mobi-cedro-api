@@ -21,4 +21,14 @@ module.exports = [
       tags: ['api'],
     },
   },
+
+  {
+    method: 'POST',
+    path: '/horario',
+    handler: scheduleController.create,
+    options: {
+      description: 'Criar um horário',
+      tags: ['api'],
+    },
+  },
 ]
