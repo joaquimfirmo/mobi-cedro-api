@@ -17,17 +17,17 @@ module.exports = [
     path: '/horarios/{id}',
     handler: scheduleController.find,
     options: {
-      description: 'Lista todos os horários',
+      description: 'Lista um horário pelo id',
       tags: ['api'],
     },
   },
 
   {
-    method: 'POST',
-    path: '/horario',
-    handler: scheduleController.create,
+    method: 'DELETE',
+    path: '/horario/{id}',
+    handler: scheduleController.delete,
     options: {
-      description: 'Criar um horário',
+      description: 'Deleta um horário pelo id',
       tags: ['api'],
     },
   },

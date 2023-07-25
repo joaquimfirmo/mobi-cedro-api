@@ -40,6 +40,20 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
       console.log(error)
     }
   }
+
+  async delete(id) {
+    await transaction.open()
+    const conn = await transaction.get()
+    try {
+      const result = await conn.execute('DELETE from horarios WHERE `id` = ?', [
+        id,
+      ])
+      return result[0].affectedRows
+    } catch (error) {
+      console.log(error)
+      return
+    }
+  }
 }
 
 module.exports = ScheduleRepository
