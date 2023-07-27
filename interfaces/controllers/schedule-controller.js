@@ -5,10 +5,13 @@ const DeleteSchedule = require('../../application/use_cases/schedules/delete-sch
 const UpdateSchedule = require('../../application/use_cases/schedules/update-schedule')
 // por enquanto os reposiories serão importados e passados para o use-case no controller
 const ScheduleRepository = require('../../infrastructure/repositories/schedule-repository')
+const Connection = require('../../infrastructure/database/connection')
 
 class ScheduleController {
   async all() {
-    const schedulesRepository = new ScheduleRepository()
+    const connection = new Connection()
+    await connection.connect()
+    const schedulesRepository = new ScheduleRepository(connection)
     const allSchedules = new AllSchedules(schedulesRepository)
     const schedules = await allSchedules.execute()
 

@@ -1,25 +1,26 @@
-const mysql = require("mysql2/promise");
-require("dotenv").config();
+const Pool = require('../database/pool')
 
 class Connection {
-  static async open() {
-    this.host = process.env.BD_HOST ? process.env.BD_HOST : "localhost";
-    this.user = process.env.BD_USER ? process.env.BD_USER : "root";
-    this.database = process.env.BD_DATABASE ? process.env.BD_DATABASE : " ";
-    this.password = process.env.BD_PASSWORD ? process.env.BD_PASSWORD : " ";
+  async connect() {
+    const pool = Pool.create()
+    this.conn = await pool.getConnection()
+  }
 
-    this.port = process.env.BD_PORT ? process.env.BD_PORT : 3306;
+  async query(statement, params) {
+    return this.conn.execute(statement, params)
+  }
 
-    this.conn = mysql.createPool({
-      connectionLimit: 50,
-      host: this.host,
-      user: this.user,
-      database: this.database,
-      password: this.password,
-      port: this.port,
-    });
-    return this.conn.getConnection();
+  async beginTransaction() {
+    await this.conn.beginTransaction()
+  }
+
+  async commit() {
+    await this.conn.commit()
+  }
+
+  close() {
+    this.conn.release()
   }
 }
 
-module.exports = Connection;
+module.exports = Connection

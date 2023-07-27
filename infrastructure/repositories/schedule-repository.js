@@ -1,16 +1,20 @@
 const ScheduleRepositoryInterface = require('../../domain/repositories/schedule-repository')
-const transaction = require('../database/transaction')
 const Schedule = require('../../domain/entities/schedule')
 
 class ScheduleRepository extends ScheduleRepositoryInterface {
+  constructor(connection) {
+    super()
+    this.conn = connection
+  }
   async all() {
-    await transaction.open()
-    const conn = await transaction.get()
-    const [rows] = await conn.execute(
-      'select * from horarios ORDER BY created_at DESC limit 10'
+    const [rows] = await this.conn.query(
+      'select * from horarios ORDER BY created_at DESC',
+      []
     )
 
     const schedules = rows.map((row) => new Schedule(row))
+
+    this.conn.close()
 
     return schedules
   }

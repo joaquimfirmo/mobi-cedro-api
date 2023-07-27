@@ -1,4 +1,5 @@
 class ScheduleRepositoryInterface {
+  constructor() {}
   async all() {
     throw new Error('Método não implementado')
   }
