@@ -1,9 +1,12 @@
 const Pool = require('../database/pool')
 
 class Connection {
+  constructor(pool) {
+    this.pool = pool
+    this.conn
+  }
   async connect() {
-    const pool = Pool.create()
-    this.conn = await pool.getConnection()
+    this.conn = await this.pool.getConnection()
   }
 
   async query(statement, params) {
@@ -19,7 +22,7 @@ class Connection {
   }
 
   close() {
-    this.conn.release()
+    this.pool.end()
   }
 }
 
