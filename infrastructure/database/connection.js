@@ -3,7 +3,7 @@ const Pool = require('../database/pool')
 class Connection {
   constructor(pool) {
     this.pool = pool
-    this.conn
+    this.conn = null
   }
   async connect() {
     this.conn = await this.pool.getConnection()

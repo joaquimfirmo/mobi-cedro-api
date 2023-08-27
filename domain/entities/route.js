@@ -1,22 +1,20 @@
 class Route {
   constructor({
     id,
-    nome,
     cidadeOrigem,
     cidadeDestino,
+    tipoVeiculo,
+    ativo = true,
     empresaId,
     tarifaId,
-    cidadeId,
-    ativo,
   }) {
     this.id = id
-    this.nome = nome
     this.cidadeOrigem = cidadeOrigem
     this.cidadeDestino = cidadeDestino
+    this.tipoVeiculo = tipoVeiculo
+    this.ativo = ativo
     this.empresaId = empresaId
     this.tarifaId = tarifaId
-    this.cidadeId = cidadeId
-    this.ativo = ativo
   }
 }
 

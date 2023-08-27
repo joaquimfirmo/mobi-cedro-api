@@ -1,9 +1,15 @@
 class Schedule {
-  constructor({ id, diaSemana, chegada, saida, ativo }) {
+  constructor({
+    id,
+    dia_semana: diaSemana,
+    hora_saida: horaSaida,
+    hora_chegada: horaChegada,
+    ativo = true,
+  }) {
     this.id = id
     this.diaSemana = diaSemana
-    this.chegada = chegada
-    this.saida = saida
+    this.horaSaida = horaSaida
+    this.horaChegada = horaChegada
     this.ativo = ativo
   }
 }

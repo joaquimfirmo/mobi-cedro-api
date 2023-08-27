@@ -1,5 +1,4 @@
 const Hapi = require('@hapi/hapi')
-const cidadeRoutes = require('./interfaces/routes/city')
 const scheduleRoutes = require('./interfaces/routes/schedule')
 
 const initServer = async () => {
@@ -8,11 +7,6 @@ const initServer = async () => {
     host: 'localhost',
   })
 
-  // await server.register({
-  //   plugin:  require('./plugin-teste'),
-  // })
-
-  server.route(cidadeRoutes)
   server.route(scheduleRoutes)
 
   await server.start()
