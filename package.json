@@ -25,7 +25,7 @@
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
     "dotenv": "^16.3.1",
-    "mysql2": "^3.3.5"
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "eslint": "^7.32.0 || ^8.2.0",

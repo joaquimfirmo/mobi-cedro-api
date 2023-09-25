@@ -1,5 +1,4 @@
 const ScheduleRepositoryInterface = require('../../domain/repositories/schedule-repository')
-const Schedule = require('../../domain/entities/schedule')
 
 class ScheduleRepository extends ScheduleRepositoryInterface {
   constructor(connection) {
@@ -7,27 +6,22 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
     this.conn = connection
   }
   async all() {
-    const [rows] = await this.conn.query(
-      'select * from horarios ORDER BY created_at DESC',
+    const { rows: result } = await this.conn.query(
+      `SELECT horarios.dia_semana,
+                rotas.cidade_origem,
+                rotas.cidade_destino,
+                rotas.tipo_veiculo,
+                horarios.hora_saida,
+                horarios.hora_chegada
+        FROM rotas
+        INNER JOIN rotas_horarios ON rotas.id = rotas_horarios.rotas_id
+        INNER JOIN horarios ON horarios.id = rotas_horarios.horarios_id
+        WHERE rotas.ativo = TRUE
+          AND horarios.ativo = TRUE;`,
       []
     )
-    const schedules = rows.map((row) => new Schedule(row))
-
     this.conn.close()
-
-    return schedules
-  }
-
-  async findById(id) {
-    await transaction.open()
-    const conn = await transaction.get()
-    const [rows] = await conn.execute(
-      'select * from horarios where `id` = ? limit 1',
-      [id]
-    )
-
-    const schedules = rows[0] ? new Schedule(rows[0]) : ''
-    return schedules
+    return result
   }
 }
 

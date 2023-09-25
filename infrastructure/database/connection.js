@@ -1,28 +1,18 @@
-const Pool = require('../database/pool')
-
 class Connection {
   constructor(pool) {
     this.pool = pool
     this.conn = null
   }
   async connect() {
-    this.conn = await this.pool.getConnection()
+    this.conn = await this.pool.connect()
   }
 
   async query(statement, params) {
-    return this.conn.execute(statement, params)
-  }
-
-  async beginTransaction() {
-    await this.conn.beginTransaction()
-  }
-
-  async commit() {
-    await this.conn.commit()
+    return this.conn.query(statement, params)
   }
 
   close() {
-    this.pool.end()
+    this.conn.release()
   }
 }
 

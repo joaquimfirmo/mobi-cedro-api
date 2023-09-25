@@ -1,4 +1,4 @@
-const mysql = require('mysql2/promise')
+const { Pool: PoolPG } = require('pg')
 require('dotenv').config()
 
 class Pool {
@@ -10,13 +10,15 @@ class Pool {
 
     this.port = process.env.BD_PORT ? process.env.BD_PORT : 3306
 
-    return mysql.createPool({
-      connectionLimit: 50,
+    return new PoolPG({
       host: this.host,
       user: this.user,
       database: this.database,
       password: this.password,
       port: this.port,
+      max: 20,
+      idleTimeoutMillis: 30000,
+      connectionTimeoutMillis: 2000,
     })
   }
 }
