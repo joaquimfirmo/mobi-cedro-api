@@ -17,7 +17,7 @@ class Pool {
       password: this.password,
       port: this.port,
       max: 20,
-      idleTimeoutMillis: 30000,
+      idleTimeoutMillis: 3000,
       connectionTimeoutMillis: 2000,
     })
   }
