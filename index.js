@@ -1,10 +1,11 @@
 const Hapi = require('@hapi/hapi')
 const scheduleRoutes = require('./interfaces/routes/schedule')
+require('dotenv').config()
 
 const initServer = async () => {
   const server = Hapi.server({
-    port: 3000,
-    host: 'localhost',
+    port: process.env.SERVER_PORT || 3000,
+    host: process.env.SERVER_HOST || 'localhost',
   })
 
   server.route(scheduleRoutes)
