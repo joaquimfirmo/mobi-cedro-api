@@ -14,30 +14,10 @@ module.exports = [
   },
   {
     method: 'GET',
-    path: '/horarios/{id}',
-    handler: scheduleController.find,
+    path: '/horarios/{city}',
+    handler: scheduleController.findSchedulesByCity,
     options: {
-      description: 'Lista um horário pelo id',
-      tags: ['api'],
-    },
-  },
-
-  {
-    method: 'DELETE',
-    path: '/horario/{id}',
-    handler: scheduleController.delete,
-    options: {
-      description: 'Deleta um horário pelo id',
-      tags: ['api'],
-    },
-  },
-
-  {
-    method: ['PUT', 'PATCH'],
-    path: '/horario/{id}',
-    handler: scheduleController.update,
-    options: {
-      description: 'Atualiza um horário pelo id',
+      description: 'Lista todos os horários de uma cidade',
       tags: ['api'],
     },
   },
