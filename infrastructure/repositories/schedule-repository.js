@@ -27,29 +27,33 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
   }
 
   async findByCity(city) {
-    const { rows: result } = await this.conn.query(
-      `SELECT 
-      horarios.dia_semana, 
-      rotas.cidade_origem, 
-      rotas.cidade_destino, 
-      rotas.tipo_veiculo, 
-      horarios.hora_saida, 
-      horarios.hora_chegada,
-      tarifas.valor 
-    FROM 
-      rotas 
-      INNER JOIN rotas_horarios ON rotas.id = rotas_horarios.rotas_id 
-      INNER JOIN horarios ON horarios.id = rotas_horarios.horarios_id
-      INNER JOIN tarifas ON  tarifas.id = rotas.tarifa_id
-    WHERE 
-      rotas.ativo = TRUE 
-      AND rotas.cidade_origem = $1 
-      AND horarios.ativo = TRUE;`,
-      [city]
-    )
+    try {
+      const { rows: result } = await this.conn.query(
+        `SELECT 
+        horarios.dia_semana, 
+        rotas.cidade_origem, 
+        rotas.cidade_destino, 
+        rotas.tipo_veiculo, 
+        horarios.hora_saida, 
+        horarios.hora_chegada,
+        tarifas.valor 
+      FROM 
+        rotas 
+        INNER JOIN rotas_horarios ON rotas.id = rotas_horarios.rotas_id 
+        INNER JOIN horarios ON horarios.id = rotas_horarios.horarios_id
+        INNER JOIN tarifas ON  tarifas.id = rotas.tarifa_id
+      WHERE 
+        rotas.ativo = TRUE 
+        AND rotas.cidade_origem like '%$1%' 
+        AND horarios.ativo = TRUE;`,
+        [city]
+      )
 
-    this.conn.close()
-    return result
+      this.conn.close()
+      return result
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 

@@ -16,7 +16,7 @@
     ]
   },
   "scripts": {
-    "serve": "node index.js",
+    "serve": "node --watch index.js",
     "test": "jest --detectOpenHandles"
   },
   "repository": "git@github.com:joaquimfirmo/mobi-cedro-api.git",
