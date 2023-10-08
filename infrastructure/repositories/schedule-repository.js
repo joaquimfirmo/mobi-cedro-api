@@ -26,6 +26,27 @@ class ScheduleRepository extends ScheduleRepositoryInterface {
     return result
   }
 
+  async create(schedule) {
+    console.log(schedule)
+    try {
+      const { rows: result } = await this.conn.query(
+        `INSERT INTO horarios (id, dia_semana, hora_saida, hora_chegada, ativo) VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+        [
+          schedule.id,
+          schedule.diaSemana,
+          schedule.horaSaida,
+          schedule.horaChegada,
+          schedule.ativo,
+        ]
+      )
+
+      this.conn.close()
+      return result
+    } catch (error) {
+      console.log(error)
+    }
+  }
+
   async findByCity(city) {
     try {
       const { rows: result } = await this.conn.query(

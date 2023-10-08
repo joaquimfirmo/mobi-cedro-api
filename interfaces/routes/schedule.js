@@ -20,5 +20,13 @@ module.exports = [
       description: 'Lista todos os horários de uma cidade',
       tags: ['api'],
     },
+
+    method: 'POST',
+    path: '/horarios',
+    handler: scheduleController.create,
+    options: {
+      description: 'Cria um novo horário',
+      tags: ['api'],
+    },
   },
 ]

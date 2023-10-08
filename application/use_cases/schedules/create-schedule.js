@@ -7,13 +7,7 @@ class CreateSchedule {
   }
 
   async execute({ diaSemana, chegada, saida, ativo }) {
-    const schedule = new Schedule({
-      id: uuid(),
-      diaSemana,
-      chegada,
-      saida,
-      ativo,
-    })
+    const schedule = new Schedule(uuid(), diaSemana, chegada, saida, ativo)
 
     const schedules = await this.schedulesRepository.create(schedule)
     return schedules

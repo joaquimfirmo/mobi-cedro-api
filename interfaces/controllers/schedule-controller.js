@@ -1,3 +1,4 @@
+const CreateSchedule = require('../../application/use_cases/schedules/create-schedule')
 const AllSchedules = require('../../application/use_cases/schedules/list-all-schedules')
 const FindSchedulesByCity = require('../../application/use_cases/schedules/find-schedules-by-city')
 const ScheduleRepository = require('../../infrastructure/repositories/schedule-repository')
@@ -5,6 +6,23 @@ const Connection = require('../../infrastructure/database/connection')
 const Pool = require('../../infrastructure/database/pool')
 
 class ScheduleController {
+  async create(request) {
+    const { diaSemana, chegada, saida, ativo } = request.payload
+    const pool = Pool.create()
+    const connection = new Connection(pool)
+    await connection.connect()
+
+    const schedulesRepository = new ScheduleRepository(connection)
+    const createSchedule = new CreateSchedule(schedulesRepository)
+    const schedule = await createSchedule.execute({
+      diaSemana,
+      chegada,
+      saida,
+      ativo,
+    })
+    return schedule
+  }
+
   async all() {
     const pool = Pool.create()
     const connection = new Connection(pool)
