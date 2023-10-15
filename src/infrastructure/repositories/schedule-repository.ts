@@ -1,7 +1,9 @@
-export default class ScheduleRepository {
+import IScheduleRepository from '../../application/repositories/schedule-repository'
+
+export default class ScheduleRepository implements IScheduleRepository {
   constructor(private readonly connection: any) {}
 
-  async listAllSchedules(): Promise<any> {
+  async list(): Promise<any> {
     const result = await this.connection.execute(
       `SELECT horarios.dia_semana,
                 rotas.cidade_origem,
