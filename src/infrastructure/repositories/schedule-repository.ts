@@ -20,7 +20,6 @@ export default class ScheduleRepository implements IScheduleRepository {
             AND horarios.ativo = TRUE;`,
       []
     )
-
     this.connection.end()
     return result
   }
