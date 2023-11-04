@@ -5,6 +5,11 @@ export const schedulesRoutes: Array<ServerRoute> = [
   {
     method: 'GET',
     path: '/horarios',
-    handler: new ScheduleController().getSchedule,
+    handler: new ScheduleController().getSchedules,
+  },
+  {
+    method: 'GET',
+    path: '/horarios/{city}',
+    handler: new ScheduleController().findSchedulesByCity,
   },
 ]
