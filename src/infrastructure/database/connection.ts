@@ -1,6 +1,12 @@
+import { Pool } from 'pg'
+import config from './config'
+
 export default class Connection {
+  pool: any
   conection: any
-  constructor(private readonly pool: any) {}
+  constructor() {
+    this.pool = new Pool(config)
+  }
 
   async connect(): Promise<void> {
     this.conection = await this.pool.connect()

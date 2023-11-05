@@ -4,22 +4,20 @@ import FindSchedules from '../../application/usecases/schedules/find-schedules'
 import DatabaseRepositoryFactory from '../../infrastructure/factories/database-repository-factory'
 import ScheduleRepository from '../../infrastructure/repositories/schedule-repository'
 import Connection from '../../infrastructure/database/connection'
-import Pool from '../../infrastructure/database/pool'
+
 class ScheduleController {
-  teste: any
   connection: Connection
-  
+
   constructor() {
-    this.teste = 'teste'
-    this.connection = new Connection(Pool.getInstance())
-    this.connection.connect()
+    this.connection = new Connection()
   }
 
-  public async getSchedules(request: Request, h: ResponseToolkit): Promise<any> {
-    const pool = Pool.getInstance()
-    const connection = new Connection(pool)
-    const scheduleRepository = new DatabaseRepositoryFactory(connection)
-    await connection.connect()
+  public async getSchedules(
+    request: Request,
+    h: ResponseToolkit
+  ): Promise<any> {
+    await this.connection.connect()
+    const scheduleRepository = new DatabaseRepositoryFactory(this.connection)
     const listAllSchedules = new ListAllSchedules(scheduleRepository)
     const schedules = await listAllSchedules.execute()
     return h.response(schedules).code(200)
