@@ -1,8 +1,6 @@
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import ListAllSchedules from '../../application/usecases/schedules/list-schedules'
-import FindSchedules from '../../application/usecases/schedules/find-schedules'
 import DatabaseRepositoryFactory from '../../infrastructure/factories/database-repository-factory'
-import ScheduleRepository from '../../infrastructure/repositories/schedule-repository'
 import Connection from '../../infrastructure/database/connection'
 
 class ScheduleController {

@@ -15,9 +15,7 @@ export default class ScheduleRepository implements IScheduleRepository {
         FROM rotas
             INNER JOIN rotas_horarios ON rotas.id = rotas_horarios.rotas_id
             INNER JOIN horarios ON horarios.id = rotas_horarios.horarios_id
-            INNER JOIN tarifas ON  tarifas.id = rotas.tarifa_id
-        WHERE rotas.ativo = TRUE
-            AND horarios.ativo = TRUE;`,
+            INNER JOIN tarifas ON  tarifas.id = rotas.tarifa_id `,
       []
     )
     this.connection.end()
@@ -37,8 +35,7 @@ export default class ScheduleRepository implements IScheduleRepository {
             INNER JOIN rotas_horarios ON rotas.id = rotas_horarios.rotas_id
             INNER JOIN horarios ON horarios.id = rotas_horarios.horarios_id
             INNER JOIN tarifas ON  tarifas.id = rotas.tarifa_id
-        WHERE rotas.ativo = TRUE
-            AND horarios.ativo = TRUE and rotas.cidade_origem = $1;`,
+        WHERE rotas.cidade_origem = $1;`,
       [city]
     )
 
