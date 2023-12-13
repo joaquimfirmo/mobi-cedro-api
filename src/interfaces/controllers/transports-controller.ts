@@ -1,24 +1,24 @@
 import { Request, ResponseToolkit } from '@hapi/hapi'
-import ListAllSchedules from '../../application/usecases/schedules/list-schedules'
+import ListAllTransports from '../../application/usecases/transports/list-transports'
 import DatabaseRepositoryFactory from '../../infrastructure/factories/database-repository-factory'
 import Connection from '../../infrastructure/database/connection'
 
-class ScheduleController {
+class TransportsController {
   connection: Connection
 
   constructor() {
     this.connection = new Connection()
   }
 
-  public async getSchedules(
+  public async getTransports(
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
     await this.connection.connect()
-    const scheduleRepository = new DatabaseRepositoryFactory(this.connection)
-    const listAllSchedules = new ListAllSchedules(scheduleRepository)
-    const schedules = await listAllSchedules.execute()
-    return h.response(schedules).code(200)
+    const transportsRepository = new DatabaseRepositoryFactory(this.connection)
+    const listAllTransports = new ListAllTransports(transportsRepository)
+    const transports = await listAllTransports.execute()
+    return h.response(transports).code(200)
   }
 
   // public async findSchedulesByCity(
@@ -35,4 +35,4 @@ class ScheduleController {
   // }
 }
 
-export default new ScheduleController()
+export default new TransportsController()
