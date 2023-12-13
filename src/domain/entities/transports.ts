@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-export class Schedule {
+export class Transports {
   constructor(
     id: string,
     diaSemana: string,

@@ -1,10 +1,10 @@
 import Connection from '../../infrastructure/database/connection'
-import ScheduleRepository from '../../infrastructure/repositories/schedule-repository'
+import TransportsRepository from '../repositories/transports-repository'
 
 export default class DatabaseRepositoryFactory {
   constructor(private readonly connection: Connection) {}
 
-  createScheduleRepository(): ScheduleRepository {
-    return new ScheduleRepository(this.connection)
+  createTransportsRepository(): TransportsRepository {
+    return new TransportsRepository(this.connection)
   }
 }

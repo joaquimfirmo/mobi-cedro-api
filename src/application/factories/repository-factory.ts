@@ -1,5 +1,5 @@
-import ScheduleRepository from '../repositories/schedule-repository'
+import TransportsRepository from '../repositories/transports-repository'
 
 export default interface RepositoryFactory {
-  createScheduleRepository(): ScheduleRepository
+  createTransportsRepository(): TransportsRepository
 }

@@ -1,6 +1,6 @@
 'use strict'
 import * as Hapi from '@hapi/hapi'
-import { schedulesRoutes } from './interfaces/routes/schedules'
+import { transportsRoutes } from './interfaces/routes/transports '
 import 'dotenv/config'
 
 export const initServer = async (): Promise<void> => {
@@ -8,7 +8,7 @@ export const initServer = async (): Promise<void> => {
     port: process.env.SERVER_PORT || 3000,
     host: process.env.SERVER_HOST || 'localhost',
   })
-  server.route(schedulesRoutes)
+  server.route(transportsRoutes)
   console.log(`Listening on ${server.settings.host}:${server.settings.port}`)
   return server.start()
 }
