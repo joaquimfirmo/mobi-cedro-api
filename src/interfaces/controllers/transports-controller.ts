@@ -15,7 +15,7 @@ class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    //  await this.connection.connect()
+    await this.connection.connect()
     const transportsRepository = new DatabaseRepositoryFactory(this.connection)
     const listAllTransports = new ListAllTransports(transportsRepository)
     const transports = await listAllTransports.execute()
