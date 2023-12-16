@@ -1,6 +1,6 @@
 'use strict'
 import * as Hapi from '@hapi/hapi'
-import { transportsRoutes } from './interfaces/routes/transports '
+import { transportsRoutes } from './interfaces/routes/transports'
 import 'dotenv/config'
 
 export const initServer = async (): Promise<void> => {
