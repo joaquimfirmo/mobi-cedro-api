@@ -35,7 +35,8 @@ export default class TransportsRepository implements ITransportsRepository {
             INNER JOIN rotas ON rotas.id = horarios.id_rota
             INNER JOIN transportes ON transportes.id = horarios.id_transporte
             INNER JOIN tipos_transportes ON tipos_transportes.id = transportes.id_tipo_transporte
-        WHERE rotas.cidade_origem = $1;`,
+        WHERE rotas.cidade_origem = $1
+        ORDER BY horarios.hora_saida ASC;`,
       [city]
     )
 
