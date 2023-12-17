@@ -1,9 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 export class Transports {
   constructor(
-    id: string,
-    diaSemana: string,
-    horaSaida: string,
-    horaChegada: string
+    public readonly id: string,
+    public readonly nome: string,
+    public readonly descricao: string,
+    public readonly tipo_transporte: string,
+    public readonly id_empresa: string
   ) {}
 }
