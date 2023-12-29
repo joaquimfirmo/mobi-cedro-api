@@ -1,16 +1,17 @@
 'use strict'
-import * as Hapi from '@hapi/hapi'
-import { transportsRoutes } from './interfaces/routes/transports'
+import 'reflect-metadata'
+import boostrap from './infrastructure/booststrap'
+import createServer from './infrastructure/server'
 import 'dotenv/config'
 
 export const initServer = async (): Promise<void> => {
-  const server: Hapi.Server = Hapi.server({
-    port: process.env.SERVER_PORT || 3000,
-    host: process.env.SERVER_HOST || 'localhost',
-  })
-  server.route(transportsRoutes)
+  await boostrap()
+
+  const server = await createServer()
+
+  await server.start()
+
   console.log(`Listening on ${server.settings.host}:${server.settings.port}`)
-  return server.start()
 }
 
 process.on('unhandledRejection', (err) => {

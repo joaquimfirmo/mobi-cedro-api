@@ -13,7 +13,9 @@
     "@hapi/hapi": "^21.3.2",
     "dotenv": "^16.3.1",
     "hapi": "^18.1.0",
-    "pg": "^8.11.3"
+    "pg": "^8.11.3",
+    "reflect-metadata": "^0.2.1",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@types/hapi": "^18.0.0",

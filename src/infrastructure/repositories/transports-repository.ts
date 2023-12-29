@@ -18,7 +18,7 @@ export default class TransportsRepository implements ITransportsRepository {
             INNER JOIN tipos_transportes ON tipos_transportes.id = transportes.id_tipo_transporte`,
       []
     )
-    this.connection.end()
+    //this.connection.end()
     return result
   }
 
@@ -40,7 +40,7 @@ export default class TransportsRepository implements ITransportsRepository {
       [city]
     )
 
-    this.connection.end()
+    //this.connection.end()
     return result
   }
 }

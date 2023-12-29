@@ -1,11 +1,17 @@
+import 'reflect-metadata'
+import { Inject, Service } from 'typedi'
 import TransportsRepository from '../../repositories/transports-repository'
 import RepositoryFactory from '../../factories/repository-factory'
 
-export default class findTransportsByCity {
+@Service('usecase.findTransportsByCity')
+export default class FindTransportsByCity {
   transportsRepository: TransportsRepository
-  constructor(private readonly transportsRepositoryFactory: RepositoryFactory) {
+  constructor(
+    @Inject('transportsRepositoryFactory')
+    transportsRepositoryFactory: RepositoryFactory
+  ) {
     this.transportsRepository =
-      this.transportsRepositoryFactory.createTransportsRepository()
+      transportsRepositoryFactory.createTransportsRepository()
   }
 
   async execute(city: string): Promise<any> {
