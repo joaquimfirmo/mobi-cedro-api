@@ -3,13 +3,23 @@ import { Container } from 'typedi'
 import DatabaseRepositoryFactory from './factories/database-repository-factory'
 import Connection from './database/connection'
 
-const booststrap = async () => {
-  const connection = new Connection()
-  await connection.connect()
+class Bosststrap {
+  static connection: Connection
 
-  const transportsRepositoryFactory = new DatabaseRepositoryFactory(connection)
+  static async run() {
+    this.connection = new Connection()
+    await this.connection.connect()
 
-  Container.set('transportsRepositoryFactory', transportsRepositoryFactory)
+    const transportsRepositoryFactory = new DatabaseRepositoryFactory(
+      this.connection
+    )
+
+    Container.set('transportsRepositoryFactory', transportsRepositoryFactory)
+  }
+
+  static async stop() {
+    await this.connection.end()
+  }
 }
 
-export default booststrap
+export default Bosststrap
