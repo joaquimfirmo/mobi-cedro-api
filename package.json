@@ -5,8 +5,8 @@
   "author": "joaquim firmo ferreira neto",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node main.ts",
-    "dev": "ts-node-dev --respawn --transpile-only main.ts",
+    "start": "ts-node src/index.ts",
+    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --detectOpenHandles",
     "build": "tsc"
   },
