@@ -1,5 +1,5 @@
-import createServer from '../infrastructure/server'
-import Booststrap from '../infrastructure/booststrap'
+import createServer from '../src/infrastructure/server'
+import Booststrap from '../src/infrastructure/booststrap'
 
 import request from 'supertest'
 
