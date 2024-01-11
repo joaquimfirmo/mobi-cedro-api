@@ -1,38 +1,34 @@
+import 'reflect-metadata'
+import { Inject, Service } from 'typedi'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import ListAllTransports from '../../application/usecases/transports/list-transports'
-import DatabaseRepositoryFactory from '../../infrastructure/factories/database-repository-factory'
-import Connection from '../../infrastructure/database/connection'
+import FindTransportsByCity from '../../application/usecases/transports/find-transports'
 
-class TransportsController {
-  connection: Connection
+@Service()
+export default class TransportsController {
+  @Inject('usecase.listAllTransports')
+  private readonly listAlltransports?: ListAllTransports
+  @Inject('usecase.findTransportsByCity')
+  private readonly findTransportsByCity?: FindTransportsByCity
 
-  constructor() {
-    this.connection = new Connection()
-  }
+  constructor() {}
 
   public async getTransports(
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    await this.connection.connect()
-    const transportsRepository = new DatabaseRepositoryFactory(this.connection)
-    const listAllTransports = new ListAllTransports(transportsRepository)
-    const transports = await listAllTransports.execute()
+    const transports = await this.listAlltransports?.execute()
     return h.response(transports).code(200)
   }
 
-  // public async findSchedulesByCity(
-  //   request: Request,
-  //   h: ResponseToolkit
-  // ): Promise<any> {
-  //   const pool = Pool.getInstance()
-  //   const connection = new Connection(pool)
-  //   const scheduleRepository = new ScheduleRepository(connection)
-  //   await connection.connect()
-  //   const findSchedules = new FindSchedules(scheduleRepository)
-  //   const schedules = await findSchedules.execute(request.params.city)
-  //   return h.response(schedules).code(200)
-  // }
-}
+  public async findSchedulesByCity(
+    request: Request,
+    h: ResponseToolkit
+  ): Promise<any> {
+    const transportsByCity = await this.findTransportsByCity?.execute(
+      request.params.city
+    )
 
-export default new TransportsController()
+    return h.response(transportsByCity).code(200)
+  }
+}

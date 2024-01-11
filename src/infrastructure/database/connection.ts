@@ -18,6 +18,6 @@ export default class Connection {
   }
 
   async end(): Promise<void> {
-    await this.conection.release()
+    await this.conection.end()
   }
 }
