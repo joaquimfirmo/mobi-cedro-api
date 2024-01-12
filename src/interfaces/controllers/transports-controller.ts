@@ -21,7 +21,7 @@ export default class TransportsController {
     return h.response(transports).code(200)
   }
 
-  public async findTrasportsByCity(
+  public async transportsByCity(
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
