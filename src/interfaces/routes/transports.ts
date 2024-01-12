@@ -17,7 +17,7 @@ module.exports = {
         method: 'GET',
         path: '/transportes/{city}',
         handler:
-          transportsController.findSchedulesByCity.bind(transportsController),
+          transportsController.findTrasportsByCity.bind(transportsController),
       },
     ])
   },
