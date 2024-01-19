@@ -16,7 +16,7 @@ export default class ListAllTransports {
   }
 
   async execute(): Promise<any> {
-    const transports = await this.transportsRepository.list()
+    const transports = await this.transportsRepository.findAll()
     return transports
   }
 }

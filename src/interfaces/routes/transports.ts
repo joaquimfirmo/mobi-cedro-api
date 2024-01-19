@@ -11,13 +11,14 @@ module.exports = {
       {
         method: 'GET',
         path: '/transportes',
-        handler: transportsController.getTransports.bind(transportsController),
+        handler:
+          transportsController.getAllTransports.bind(transportsController),
       },
       {
         method: 'GET',
         path: '/transportes/{city}',
         handler:
-          transportsController.transportsByCity.bind(transportsController),
+          transportsController.getTransportsByCity.bind(transportsController),
       },
     ])
   },

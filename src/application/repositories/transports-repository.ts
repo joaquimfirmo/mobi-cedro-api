@@ -1,4 +1,4 @@
 export default interface ITransportsRepository {
-  list(): Promise<any>
+  findAll(): Promise<any>
   findByCity(city: string): Promise<any>
 }
