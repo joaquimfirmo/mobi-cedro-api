@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { Container } from 'typedi'
 import TransportsController from '../controllers/transports-controller'
 const transportsController = Container.get(TransportsController)
