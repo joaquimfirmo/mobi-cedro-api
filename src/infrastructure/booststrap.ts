@@ -14,7 +14,15 @@ class Bosststrap {
       this.connection
     )
 
+    const companyRepositoryFactory = new DatabaseRepositoryFactory(
+      this.connection
+    )
+
     Container.set('transportsRepositoryFactory', transportsRepositoryFactory)
+    Container.set(
+      'repository.company',
+      companyRepositoryFactory.createCompanyRepository()
+    )
   }
 
   static async stop() {
