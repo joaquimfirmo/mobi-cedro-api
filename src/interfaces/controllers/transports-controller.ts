@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { Inject, Service } from 'typedi'
 import { Request, ResponseToolkit } from '@hapi/hapi'
 import ListAllTransports from '../../application/usecases/transports/list-transports'
