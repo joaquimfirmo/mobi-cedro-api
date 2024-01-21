@@ -3,14 +3,19 @@ import Connection from '../../infrastructure/database/connection'
 import TransportsRepository from '../repositories/transports-repository'
 import CompanyRepository from '../repositories/company-repository'
 
-export default class DatabaseRepositoryFactory implements RepositoryFactory {
+export default class DataBaseRepositoryFactory implements RepositoryFactory {
   constructor(private readonly connection: Connection) {}
 
-  createTransportsRepository(): TransportsRepository {
-    return new TransportsRepository(this.connection)
-  }
-
-  createCompanyRepository(): CompanyRepository {
-    return new CompanyRepository(this.connection)
+  createAllRepositories(): Array<{ name: string; repository: any }> {
+    return [
+      {
+        name: 'repository.transports',
+        repository: new TransportsRepository(this.connection),
+      },
+      {
+        name: 'repository.company',
+        repository: new CompanyRepository(this.connection),
+      },
+    ]
   }
 }
