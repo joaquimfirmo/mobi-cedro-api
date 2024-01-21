@@ -21,17 +21,19 @@ describe('API', () => {
     expect(response.statusCode).toEqual(200)
     expect(response.body).not.toBeNull()
     expect(response.body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          dia_semana: expect.any(String),
-          cidade_origem: expect.any(String),
-          cidade_destino: expect.any(String),
-          nome: expect.any(String),
-          veiculo: expect.any(String),
-          hora_saida: expect.any(String),
-          hora_chegada: expect.any(String),
-        }),
-      ])
+      expect.objectContaining({
+        rowCount: expect.any(Number),
+        rows: expect.arrayContaining([
+          expect.objectContaining({
+            cidade_origem: expect.any(String),
+            cidade_destino: expect.any(String),
+            nome: expect.any(String),
+            veiculo: expect.any(String),
+            hora_saida: expect.any(String),
+            hora_chegada: expect.any(String),
+          }),
+        ]),
+      })
     )
   })
 
@@ -40,16 +42,19 @@ describe('API', () => {
     expect(response.statusCode).toEqual(200)
     expect(response.body).not.toBeNull()
     expect(response.body).toEqual(
-      expect.arrayContaining([
-        expect.objectContaining({
-          cidade_origem: 'Cedro-CE',
-          cidade_destino: expect.any(String),
-          nome: expect.any(String),
-          veiculo: expect.any(String),
-          hora_saida: expect.any(String),
-          hora_chegada: expect.any(String),
-        }),
-      ])
+      expect.objectContaining({
+        rowCount: expect.any(Number),
+        rows: expect.arrayContaining([
+          expect.objectContaining({
+            cidade_origem: 'Cedro-CE',
+            cidade_destino: expect.any(String),
+            nome: expect.any(String),
+            veiculo: expect.any(String),
+            hora_saida: expect.any(String),
+            hora_chegada: expect.any(String),
+          }),
+        ]),
+      })
     )
   })
 })
