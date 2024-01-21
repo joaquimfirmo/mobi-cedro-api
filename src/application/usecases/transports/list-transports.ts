@@ -4,7 +4,7 @@ import TransportsRepository from '../../repositories/transports-repository'
 @Service('usecase.listAllTransports')
 export default class ListAllTransports {
   constructor(
-    @Inject('repository-transports')
+    @Inject('repository.transports')
     readonly transportsRepository: TransportsRepository
   ) {}
 
