@@ -1,4 +1,3 @@
-import 'reflect-metadata'
 import { Container } from 'typedi'
 import TransportsController from '../controllers/transports-controller'
 const transportsController = Container.get(TransportsController)
@@ -11,13 +10,14 @@ module.exports = {
       {
         method: 'GET',
         path: '/transportes',
-        handler: transportsController.getTransports.bind(transportsController),
+        handler:
+          transportsController.getAllTransports.bind(transportsController),
       },
       {
         method: 'GET',
         path: '/transportes/{city}',
         handler:
-          transportsController.findSchedulesByCity.bind(transportsController),
+          transportsController.getTransportsByCity.bind(transportsController),
       },
     ])
   },

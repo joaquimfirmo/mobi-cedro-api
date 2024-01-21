@@ -7,7 +7,10 @@ const createServer = async (): Promise<Hapi.Server> => {
     host: process.env.SERVER_HOST || 'localhost',
   })
 
-  await server.register([require('../interfaces/routes/transports')])
+  await server.register([
+    require('../interfaces/routes/transports'),
+    require('../interfaces/routes/company'),
+  ])
 
   return server
 }

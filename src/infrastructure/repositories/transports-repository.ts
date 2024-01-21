@@ -3,7 +3,7 @@ import ITransportsRepository from '../../application/repositories/transports-rep
 export default class TransportsRepository implements ITransportsRepository {
   constructor(private readonly connection: any) {}
 
-  async list(): Promise<any> {
+  async findAll(): Promise<any> {
     const result = await this.connection.execute(
       `SELECT horarios.dia_semana,
                 rotas.cidade_origem,

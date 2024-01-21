@@ -13,8 +13,8 @@ export default class Connection {
   }
 
   async execute(query: string, values: any[]): Promise<any> {
-    const { rows: result } = await this.conection.query(query, values)
-    return result
+    const { rowCount, rows } = await this.conection.query(query, values)
+    return { rowCount, rows }
   }
 
   async end(): Promise<void> {

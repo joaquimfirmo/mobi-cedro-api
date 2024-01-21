@@ -4,7 +4,7 @@ import Booststrap from './infrastructure/booststrap'
 import createServer from './infrastructure/server'
 import 'dotenv/config'
 
-export const initServer = async (): Promise<void> => {
+const initServer = async (): Promise<void> => {
   await Booststrap.run()
 
   const server = await createServer()
@@ -19,3 +19,5 @@ process.on('unhandledRejection', (err) => {
   console.error(err)
   process.exit(1)
 })
+
+initServer()

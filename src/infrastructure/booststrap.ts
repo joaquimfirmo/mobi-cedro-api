@@ -1,6 +1,6 @@
 import 'reflect-metadata'
 import { Container } from 'typedi'
-import DatabaseRepositoryFactory from './factories/database-repository-factory'
+import DataBaseRepositoryFactory from './factories/database-repository-factory'
 import Connection from './database/connection'
 
 class Bosststrap {
@@ -8,13 +8,18 @@ class Bosststrap {
 
   static async run() {
     this.connection = new Connection()
+
     await this.connection.connect()
 
-    const transportsRepositoryFactory = new DatabaseRepositoryFactory(
+    const dataBaseRepositoryFactory = new DataBaseRepositoryFactory(
       this.connection
     )
 
-    Container.set('transportsRepositoryFactory', transportsRepositoryFactory)
+    const allRepositories = dataBaseRepositoryFactory.createAllRepositories()
+
+    allRepositories.forEach((repo: any) => {
+      Container.set(repo.name, repo.repository)
+    })
   }
 
   static async stop() {
