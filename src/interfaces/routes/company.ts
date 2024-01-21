@@ -8,6 +8,11 @@ module.exports = {
   register: async function (server: any) {
     server.route([
       {
+        method: 'GET',
+        path: '/empresas',
+        handler: companyController.getAll.bind(companyController),
+      },
+      {
         method: 'POST',
         path: '/empresa',
         handler: companyController.create.bind(companyController),

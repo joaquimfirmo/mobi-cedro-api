@@ -1,8 +1,6 @@
-import { Service } from 'typedi'
 import ICompanyRepository from '../../application/repositories/company-repository'
 import Company from '../../domain/entities/company'
 
-@Service('repository.company')
 export default class CompanyRepository implements ICompanyRepository {
   constructor(private readonly connection: any) {}
 
@@ -15,6 +13,19 @@ export default class CompanyRepository implements ICompanyRepository {
       )
       return result
     } catch (error) {
+      return error
+    }
+  }
+
+  async findAll(limit: number = 20, offset: number = 0): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "empresas" LIMIT $1 OFFSET $2`,
+        [limit, offset]
+      )
+      return result
+    } catch (error) {
+      console.log(error)
       return error
     }
   }
