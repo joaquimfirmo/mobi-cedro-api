@@ -10,9 +10,15 @@ export default class CreateCompany {
   async execute(
     razaoSocial: string,
     nomeFantasia: string,
-    cnpj: string
+    cnpj: string,
+    idCidade: string
   ): Promise<any> {
-    const company: Company = Company.create(razaoSocial, nomeFantasia, cnpj)
+    const company: Company = Company.create(
+      razaoSocial,
+      nomeFantasia,
+      cnpj,
+      idCidade
+    )
     const result = await this.companyRepository.create(company)
     if (result.rowCount === 0 || result instanceof Error) {
       return {
