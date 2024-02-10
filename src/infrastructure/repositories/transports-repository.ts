@@ -5,39 +5,38 @@ export default class TransportsRepository implements ITransportsRepository {
 
   async findAll(): Promise<any> {
     const result = await this.connection.execute(
-      `SELECT horarios.dia_semana,
-                rotas.cidade_origem,
-                rotas.cidade_destino,
-                transportes.nome,
-                tipos_transportes.veiculo,
-                horarios.hora_saida,
-                horarios.hora_chegada
-        FROM horarios
-            INNER JOIN rotas ON rotas.id = horarios.id_rota
-            INNER JOIN transportes ON transportes.id = horarios.id_transporte
-            INNER JOIN tipos_transportes ON tipos_transportes.id = transportes.id_tipo_transporte`,
+      `SELECT rotas.cidade_origem,
+              rotas.cidade_destino, 
+              rotas.hora_saida,
+              rotas.hora_chegada,
+              rotas.preco,
+              veiculos.nome,
+              empresas.nome_fantasia
+        FROM rotas
+            INNER JOIN veiculos ON veiculos.id = rotas.id_veiculo
+            INNER JOIN empresas on empresas.id = rotas.id_empresa`,
       []
     )
     //this.connection.end()
     return result
   }
 
-  findByCity(city: string): Promise<any> {
+  findByCity(cityId: string): Promise<any> {
     const result = this.connection.execute(
-      `SELECT horarios.dia_semana,
-                rotas.cidade_origem,
-                rotas.cidade_destino,
-                transportes.nome,
-                tipos_transportes.veiculo,
-                horarios.hora_saida,
-                horarios.hora_chegada
-        FROM horarios
-            INNER JOIN rotas ON rotas.id = horarios.id_rota
-            INNER JOIN transportes ON transportes.id = horarios.id_transporte
-            INNER JOIN tipos_transportes ON tipos_transportes.id = transportes.id_tipo_transporte
-        WHERE rotas.cidade_origem = $1
-        ORDER BY horarios.hora_saida ASC;`,
-      [city]
+      `SELECT rotas.cidade_origem,
+            rotas.cidade_destino, 
+            rotas.hora_saida,
+            rotas.hora_chegada,
+            rotas.preco,
+            veiculos.nome,
+            empresas.nome_fantasia,
+            rotas.id_cidade
+        FROM rotas
+            INNER JOIN veiculos ON veiculos.id = rotas.id_veiculo 
+            INNER JOIN empresas ON empresas.id = rotas.id_empresa
+        WHERE rotas.id_cidade = $1
+        ORDER BY rotas.hora_saida ASC;`,
+      [cityId]
     )
 
     //this.connection.end()
