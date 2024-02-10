@@ -7,9 +7,15 @@ export default class CompanyRepository implements ICompanyRepository {
   async create(company: Company): Promise<any> {
     try {
       const result = await this.connection.execute(
-        `INSERT INTO empresas (id, razao_social, nome_fantasia, cnpj)
-         VALUES ($1, $2, $3, $4) RETURNING id, nome_fantasia`,
-        [company.id, company.razaoSocial, company.nomeFantasia, company.cnpj]
+        `INSERT INTO empresas (id, nome_fantasia,razao_social, cnpj,id_cidade)
+         VALUES ($1, $2, $3, $4, $5) RETURNING id, nome_fantasia`,
+        [
+          company.id,
+          company.nomeFantasia,
+          company.razaoSocial,
+          company.cnpj,
+          company.idCidade,
+        ]
       )
       return result
     } catch (error) {
