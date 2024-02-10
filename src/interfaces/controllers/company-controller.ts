@@ -13,11 +13,21 @@ export default class CompanyController {
   ) {}
 
   async create(request: Request, h: ResponseToolkit): Promise<any> {
-    const { razaoSocial, nomeFantasia, cnpj } = request.payload as any
+    const { razaoSocial, nomeFantasia, cnpj, idCidade } = request.payload as any
     const { companyCreated, message, status } =
-      await this.createCompany.execute(razaoSocial, nomeFantasia, cnpj)
+      await this.createCompany.execute(
+        razaoSocial,
+        nomeFantasia,
+        cnpj,
+        idCidade
+      )
 
-    return h.response({ companyCreated, message }).code(status)
+    return h
+      .response({
+        companyCreated,
+        message,
+      })
+      .code(status)
   }
 
   async getAll(request: Request, h: ResponseToolkit): Promise<any> {
