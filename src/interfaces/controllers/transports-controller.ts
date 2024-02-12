@@ -7,9 +7,9 @@ import FindTransportsByCity from '../../application/usecases/transports/find-tra
 export default class TransportsController {
   constructor(
     @Inject('usecase.listAllTransports')
-    readonly listAlltransports?: ListAllTransports,
+    readonly listAlltransports: ListAllTransports,
     @Inject('usecase.findTransportsByCity')
-    readonly findTransportsByCity?: FindTransportsByCity
+    readonly findTransportsByCity: FindTransportsByCity
   ) {}
 
   public async getAllTransports(
@@ -24,10 +24,14 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const transportsByCity = await this.findTransportsByCity?.execute(
-      request.params.city
-    )
+    const { transports, message, status } =
+      await this.findTransportsByCity.execute(request.params.cityId)
 
-    return h.response(transportsByCity).code(200)
+    return h
+      .response({
+        transports,
+        message,
+      })
+      .code(status)
   }
 }
