@@ -21,6 +21,7 @@ describe('Company Repository', () => {
       razaoSocial: 'razao social',
       nomeFantasia: 'nome fantasia',
       cnpj: '123456789',
+      idCidade: '1',
     }
 
     const result = {
@@ -41,9 +42,15 @@ describe('Company Repository', () => {
     const response = await companyRepository.create(company)
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `INSERT INTO empresas (id, razao_social, nome_fantasia, cnpj)
-         VALUES ($1, $2, $3, $4) RETURNING id, nome_fantasia`,
-      [company.id, company.razaoSocial, company.nomeFantasia, company.cnpj]
+      `INSERT INTO empresas (id, nome_fantasia, razao_social, cnpj, id_cidade)
+         VALUES ($1, $2, $3, $4, $5) RETURNING id, nome_fantasia`,
+      [
+        company.id,
+        company.nomeFantasia,
+        company.razaoSocial,
+        company.cnpj,
+        company.idCidade,
+      ]
     )
 
     expect(response).toEqual(result)
