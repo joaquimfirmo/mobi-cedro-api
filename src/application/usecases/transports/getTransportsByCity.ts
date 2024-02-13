@@ -1,8 +1,8 @@
 import { Inject, Service } from 'typedi'
 import TransportsRepository from '../../repositories/transports-repository'
 
-@Service('usecase.findTransportsByCity')
-export default class FindTransportsByCity {
+@Service('usecase.getTransportsByCity')
+export default class GetTransportsByCity {
   constructor(
     @Inject('repository.transports')
     readonly transportsRepository: TransportsRepository
