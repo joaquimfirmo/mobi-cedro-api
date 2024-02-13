@@ -1,9 +1,12 @@
 export default interface ITransportsDTO {
-  dia_semana: string
   cidade_origem: string
   cidade_destino: string
-  nome: number
-  veiculo: string
+  dia_semana: string
+  localizacao: string
   hora_saida: string
   hora_chegada: string
+  preco: string
+  nome: string
+  empresa: string
+  id_cidade: string
 }
