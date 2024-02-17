@@ -54,18 +54,18 @@ describe('Transports Repository', () => {
     const response = await transportsRepository.findAll()
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `SELECT rotas.cidade_origem,
-              rotas.cidade_destino,
-              rotas.dia_semana,
-              rotas.localizacao,
-              rotas.hora_saida,
-              rotas.hora_chegada,
-              rotas.preco,
+      `SELECT transportes.cidade_origem,
+              transportes.cidade_destino,
+              transportes.dia_semana,
+              transportes.localizacao,
+              transportes.hora_saida,
+              transportes.hora_chegada,
+              transportes.preco,
               veiculos.nome,
               empresas.nome_fantasia as empresa
-          FROM rotas
-              INNER JOIN veiculos ON veiculos.id = rotas.id_veiculo
-              INNER JOIN empresas ON empresas.id = rotas.id_empresa`
+          FROM transportes
+              INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
+              INNER JOIN empresas ON empresas.id = transportes.id_empresa`
     )
 
     expect(response).toEqual(result)
@@ -113,22 +113,93 @@ describe('Transports Repository', () => {
     const response = await transportsRepository.findByCity(city)
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `SELECT rotas.cidade_origem,
-              rotas.cidade_destino, 
-              rotas.dia_semana,
-              rotas.localizacao,
-              rotas.hora_saida,
-              rotas.hora_chegada,
-              rotas.preco,
+      `SELECT transportes.cidade_origem,
+              transportes.cidade_destino, 
+              transportes.dia_semana,
+              transportes.localizacao,
+              transportes.hora_saida,
+              transportes.hora_chegada,
+              transportes.preco,
               veiculos.nome,
               empresas.nome_fantasia as empresa,
-              rotas.id_cidade
-        FROM rotas
-            INNER JOIN veiculos ON veiculos.id = rotas.id_veiculo
-            INNER JOIN empresas ON empresas.id = rotas.id_empresa
-            WHERE rotas.id_cidade = $1
-            ORDER BY rotas.dia_semana ASC, rotas.hora_saida ASC`,
+              transportes.id_cidade
+        FROM transportes
+            INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
+            INNER JOIN empresas ON empresas.id = transportes.id_empresa
+            WHERE transportes.id_cidade = $1
+            ORDER BY transportes.dia_semana ASC, transportes.hora_saida ASC`,
       [city]
+    )
+
+    expect(response).toEqual(result)
+  })
+
+  it('should return a transport when the method findByHash is called', async () => {
+    const hash = '1234567890'
+    const mockTransport = {
+      id: '1234567890',
+      cidade_origem: 'Cedro-CE',
+      cidade_destino: 'Iguatu-CE',
+      dia_semana: 'Segunda-feira',
+      localizacao: 'Terminal Rodoviário Cedro-Ce',
+      hora_saida: '08:00',
+      hora_chegada: '09:00',
+      preco: '$10.0',
+      nome: 'Van',
+      empresa: 'Empresa 1',
+      hash,
+    }
+
+    const result = {
+      rowCount: 1,
+      rows: [mockTransport],
+    }
+
+    connection.execute.mockResolvedValueOnce({
+      rowCount: result.rowCount,
+      rows: result.rows,
+    })
+
+    const response = await transportsRepository.findByHash(hash)
+    expect(connection.execute).toHaveBeenCalledTimes(1)
+    expect(connection.execute).toHaveBeenCalledWith(
+      `SELECT * FROM transportes WHERE md5_hash = $1`,
+      [hash]
+    )
+
+    expect(response).toEqual(result)
+  })
+
+  it('should return a id transport when the method findById is called', async () => {
+    const id = '1234567890'
+    const mockTransport = {
+      id: '1234567890',
+      cidade_origem: 'Cedro-CE',
+      cidade_destino: 'Iguatu-CE',
+      dia_semana: 'Segunda-feira',
+      localizacao: 'Terminal Rodoviário Cedro-Ce',
+      hora_saida: '08:00',
+      hora_chegada: '09:00',
+      preco: '$10.0',
+      nome: 'Van',
+      empresa: 'Empresa 1',
+    }
+
+    const result = {
+      rowCount: 1,
+      rows: [mockTransport],
+    }
+
+    connection.execute.mockResolvedValueOnce({
+      rowCount: result.rowCount,
+      rows: result.rows,
+    })
+
+    const response = await transportsRepository.findById(id)
+    expect(connection.execute).toHaveBeenCalledTimes(1)
+    expect(connection.execute).toHaveBeenCalledWith(
+      `SELECT id FROM transportes WHERE id = $1`,
+      [id]
     )
 
     expect(response).toEqual(result)
