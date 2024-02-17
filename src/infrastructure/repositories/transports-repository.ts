@@ -17,8 +17,9 @@ export default class TransportsRepository implements ITransportsRepository {
               id_veiculo, 
               id_empresa, 
               id_cidade, 
-              created_at) 
-              VALUES ($1, $2 ,$3 ,$4 ,$5, $6, $7, $8, $9, $10 ,$11 ,NOW())`,
+              created_at,
+              md5_hash) 
+              VALUES ($1, $2 ,$3 ,$4 ,$5, $6, $7, $8, $9, $10 ,$11 ,NOW(), $12)`,
       [
         data.id,
         data.cidadeOrigem,
@@ -31,6 +32,7 @@ export default class TransportsRepository implements ITransportsRepository {
         data.veiculoId,
         data.empresaId,
         data.cidadeId,
+        data.md5_hash,
       ]
     )
     return result
@@ -141,6 +143,14 @@ export default class TransportsRepository implements ITransportsRepository {
       ]
     )
 
+    return result
+  }
+
+  async findByHash(hash: string): Promise<any> {
+    const result = await this.connection.execute(
+      `SELECT * FROM transportes WHERE md5_hash = $1`,
+      [hash]
+    )
     return result
   }
 }

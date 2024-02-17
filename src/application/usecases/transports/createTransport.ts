@@ -24,15 +24,21 @@ export default class CreateTransport {
         data.id_cidade
       )
 
-      const transportExist = await this.verifyTransportExists(data)
+      const transportExist = await this.verifyTransportExists(transport)
 
       if (transportExist) {
+        console.log(
+          'Transporte com o md5 informado já existe:',
+          transport.md5_hash
+        )
+        console.log('Transporte já existe', data)
         return {
           message: 'Transporte já existe',
           status: 400,
-          data: [],
+          data,
         }
       }
+
       const result = await this.transportsRepository.create(transport)
 
       return {
@@ -51,9 +57,10 @@ export default class CreateTransport {
   }
 
   private async verifyTransportExists(transport: any) {
-    const transportExist =
-      await this.transportsRepository.findTransport(transport)
+    const result = await this.transportsRepository.findByHash(
+      transport.md5_hash
+    )
 
-    return transportExist.rowCount ? true : false
+    return result.rowCount > 0 ? true : false
   }
 }

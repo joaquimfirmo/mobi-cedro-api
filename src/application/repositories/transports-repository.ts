@@ -5,4 +5,5 @@ export default interface ITransportsRepository {
   findById(id: string): Promise<any>
   update(id: string, data: any): Promise<any>
   findTransport(data: any): Promise<any>
+  findByHash(hash: string): Promise<any>
 }
