@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import createHashs from '../../utils/createHashs'
 
 export default class Transports {
   constructor(
@@ -12,7 +13,8 @@ export default class Transports {
     public readonly preco: number,
     public readonly veiculoId: string,
     public readonly empresaId: string,
-    public readonly cidadeId: string
+    public readonly cidadeId: string,
+    public readonly md5_hash: string
   ) {}
 
   static create(
@@ -28,6 +30,18 @@ export default class Transports {
     id_cidade: string
   ): any {
     const id = crypto.randomUUID()
+    const md5_hash = createHashs.createHashMd5({
+      cidade_origem,
+      cidade_destino,
+      dia_semana,
+      localizacao,
+      hora_saida,
+      hora_chegada,
+      preco,
+      id_veiculo,
+      id_empresa,
+      id_cidade,
+    })
 
     return new Transports(
       id,
@@ -40,7 +54,8 @@ export default class Transports {
       preco,
       id_veiculo,
       id_empresa,
-      id_cidade
+      id_cidade,
+      md5_hash
     )
   }
 }
