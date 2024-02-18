@@ -10,6 +10,7 @@ const createServer = async (): Promise<Hapi.Server> => {
   await server.register([
     require('../interfaces/routes/transports'),
     require('../interfaces/routes/company'),
+    require('../interfaces/routes/city'),
   ])
 
   return server

@@ -15,9 +15,22 @@ module.exports = {
       },
       {
         method: 'GET',
-        path: '/transportes/{city}',
+        path: '/transportes/cidade/{cityId}',
         handler:
           transportsController.getTransportsByCity.bind(transportsController),
+      },
+
+      {
+        method: 'POST',
+        path: '/transporte',
+        handler:
+          transportsController.createTransport.bind(transportsController),
+      },
+      {
+        method: 'PUT',
+        path: '/transportes/{id}',
+        handler:
+          transportsController.updateTransportById.bind(transportsController),
       },
     ])
   },
