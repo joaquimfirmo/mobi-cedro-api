@@ -113,7 +113,8 @@ describe('Transports Repository', () => {
     const response = await transportsRepository.findByCity(city)
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `SELECT transportes.cidade_origem,
+      `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino, 
               transportes.dia_semana,
               transportes.localizacao,
@@ -199,6 +200,26 @@ describe('Transports Repository', () => {
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
       `SELECT id FROM transportes WHERE id = $1`,
+      [id]
+    )
+
+    expect(response).toEqual(result)
+  })
+
+  it('should delete a transport when the method delete is called', async () => {
+    const id = '1234567890'
+    const result = {
+      rowCount: 1,
+    }
+
+    connection.execute.mockResolvedValueOnce({
+      rowCount: result.rowCount,
+    })
+
+    const response = await transportsRepository.delete(id)
+    expect(connection.execute).toHaveBeenCalledTimes(1)
+    expect(connection.execute).toHaveBeenCalledWith(
+      `DELETE FROM transportes WHERE id = $1`,
       [id]
     )
 
