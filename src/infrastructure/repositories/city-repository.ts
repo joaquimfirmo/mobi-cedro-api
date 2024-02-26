@@ -24,4 +24,42 @@ export default class CityRepository implements ICityRepository {
       throw new Error('Erro ao buscar cidades')
     }
   }
+
+  async findById(id: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "cidades" WHERE id = $1`,
+        [id]
+      )
+      return result
+    } catch (error) {
+      throw new Error('Erro ao buscar cidade')
+    }
+  }
+
+  async update(id: string, city: any): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `UPDATE cidades SET nome = $1, uf = $2 WHERE id = $3`,
+        [city.name, city.uf, id]
+      )
+      return result
+    } catch (error) {
+      console.log(error)
+      throw new Error('Erro ao atualizar cidade')
+    }
+  }
+
+  async delete(id: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `DELETE FROM cidades WHERE id = $1`,
+        [id]
+      )
+      return result
+    } catch (error) {
+      console.log(error)
+      throw new Error('Erro ao excluir cidade')
+    }
+  }
 }
