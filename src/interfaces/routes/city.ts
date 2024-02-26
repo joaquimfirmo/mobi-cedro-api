@@ -17,6 +17,16 @@ module.exports = {
         path: '/cidades',
         handler: cityController.findAll.bind(cityController),
       },
+      {
+        method: 'PUT',
+        path: '/cidade/{id}',
+        handler: cityController.update.bind(cityController),
+      },
+      {
+        method: 'DELETE',
+        path: '/cidade/{id}',
+        handler: cityController.delete.bind(cityController),
+      },
     ])
   },
 }
