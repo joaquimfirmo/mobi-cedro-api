@@ -23,6 +23,34 @@ export default class CompanyRepository implements ICompanyRepository {
     }
   }
 
+  async update(id: string, company: any): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `UPDATE 
+        empresas 
+      SET 
+        nome_fantasia = $1, 
+        razao_social = $2, 
+        cnpj = $3, 
+        id_cidade = $4,
+        updated_at = NOW() 
+      where 
+        id = $5 
+      RETURNING id, nome_fantasia`,
+        [
+          company.nomeFantasia,
+          company.razaoSocial,
+          company.cnpj,
+          company.idCidade,
+          id,
+        ]
+      )
+      return result
+    } catch (error) {
+      return error
+    }
+  }
+
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
     try {
       const result = await this.connection.execute(
@@ -32,6 +60,30 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
+      return error
+    }
+  }
+
+  async findById(id: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "empresas" WHERE id = $1`,
+        [id]
+      )
+      return result
+    } catch (error) {
+      return error
+    }
+  }
+
+  async delete(id: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `DELETE FROM "empresas" WHERE id = $1`,
+        [id]
+      )
+      return result
+    } catch (error) {
       return error
     }
   }
