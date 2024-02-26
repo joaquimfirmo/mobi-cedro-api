@@ -4,10 +4,13 @@ import GetTransports from '../../application/usecases/transports/getTransports'
 import GetTransportsByCity from '../../application/usecases/transports/getTransportsByCity'
 import UpdateTransport from '../../application/usecases/transports/updateTransport'
 import CreateTransport from '../../application/usecases/transports/createTransport'
+import DeleteTransport from '../../application/usecases/transports/deleteTransport'
 
 @Service()
 export default class TransportsController {
   constructor(
+    @Inject('usecase.deleteTransport')
+    readonly deleteTransport: DeleteTransport,
     @Inject('usecase.getTransports')
     readonly getTransports: GetTransports,
     @Inject('usecase.getTransportsByCity')
@@ -63,6 +66,20 @@ export default class TransportsController {
       id,
       request.payload
     )
+    return h
+      .response({
+        message,
+        data,
+      })
+      .code(status)
+  }
+
+  public async deleteTransportById(
+    request: Request,
+    h: ResponseToolkit
+  ): Promise<any> {
+    const { id } = request.params
+    const { message, status, data } = await this.deleteTransport.execute(id)
     return h
       .response({
         message,
