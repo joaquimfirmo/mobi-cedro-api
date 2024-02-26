@@ -53,13 +53,14 @@ export default class TransportsRepository implements ITransportsRepository {
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
               INNER JOIN empresas ON empresas.id = transportes.id_empresa`
     )
-    //this.connection.end()
+
     return result
   }
 
   async findByCity(cityId: string): Promise<any> {
     const result = await this.connection.execute(
-      `SELECT transportes.cidade_origem,
+      `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino, 
               transportes.dia_semana,
               transportes.localizacao,
@@ -150,6 +151,13 @@ export default class TransportsRepository implements ITransportsRepository {
     const result = await this.connection.execute(
       `SELECT * FROM transportes WHERE md5_hash = $1`,
       [hash]
+    )
+    return result
+  }
+  async delete(id: string): Promise<any> {
+    const result = await this.connection.execute(
+      `DELETE FROM transportes WHERE id = $1`,
+      [id]
     )
     return result
   }
