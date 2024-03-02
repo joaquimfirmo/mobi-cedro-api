@@ -5,12 +5,17 @@ export default class CityRepository implements ICityRepository {
   constructor(private readonly connection: any) {}
 
   async create(city: City): Promise<any> {
-    const result = await this.connection.execute(
-      `INSERT INTO cidades (id, nome, uf) VALUES ($1, $2, $3)`,
-      [city.id, city.name, city.uf]
-    )
+    try {
+      const result = await this.connection.execute(
+        `INSERT INTO cidades (id, nome, uf) VALUES ($1, $2, $3)`,
+        [city.id, city.name, city.uf]
+      )
 
-    return result
+      return result
+    } catch (error) {
+      console.log(error)
+      return new Error('Erro ao criar cidade')
+    }
   }
 
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
@@ -21,7 +26,7 @@ export default class CityRepository implements ICityRepository {
       )
       return result
     } catch (error) {
-      throw new Error('Erro ao buscar cidades')
+      return new Error('Erro ao buscar cidades')
     }
   }
 
@@ -33,7 +38,7 @@ export default class CityRepository implements ICityRepository {
       )
       return result
     } catch (error) {
-      throw new Error('Erro ao buscar cidade')
+      return new Error('Erro ao buscar cidade')
     }
   }
 
@@ -46,7 +51,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      throw new Error('Erro ao atualizar cidade')
+      return new Error('Erro ao atualizar cidade')
     }
   }
 
@@ -59,7 +64,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      throw new Error('Erro ao excluir cidade')
+      return new Error('Erro ao excluir cidade')
     }
   }
 }

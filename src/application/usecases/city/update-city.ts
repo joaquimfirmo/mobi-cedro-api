@@ -9,28 +9,29 @@ export default class UpdateCity {
   ) {}
 
   async execute(id: string, city: any): Promise<any> {
-    try {
-      const cityExists = await this.cityRepository.findById(id)
-      if (cityExists.rowCount === 0) {
-        return {
-          message: 'Cidade não encontrada',
-          status: 404,
-          city: [],
-        }
+    const cityExists = await this.cityRepository.findById(id)
+    if (cityExists.rowCount === 0) {
+      return {
+        message: 'Cidade não encontrada',
+        status: 404,
+        city: [],
       }
+    }
 
-      const cityUpdated = await this.cityRepository.update(id, city)
+    const result = await this.cityRepository.update(id, city)
+
+    if (result instanceof Error) {
       return {
-        message: 'Cidade atualizada com sucesso',
-        status: 200,
-        cityUpdated: cityUpdated.rows[0],
-      }
-    } catch (error) {
-      return {
-        message: 'Erro ao atualizar cidade',
+        message: result.message,
         status: 500,
         city: [],
       }
+    }
+
+    return {
+      message: 'Cidade atualizada com sucesso',
+      status: 200,
+      cityUpdated: result.rows[0],
     }
   }
 }

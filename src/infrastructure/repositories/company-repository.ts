@@ -19,7 +19,8 @@ export default class CompanyRepository implements ICompanyRepository {
       )
       return result
     } catch (error) {
-      return error
+      console.log(error)
+      return new Error('Erro ao criar empresa')
     }
   }
 
@@ -47,7 +48,8 @@ export default class CompanyRepository implements ICompanyRepository {
       )
       return result
     } catch (error) {
-      return error
+      console.log(error)
+      return new Error('Erro ao atualizar empresa')
     }
   }
 
@@ -60,7 +62,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return error
+      return new Error('Erro ao buscar empresas')
     }
   }
 
@@ -72,7 +74,8 @@ export default class CompanyRepository implements ICompanyRepository {
       )
       return result
     } catch (error) {
-      return error
+      console.log(error)
+      return new Error('Erro ao buscar empresa')
     }
   }
 
@@ -84,7 +87,8 @@ export default class CompanyRepository implements ICompanyRepository {
       )
       return result
     } catch (error) {
-      return error
+      console.log(error)
+      return new Error('Erro ao deletar empresa')
     }
   }
 }

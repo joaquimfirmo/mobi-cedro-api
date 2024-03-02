@@ -12,9 +12,8 @@ export default class FindAllCity {
 
     if (result instanceof Error) {
       return {
-        message: 'Não foi possível buscar as cidades',
+        message: result.message,
         status: 500,
-        cities: null,
       }
     }
 

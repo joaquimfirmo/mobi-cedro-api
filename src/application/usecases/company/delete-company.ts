@@ -9,30 +9,28 @@ export default class DeleteCompany {
   ) {}
 
   async execute(id: string): Promise<any> {
-    try {
-      const companyExists = await this.companyRepository.findById(id)
-      if (companyExists.rowCount === 0) {
-        return {
-          message: 'Empresa para exclusão não encontrada',
-          status: 404,
-          data: [],
-        }
-      }
-
-      await this.companyRepository.delete(id)
-
+    const companyExists = await this.companyRepository.findById(id)
+    if (companyExists.rowCount === 0) {
       return {
-        message: 'Empresa excluída com sucesso!',
-        status: 200,
-        data: id,
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        message: 'Erro ao excluir empresa',
-        status: 500,
+        message: 'Empresa para exclusão não encontrada',
+        status: 404,
         data: [],
       }
+    }
+
+    const result = await this.companyRepository.delete(id)
+
+    if (result instanceof Error) {
+      return {
+        message: result.message,
+        status: 500,
+      }
+    }
+
+    return {
+      message: 'Empresa excluída com sucesso!',
+      status: 200,
+      data: id,
     }
   }
 }

@@ -10,49 +10,47 @@ export default class CreateTransport {
   ) {}
 
   async execute(data: any): Promise<any> {
-    try {
-      const transport = Transport.create(
-        data.cidade_origem,
-        data.cidade_destino,
-        data.dia_semana,
-        data.localizacao,
-        data.hora_saida,
-        data.hora_chegada,
-        data.preco,
-        data.id_veiculo,
-        data.id_empresa,
-        data.id_cidade
+    const transport = Transport.create(
+      data.cidade_origem,
+      data.cidade_destino,
+      data.dia_semana,
+      data.localizacao,
+      data.hora_saida,
+      data.hora_chegada,
+      data.preco,
+      data.id_veiculo,
+      data.id_empresa,
+      data.id_cidade
+    )
+
+    const transportExist = await this.verifyTransportExists(transport)
+
+    if (transportExist) {
+      console.log(
+        'Transporte com o md5 informado já existe:',
+        transport.md5_hash
       )
-
-      const transportExist = await this.verifyTransportExists(transport)
-
-      if (transportExist) {
-        console.log(
-          'Transporte com o md5 informado já existe:',
-          transport.md5_hash
-        )
-        console.log('Transporte já existe', data)
-        return {
-          message: 'Transporte já existe',
-          status: 400,
-          data,
-        }
-      }
-
-      const result = await this.transportsRepository.create(transport)
-
+      console.log('Transporte já existe', data)
       return {
-        message: 'Transporte criado com sucesso',
-        status: 201,
-        data: result,
+        message: 'Transporte já existe',
+        status: 400,
+        data,
       }
-    } catch (err) {
-      console.log(err)
+    }
+
+    const result = await this.transportsRepository.create(transport)
+
+    if (result instanceof Error) {
       return {
-        message: 'Erro ao criar o transporte',
+        message: result.message,
         status: 500,
-        data: null,
       }
+    }
+
+    return {
+      message: 'Transporte criado com sucesso',
+      status: 201,
+      data: result,
     }
   }
 

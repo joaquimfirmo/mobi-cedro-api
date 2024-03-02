@@ -10,22 +10,18 @@ export default class CreateCity {
 
   async execute(name: string, uf: string): Promise<any> {
     const city = City.create(name, uf)
-    try {
-      const result = await this.cityRepository.create(city)
-      if (result.rowCount > 0) {
-        return {
-          cityCreated: city,
-          message: 'Cidade criada com sucesso',
-          status: 201,
-        }
-      }
-    } catch (error) {
-      console.log(error)
+    const result = await this.cityRepository.create(city)
+
+    if (result instanceof Error) {
       return {
-        cityCreated: null,
         message: 'Erro ao criar cidade',
         status: 500,
       }
+    }
+    return {
+      cityCreated: city,
+      message: 'Cidade criada com sucesso',
+      status: 201,
     }
   }
 }

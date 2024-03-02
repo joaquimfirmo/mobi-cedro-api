@@ -9,30 +9,28 @@ export default class DeleteCity {
   ) {}
 
   async execute(id: string): Promise<any> {
-    try {
-      const cityExists = await this.cityRepository.findById(id)
-      if (cityExists.rowCount === 0) {
-        return {
-          message: 'Cidade para exclusão não encontrada',
-          status: 404,
-          data: [],
-        }
-      }
-
-      await this.cityRepository.delete(id)
-
+    const cityExists = await this.cityRepository.findById(id)
+    if (cityExists.rowCount === 0) {
       return {
-        message: 'Cidade excluída com sucesso!',
-        status: 200,
-        data: id,
-      }
-    } catch (error) {
-      console.log(error)
-      return {
-        message: 'Erro ao excluir cidade',
-        status: 500,
+        message: 'Cidade para exclusão não encontrada',
+        status: 404,
         data: [],
       }
+    }
+
+    const result = await this.cityRepository.delete(id)
+
+    if (result instanceof Error) {
+      return {
+        message: result.message,
+        status: 500,
+      }
+    }
+
+    return {
+      message: 'Cidade excluída com sucesso!',
+      status: 200,
+      data: id,
     }
   }
 }
