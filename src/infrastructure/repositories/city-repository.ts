@@ -14,7 +14,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao criar cidade')
+      throw new Error('Erro ao criar cidade')
     }
   }
 
@@ -38,7 +38,20 @@ export default class CityRepository implements ICityRepository {
       )
       return result
     } catch (error) {
-      return new Error('Erro ao buscar cidade')
+      console.log(error)
+      throw new Error('Erro ao buscar cidade')
+    }
+  }
+
+  async findByNameAndUf(name: string, uf: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "cidades" WHERE nome = $1 AND uf = $2`,
+        [name, uf]
+      )
+      return result
+    } catch (error) {
+      throw new Error('Erro ao buscar cidade')
     }
   }
 
