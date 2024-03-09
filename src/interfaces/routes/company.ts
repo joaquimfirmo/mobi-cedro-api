@@ -17,6 +17,16 @@ module.exports = {
         path: '/empresa',
         handler: companyController.create.bind(companyController),
       },
+      {
+        method: 'PUT',
+        path: '/empresa/{id}',
+        handler: companyController.update.bind(companyController),
+      },
+      {
+        method: 'DELETE',
+        path: '/empresa/{id}',
+        handler: companyController.delete.bind(companyController),
+      },
     ])
   },
 }

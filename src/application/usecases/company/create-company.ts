@@ -20,11 +20,10 @@ export default class CreateCompany {
       idCidade
     )
     const result = await this.companyRepository.create(company)
-    if (result.rowCount === 0 || result instanceof Error) {
+    if (result instanceof Error) {
       return {
-        message: 'Não foi possível criar a empresa',
-        status: 400,
-        companyCreated: null,
+        message: result.message,
+        status: 500,
       }
     }
 

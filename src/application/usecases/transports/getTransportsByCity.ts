@@ -9,27 +9,26 @@ export default class GetTransportsByCity {
   ) {}
 
   async execute(cityId: string): Promise<any> {
-    try {
-      const transports = await this.transportsRepository.findByCity(cityId)
-      if (transports.rowCount === 0) {
-        return {
-          message: 'Nenhum transporte encontrado para a cidade informada',
-          transports: [],
-          status: 404,
-        }
-      }
+    const transports = await this.transportsRepository.findByCity(cityId)
+    if (transports.rowCount === 0) {
       return {
-        message: 'Lista de transportes encontrada com sucesso',
-        transports: transports.rows,
-        status: 200,
+        message: 'Nenhum transporte encontrado para a cidade informada',
+        transports: [],
+        status: 404,
       }
-    } catch (error) {
-      console.log(error)
+    }
+
+    if (transports instanceof Error) {
       return {
-        message: 'Erro ao buscar transportes',
-        transports: null,
+        message: transports.message,
         status: 500,
       }
+    }
+
+    return {
+      message: 'Lista de transportes encontrada com sucesso',
+      transports: transports.rows,
+      status: 200,
     }
   }
 }

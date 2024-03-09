@@ -32,6 +32,12 @@ module.exports = {
         handler:
           transportsController.updateTransportById.bind(transportsController),
       },
+      {
+        method: 'DELETE',
+        path: '/transportes/{id}',
+        handler:
+          transportsController.deleteTransportById.bind(transportsController),
+      },
     ])
   },
 }

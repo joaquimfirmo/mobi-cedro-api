@@ -12,9 +12,8 @@ export default class FindAllCompany {
 
     if (result instanceof Error) {
       return {
-        message: 'Não foi possível buscar as empresas',
+        message: result.message,
         status: 500,
-        companies: null,
       }
     }
 
