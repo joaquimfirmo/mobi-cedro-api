@@ -2,9 +2,9 @@ import crypto from 'crypto'
 import municipios from './../../utils/municipios.json'
 
 export default class City {
-  private readonly id: string
-  private readonly name: string
-  private readonly uf: string
+  public readonly id: string
+  public readonly name: string
+  public readonly uf: string
 
   constructor(name: string, uf: string) {
     this.id = crypto.randomUUID()
