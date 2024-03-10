@@ -74,6 +74,45 @@ module.exports = {
       {
         method: 'PUT',
         path: '/transportes/{id}',
+        options: {
+          validate: {
+            params: Joi.object({
+              id: Joi.string().guid().required(),
+            }),
+            payload: Joi.object({
+              cidade_origem: Joi.string().min(2).max(50).required(),
+              cidade_destino: Joi.string().min(2).max(50).required(),
+              dia_semana: Joi.string()
+                .min(2)
+                .max(50)
+                .valid(
+                  'Segunda-Feira',
+                  'Terça-Feira',
+                  'Quarta-Feira',
+                  'Quinta-Feira',
+                  'Sexta-Feira',
+                  'Sábado',
+                  'Domingo'
+                )
+                .required(),
+              localizacao: Joi.string().min(2).max(50).required(),
+              hora_saida: Joi.string()
+                // eslint-disable-next-line no-useless-escape
+                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+                .required(),
+              hora_chegada: Joi.string()
+                // eslint-disable-next-line no-useless-escape
+                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
+                .required(),
+              preco: Joi.string()
+                .pattern(/^\$\d+(?:\.\d{0,2})$/)
+                .required(),
+              id_empresa: Joi.string().guid().required(),
+              id_veiculo: Joi.string().guid().required(),
+              id_cidade: Joi.string().guid().required(),
+            }),
+          },
+        },
         handler:
           transportsController.updateTransportById.bind(transportsController),
       },
