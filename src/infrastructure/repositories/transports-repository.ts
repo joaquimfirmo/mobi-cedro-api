@@ -123,7 +123,7 @@ export default class TransportsRepository implements ITransportsRepository {
               id_empresa = $9, 
               id_cidade = $10,
               updated_at = NOW() 
-              WHERE id = $11`,
+              WHERE id = $11 RETURNING *`,
         [
           data.cidade_origem,
           data.cidade_destino,
