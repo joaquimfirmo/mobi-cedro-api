@@ -1,5 +1,8 @@
 import { Container } from 'typedi'
-import Joi from 'joi'
+import { validationPipe } from '../../utils/validation'
+import ParamDto from '../../application/dto/param-dto'
+import CreateCompanyDto from '../../application/dto/create-company-dto'
+import UpdateCompanyDto from '../../application/dto/update-company-dto'
 import CompanyController from '../controllers/company-controller'
 const companyController = Container.get(CompanyController)
 
@@ -18,12 +21,9 @@ module.exports = {
         path: '/empresa',
         options: {
           validate: {
-            payload: Joi.object({
-              razaoSocial: Joi.string().min(2).max(50).required(),
-              nomeFantasia: Joi.string().min(2).max(50).required(),
-              cnpj: Joi.string().min(14).max(14).required(),
-              idCidade: Joi.string().guid().required(),
-            }),
+            payload: async (value: any) => {
+              await validationPipe(value, CreateCompanyDto)
+            },
           },
         },
         handler: companyController.create.bind(companyController),
@@ -33,15 +33,12 @@ module.exports = {
         path: '/empresa/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
-            payload: Joi.object({
-              razaoSocial: Joi.string().min(2).max(50).required(),
-              nomeFantasia: Joi.string().min(2).max(50).required(),
-              cnpj: Joi.string().min(14).max(14).required(),
-              idCidade: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
+            payload: async (value: any) => {
+              await validationPipe(value, UpdateCompanyDto)
+            },
           },
         },
         handler: companyController.update.bind(companyController),
@@ -51,9 +48,9 @@ module.exports = {
         path: '/empresa/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
           },
         },
         handler: companyController.delete.bind(companyController),

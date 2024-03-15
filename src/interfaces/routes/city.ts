@@ -1,6 +1,9 @@
 import { Container } from 'typedi'
 import CityController from '../controllers/city-controller'
-import Joi from 'joi'
+import ParamDto from '../../application/dto/param-dto'
+import CreateCityDto from '../../application/dto/create-city-dto'
+import UpdateCityDto from '../../application/dto/update-city-dto'
+import { validationPipe } from '../../utils/validation'
 const cityController = Container.get(CityController)
 
 module.exports = {
@@ -13,10 +16,9 @@ module.exports = {
         path: '/cidade',
         options: {
           validate: {
-            payload: Joi.object({
-              name: Joi.string().min(2).max(50).required(),
-              uf: Joi.string().min(2).max(2).required(),
-            }),
+            payload: async (value: any) => {
+              await validationPipe(value, CreateCityDto)
+            },
           },
         },
         handler: cityController.create.bind(cityController),
@@ -31,13 +33,12 @@ module.exports = {
         path: '/cidade/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
-            payload: Joi.object({
-              name: Joi.string().min(2).max(50).required(),
-              uf: Joi.string().min(2).max(2).required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
+            payload: async (value: any) => {
+              await validationPipe(value, UpdateCityDto)
+            },
           },
         },
         handler: cityController.update.bind(cityController),
@@ -47,9 +48,9 @@ module.exports = {
         path: '/cidade/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
           },
         },
         handler: cityController.delete.bind(cityController),

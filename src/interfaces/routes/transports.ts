@@ -1,6 +1,9 @@
 import { Container } from 'typedi'
-import Joi from 'joi'
 import TransportsController from '../controllers/transports-controller'
+import { validationPipe } from '../../utils/validation'
+import ParamDto from '../../application/dto/param-dto'
+import UpdateTransports from '../../application/dto/update-transports-dto'
+import CreateTransportDto from '../../application/dto/create-transports-dto'
 const transportsController = Container.get(TransportsController)
 
 module.exports = {
@@ -19,9 +22,9 @@ module.exports = {
         path: '/transportes/cidade/{cityId}',
         options: {
           validate: {
-            params: Joi.object({
-              cityId: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
           },
         },
         handler:
@@ -33,39 +36,9 @@ module.exports = {
         path: '/transporte',
         options: {
           validate: {
-            payload: Joi.object({
-              cidade_origem: Joi.string().min(2).max(50).required(),
-              cidade_destino: Joi.string().min(2).max(50).required(),
-              dia_semana: Joi.string()
-                .min(2)
-                .max(50)
-                .valid(
-                  'Segunda-Feira',
-                  'Terça-Feira',
-                  'Quarta-Feira',
-                  'Quinta-Feira',
-                  'Sexta-Feira',
-                  'Sábado',
-                  'Domingo'
-                )
-                .required(),
-              localizacao: Joi.string().min(2).max(50).required(),
-              hora_saida: Joi.string()
-                // eslint-disable-next-line no-useless-escape
-                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
-                .required(),
-              hora_chegada: Joi.string()
-                // eslint-disable-next-line no-useless-escape
-                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
-                .required(),
-              preco: Joi.string()
-                .pattern(/^\$\d+(?:\.\d{0,2})$/)
-                .required(),
-              nome: Joi.string().min(2).max(50).required(),
-              id_empresa: Joi.string().guid().required(),
-              id_veiculo: Joi.string().guid().required(),
-              id_cidade: Joi.string().guid().required(),
-            }),
+            payload: async (value: any) => {
+              await validationPipe(value, CreateTransportDto)
+            },
           },
         },
         handler:
@@ -76,41 +49,12 @@ module.exports = {
         path: '/transportes/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
-            payload: Joi.object({
-              cidade_origem: Joi.string().min(2).max(50).required(),
-              cidade_destino: Joi.string().min(2).max(50).required(),
-              dia_semana: Joi.string()
-                .min(2)
-                .max(50)
-                .valid(
-                  'Segunda-Feira',
-                  'Terça-Feira',
-                  'Quarta-Feira',
-                  'Quinta-Feira',
-                  'Sexta-Feira',
-                  'Sábado',
-                  'Domingo'
-                )
-                .required(),
-              localizacao: Joi.string().min(2).max(50).required(),
-              hora_saida: Joi.string()
-                // eslint-disable-next-line no-useless-escape
-                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
-                .required(),
-              hora_chegada: Joi.string()
-                // eslint-disable-next-line no-useless-escape
-                .pattern(/^([0-9]{2})\:([0-9]{2})\:([0-9]{2})$/)
-                .required(),
-              preco: Joi.string()
-                .pattern(/^\$\d+(?:\.\d{0,2})$/)
-                .required(),
-              id_empresa: Joi.string().guid().required(),
-              id_veiculo: Joi.string().guid().required(),
-              id_cidade: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
+            payload: async (value: any) => {
+              await validationPipe(value, UpdateTransports)
+            },
           },
         },
         handler:
@@ -121,9 +65,9 @@ module.exports = {
         path: '/transportes/{id}',
         options: {
           validate: {
-            params: Joi.object({
-              id: Joi.string().guid().required(),
-            }),
+            params: async (value: any) => {
+              await validationPipe(value, ParamDto)
+            },
           },
         },
         handler:
