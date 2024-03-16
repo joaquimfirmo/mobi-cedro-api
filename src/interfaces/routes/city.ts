@@ -1,3 +1,4 @@
+import { Server, Request, ResponseToolkit } from 'hapi'
 import { Container } from 'typedi'
 import CityController from '../controllers/city-controller'
 import ParamDto from '../../application/dto/param-dto'
@@ -9,7 +10,7 @@ const cityController = Container.get(CityController)
 module.exports = {
   name: 'city',
   version: '1.0.0',
-  register: async function (server: any) {
+  register: async function (server: Server) {
     server.route([
       {
         method: 'POST',
@@ -21,12 +22,14 @@ module.exports = {
             },
           },
         },
-        handler: cityController.create.bind(cityController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          cityController.create(request, h),
       },
       {
         method: 'GET',
         path: '/cidades',
-        handler: cityController.findAll.bind(cityController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          cityController.findAll(request, h),
       },
       {
         method: 'PUT',
@@ -41,7 +44,8 @@ module.exports = {
             },
           },
         },
-        handler: cityController.update.bind(cityController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          cityController.update(request, h),
       },
       {
         method: 'DELETE',
@@ -53,7 +57,8 @@ module.exports = {
             },
           },
         },
-        handler: cityController.delete.bind(cityController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          cityController.delete(request, h),
       },
     ])
   },

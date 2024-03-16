@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi'
-import { Request, ResponseToolkit } from '@hapi/hapi'
+import { Request, ResponseToolkit } from 'hapi'
 import CreateCity from '../../application/usecases/city/create-city'
 import FindAllCity from '../../application/usecases/city/findAll-city'
 import UpdateCity from '../../application/usecases/city/update-city'
