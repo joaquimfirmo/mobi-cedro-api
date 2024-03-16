@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi'
-import { Request, ResponseToolkit } from '@hapi/hapi'
+import { Request, ResponseToolkit } from 'hapi'
 import GetTransports from '../../application/usecases/transports/getTransports'
 import GetTransportsByCity from '../../application/usecases/transports/getTransportsByCity'
 import UpdateTransport from '../../application/usecases/transports/updateTransport'

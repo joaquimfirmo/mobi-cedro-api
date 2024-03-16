@@ -1,3 +1,4 @@
+import { Server, Request, ResponseToolkit } from 'hapi'
 import { Container } from 'typedi'
 import TransportsController from '../controllers/transports-controller'
 import { validationPipe } from '../../utils/validation'
@@ -9,13 +10,13 @@ const transportsController = Container.get(TransportsController)
 module.exports = {
   name: 'transports',
   version: '1.0.0',
-  register: async function (server: any) {
+  register: async function (server: Server) {
     server.route([
       {
         method: 'GET',
         path: '/transportes',
-        handler:
-          transportsController.getAllTransports.bind(transportsController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          transportsController.getAllTransports(request, h),
       },
       {
         method: 'GET',
@@ -27,8 +28,8 @@ module.exports = {
             },
           },
         },
-        handler:
-          transportsController.getTransportsByCity.bind(transportsController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          transportsController.getTransportsByCity(request, h),
       },
 
       {
@@ -41,8 +42,8 @@ module.exports = {
             },
           },
         },
-        handler:
-          transportsController.createTransport.bind(transportsController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          transportsController.createTransport(request, h),
       },
       {
         method: 'PUT',
@@ -57,8 +58,8 @@ module.exports = {
             },
           },
         },
-        handler:
-          transportsController.updateTransportById.bind(transportsController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          transportsController.updateTransportById(request, h),
       },
       {
         method: 'DELETE',
@@ -70,8 +71,8 @@ module.exports = {
             },
           },
         },
-        handler:
-          transportsController.deleteTransportById.bind(transportsController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          transportsController.deleteTransportById(request, h),
       },
     ])
   },
