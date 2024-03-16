@@ -39,10 +39,10 @@ export default class CompanyRepository implements ICompanyRepository {
         id = $5 
       RETURNING id, nome_fantasia`,
         [
-          company.nomeFantasia,
-          company.razaoSocial,
+          company.nome_fantasia,
+          company.razao_social,
           company.cnpj,
-          company.idCidade,
+          company.id_cidade,
           id,
         ]
       )

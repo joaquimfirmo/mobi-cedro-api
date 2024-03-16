@@ -8,10 +8,10 @@ export default class CreateCity {
     @Inject('repository.city') readonly cityRepository: CityRepository
   ) {}
 
-  async execute(name: string, uf: string): Promise<any> {
+  async execute(nome: string, uf: string): Promise<any> {
     try {
-      const city = new City(name, uf)
-      const cityExists = await this.cityRepository.findByNameAndUf(name, uf)
+      const city = new City(nome, uf)
+      const cityExists = await this.cityRepository.findByNameAndUf(nome, uf)
 
       if (cityExists.rows?.length > 0) {
         return {

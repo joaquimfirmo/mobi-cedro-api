@@ -5,8 +5,8 @@
   "author": "joaquim firmo ferreira neto",
   "license": "MIT",
   "scripts": {
-    "start": "ts-node src/index.ts",
-    "dev": "ts-node-dev --respawn --transpile-only src/index.ts",
+    "start": "TZ='UTC' node dist/src/index.js",
+    "dev": "TZ='UTC' ts-node-dev  --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --detectOpenHandles",
     "build": "tsc"
   },
@@ -48,6 +48,8 @@
   },
   "dependencies": {
     "@hapi/hapi": "^21.3.2",
+    "class-transformer": "^0.5.1",
+    "class-validator": "^0.14.1",
     "dotenv": "^16.3.1",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.1",

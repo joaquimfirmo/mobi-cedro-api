@@ -8,7 +8,7 @@ export default class CityRepository implements ICityRepository {
     try {
       const result = await this.connection.execute(
         `INSERT INTO cidades (id, nome, uf) VALUES ($1, $2, $3)`,
-        [city.id, city.name, city.uf]
+        [city.id, city.nome, city.uf]
       )
 
       return result
@@ -43,11 +43,11 @@ export default class CityRepository implements ICityRepository {
     }
   }
 
-  async findByNameAndUf(name: string, uf: string): Promise<any> {
+  async findByNameAndUf(nome: string, uf: string): Promise<any> {
     try {
       const result = await this.connection.execute(
         `SELECT * FROM "cidades" WHERE nome = $1 AND uf = $2`,
-        [name, uf]
+        [nome, uf]
       )
       return result
     } catch (error) {
@@ -59,7 +59,7 @@ export default class CityRepository implements ICityRepository {
     try {
       const result = await this.connection.execute(
         `UPDATE cidades SET nome = $1, uf = $2 WHERE id = $3`,
-        [city.name, city.uf, id]
+        [city.nome, city.uf, id]
       )
       return result
     } catch (error) {

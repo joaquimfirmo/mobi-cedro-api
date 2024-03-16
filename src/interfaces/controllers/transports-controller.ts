@@ -47,7 +47,7 @@ export default class TransportsController {
     h: ResponseToolkit
   ): Promise<any> {
     const { transports, message, status } =
-      await this.geTransportsByCity.execute(request.params.cityId)
+      await this.geTransportsByCity.execute(request.params.id)
 
     return h
       .response({
@@ -78,8 +78,9 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const { id } = request.params
-    const { message, status, data } = await this.deleteTransport.execute(id)
+    const { message, status, data } = await this.deleteTransport.execute(
+      request.params.id
+    )
     return h
       .response({
         message,
