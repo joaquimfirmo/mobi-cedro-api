@@ -19,9 +19,9 @@ export default class CityController {
   ) {}
 
   async create(request: Request, h: ResponseToolkit): Promise<any> {
-    const { name, uf } = request.payload as any
+    const { nome, uf } = request.payload as any
     const { cityCreated, message, status } = await this.createCity.execute(
-      name,
+      nome,
       uf
     )
     return h
@@ -61,8 +61,9 @@ export default class CityController {
   }
 
   async delete(request: Request, h: ResponseToolkit): Promise<any> {
-    const id = request.params.id
-    const { message, status, data } = await this.deleteCity.execute(id)
+    const { message, status, data } = await this.deleteCity.execute(
+      request.params.id
+    )
     return h
       .response({
         message,
