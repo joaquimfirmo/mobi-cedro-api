@@ -1007,7 +1007,7 @@
   dependencies:
     "@types/node" "*"
 
-"@types/hapi@^18.0.0":
+"@types/hapi@^18.0.14":
   version "18.0.14"
   resolved "https://registry.yarnpkg.com/@types/hapi/-/hapi-18.0.14.tgz#18beb3a23a8d17a8fbd4d9d682d296a1c0eecd1f"
   integrity sha512-/AlCHpOTzHOX7WYGlQAhL75Ca5gsm0S6X7mkW6RWW06e4Eot6xPm76qGXPHagVrpfs8qTKJdysJah/Uhtr8ojw==
