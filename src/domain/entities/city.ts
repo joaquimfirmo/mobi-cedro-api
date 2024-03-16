@@ -1,21 +1,28 @@
 import crypto from 'crypto'
 import municipios from './../../utils/municipios.json'
+import { IsString, MinLength, MaxLength } from 'class-validator'
 
 export default class City {
+  @IsString()
   public readonly id: string
-  public readonly name: string
+  @IsString()
+  @MinLength(2)
+  public readonly nome: string
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
   public readonly uf: string
 
-  constructor(name: string, uf: string) {
+  constructor(nome: string, uf: string) {
     this.id = crypto.randomUUID()
-    this.name = name
+    this.nome = nome
     this.uf = uf
-    this.validateCity(name, uf)
+    this.validateCity(nome, uf)
   }
 
-  validateCity(name: string, uf: string): void {
+  validateCity(nome: string, uf: string): void {
     const city = municipios.data.find(
-      (municipio) => municipio.Nome === name && municipio.Uf === uf
+      (municipio) => municipio.Nome === nome && municipio.Uf === uf
     )
     if (!city) {
       throw new Error('Cidade inválida')
