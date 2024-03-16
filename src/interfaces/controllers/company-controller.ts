@@ -1,5 +1,5 @@
 import { Inject, Service } from 'typedi'
-import { Request, ResponseToolkit } from '@hapi/hapi'
+import { Request, ResponseToolkit } from 'hapi'
 import CreateCompany from '../../application/usecases/company/create-company'
 import FindAllCompany from '../../application/usecases/company/findAll-company'
 import UpdateCompany from '../../application/usecases/company/update-company'

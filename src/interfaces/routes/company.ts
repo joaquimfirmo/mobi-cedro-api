@@ -1,3 +1,4 @@
+import { Server, Request, ResponseToolkit } from 'hapi'
 import { Container } from 'typedi'
 import { validationPipe } from '../../utils/validation'
 import ParamDto from '../../application/dto/param-dto'
@@ -9,12 +10,13 @@ const companyController = Container.get(CompanyController)
 module.exports = {
   name: 'company',
   version: '1.0.0',
-  register: async function (server: any) {
+  register: async function (server: Server) {
     server.route([
       {
         method: 'GET',
         path: '/empresas',
-        handler: companyController.getAll.bind(companyController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          companyController.getAll(request, h),
       },
       {
         method: 'POST',
@@ -26,7 +28,8 @@ module.exports = {
             },
           },
         },
-        handler: companyController.create.bind(companyController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          companyController.create(request, h),
       },
       {
         method: 'PUT',
@@ -41,7 +44,8 @@ module.exports = {
             },
           },
         },
-        handler: companyController.update.bind(companyController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          companyController.update(request, h),
       },
       {
         method: 'DELETE',
@@ -53,7 +57,8 @@ module.exports = {
             },
           },
         },
-        handler: companyController.delete.bind(companyController),
+        handler: (request: Request, h: ResponseToolkit) =>
+          companyController.delete(request, h),
       },
     ])
   },
