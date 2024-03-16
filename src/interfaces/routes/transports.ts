@@ -19,7 +19,7 @@ module.exports = {
       },
       {
         method: 'GET',
-        path: '/transportes/cidade/{cityId}',
+        path: '/transportes/cidade/{id}',
         options: {
           validate: {
             params: async (value: any) => {
