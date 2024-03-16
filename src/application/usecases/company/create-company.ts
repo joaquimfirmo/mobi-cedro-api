@@ -8,16 +8,16 @@ export default class CreateCompany {
     @Inject('repository.company') readonly companyRepository: CompanyRepository
   ) {}
   async execute(
-    razaoSocial: string,
-    nomeFantasia: string,
+    razao_social: string,
+    nome_fantasia: string,
     cnpj: string,
-    idCidade: string
+    id_cidade: string
   ): Promise<any> {
-    const company: Company = Company.create(
-      razaoSocial,
-      nomeFantasia,
+    const company: Company = new Company(
+      razao_social,
+      nome_fantasia,
       cnpj,
-      idCidade
+      id_cidade
     )
     const result = await this.companyRepository.create(company)
     if (result instanceof Error) {

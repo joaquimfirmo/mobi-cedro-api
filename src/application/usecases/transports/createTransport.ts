@@ -10,7 +10,7 @@ export default class CreateTransport {
   ) {}
 
   async execute(data: any): Promise<any> {
-    const transport = Transport.create(
+    const transport = new Transport(
       data.cidade_origem,
       data.cidade_destino,
       data.dia_semana,
