@@ -19,18 +19,44 @@ export default class CreateCompany {
       cnpj,
       id_cidade
     )
-    const result = await this.companyRepository.create(company)
-    if (result instanceof Error) {
+
+    const cnpjExists = await this.verifyCnpjExist(cnpj)
+
+    if (cnpjExists) {
       return {
-        message: result.message,
-        status: 500,
+        data: [],
+        message: 'CNPJ já existe',
+        status: 400,
       }
     }
 
+    const razaoSocialExists = await this.verifyRaizSocialExist(razao_social)
+
+    if (razaoSocialExists) {
+      return {
+        data: [],
+        message: 'Razão social já existe',
+        status: 400,
+      }
+    }
+
+    const result = await this.companyRepository.create(company)
+
     return {
+      data: result.rows[0],
       message: 'Empresa criada com sucesso',
       status: 201,
-      companyCreated: result.rows[0],
     }
+  }
+
+  async verifyCnpjExist(cnpj: string): Promise<boolean> {
+    const cnpjExists = await this.companyRepository.findByCnpj(cnpj)
+    return cnpjExists.rows?.length > 0 ? true : false
+  }
+
+  async verifyRaizSocialExist(razao_social: string): Promise<boolean> {
+    const razaoSocialExists =
+      await this.companyRepository.findByRazaoSocial(razao_social)
+    return razaoSocialExists.rows?.length > 0 ? true : false
   }
 }

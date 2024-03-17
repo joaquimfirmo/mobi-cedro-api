@@ -10,27 +10,21 @@ export default class DeleteTransport {
 
   async execute(id: string): Promise<any> {
     const transportExists = await this.transportsRepository.findById(id)
+
     if (transportExists.rowCount === 0) {
       return {
+        data: [],
         message: 'Transporte para exclusão não encontrado',
         status: 404,
-        data: [],
       }
     }
 
-    const result = await this.transportsRepository.delete(id)
-
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
+    await this.transportsRepository.delete(id)
 
     return {
+      data: id,
       message: 'Transporte excluído com sucesso!',
       status: 200,
-      data: id,
     }
   }
 }

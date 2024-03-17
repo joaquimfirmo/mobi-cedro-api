@@ -10,17 +10,10 @@ export default class FindAllCity {
   async execute(limit: number, offset: number) {
     const result = await this.cityRepository.findAll(limit, offset)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
       message: 'Cidades encontradas com sucesso',
       status: 200,
-      cities: result,
+      data: result,
     }
   }
 }

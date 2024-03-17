@@ -7,6 +7,8 @@ import {
   IsNumberString,
 } from 'class-validator'
 
+import { IsValidCNPJ } from '../../utils/validation'
+
 export default class CreateCompanyDto {
   @IsString()
   @MinLength(2, {
@@ -26,9 +28,11 @@ export default class CreateCompanyDto {
   })
   nome_fantasia: string
 
-  @IsString()
   @Length(14, 14, {
     message: 'CNPJ deve ter 14 caracteres',
+  })
+  @IsValidCNPJ({
+    message: 'CNPJ $value é inválido',
   })
   @IsNumberString()
   cnpj: string

@@ -32,25 +32,18 @@ export default class CreateTransport {
       )
       console.log('Transporte já existe', data)
       return {
+        data,
         message: 'Transporte já existe',
         status: 400,
-        data,
       }
     }
 
     const result = await this.transportsRepository.create(transport)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
+      data: result.rows[0],
       message: 'Transporte criado com sucesso',
       status: 201,
-      data: result,
     }
   }
 

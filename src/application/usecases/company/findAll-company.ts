@@ -10,17 +10,10 @@ export default class FindAllCompany {
   async execute(limit: number, offset: number) {
     const result = await this.companyRepository.findAll(limit, offset)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
+      data: result,
       message: 'Empresas encontradas com sucesso',
       status: 200,
-      companies: result,
     }
   }
 }

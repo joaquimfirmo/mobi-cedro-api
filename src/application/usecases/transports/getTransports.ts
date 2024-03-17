@@ -10,17 +10,11 @@ export default class GetTransports {
 
   async execute(): Promise<any> {
     const transports = await this.transportsRepository.findAll()
-    if (transports instanceof Error) {
-      return {
-        message: transports.message,
-        status: 500,
-      }
-    }
 
     return {
+      data: transports,
       message: 'Transportes encontrados com sucesso',
       status: 200,
-      transports: transports.rows,
     }
   }
 }

@@ -1,6 +1,16 @@
+/* eslint-disable @typescript-eslint/ban-types */
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { plainToInstance } from 'class-transformer'
-import { validate } from 'class-validator'
+import {
+  registerDecorator,
+  ValidationOptions,
+  ValidatorConstraint,
+  ValidatorConstraintInterface,
+  ValidationArguments,
+  validate,
+} from 'class-validator'
 import { badRequest } from '@hapi/boom'
+import validateCNPJ from './validateCNPJ'
 
 export const validationPipe = async (payload: any, classType: any) => {
   const instance = plainToInstance(classType, payload)
@@ -26,4 +36,23 @@ export const validationPipe = async (payload: any, classType: any) => {
     throw badRequest(`Invalid payload: ${validationErrorMessage}`)
   }
   return true
+}
+
+@ValidatorConstraint({ async: true })
+export class IsValidCNPJConstraint implements ValidatorConstraintInterface {
+  validate(cnpj: string, args: ValidationArguments) {
+    return validateCNPJ(cnpj)
+  }
+}
+
+export function IsValidCNPJ(validationOptions?: ValidationOptions) {
+  return function (object: Object, propertyName: string) {
+    registerDecorator({
+      target: object.constructor,
+      propertyName: propertyName,
+      options: validationOptions,
+      constraints: [],
+      validator: IsValidCNPJConstraint,
+    })
+  }
 }

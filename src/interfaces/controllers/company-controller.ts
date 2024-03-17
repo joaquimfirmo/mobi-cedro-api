@@ -21,17 +21,16 @@ export default class CompanyController {
   async create(request: Request, h: ResponseToolkit): Promise<any> {
     const { razao_social, nome_fantasia, cnpj, id_cidade } =
       request.payload as any
-    const { companyCreated, message, status } =
-      await this.createCompany.execute(
-        razao_social,
-        nome_fantasia,
-        cnpj,
-        id_cidade
-      )
+    const { data, message, status } = await this.createCompany.execute(
+      razao_social,
+      nome_fantasia,
+      cnpj,
+      id_cidade
+    )
 
     return h
       .response({
-        companyCreated,
+        data,
         message,
       })
       .code(status)
@@ -39,18 +38,28 @@ export default class CompanyController {
 
   async getAll(request: Request, h: ResponseToolkit): Promise<any> {
     const { limit, offset } = request.query as any
-    const result = await this.findAllCompany.execute(limit, offset)
-    return h.response(result).code(200)
+    const { data, message, status } = await this.findAllCompany.execute(
+      limit,
+      offset
+    )
+    return h
+      .response({
+        data,
+        message,
+      })
+      .code(status)
   }
 
   async update(request: Request, h: ResponseToolkit): Promise<any> {
     const id = request.params.id
-    const { companyUpdated, message, status } =
-      await this.updateCompany.execute(id, request.payload)
+    const { data, message, status } = await this.updateCompany.execute(
+      id,
+      request.payload
+    )
 
     return h
       .response({
-        companyUpdated,
+        data,
         message,
       })
       .code(status)
@@ -58,12 +67,12 @@ export default class CompanyController {
 
   async delete(request: Request, h: ResponseToolkit): Promise<any> {
     const id = request.params.id
-    const { message, status, data } = await this.deleteCompany.execute(id)
+    const { data, message, status } = await this.deleteCompany.execute(id)
 
     return h
       .response({
-        message,
         data,
+        message,
       })
       .code(status)
   }

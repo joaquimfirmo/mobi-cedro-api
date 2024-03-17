@@ -10,6 +10,7 @@ export default class DeleteCity {
 
   async execute(id: string): Promise<any> {
     const cityExists = await this.cityRepository.findById(id)
+
     if (cityExists.rowCount === 0) {
       return {
         message: 'Cidade para exclusão não encontrada',
@@ -18,19 +19,12 @@ export default class DeleteCity {
       }
     }
 
-    const result = await this.cityRepository.delete(id)
-
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
+    await this.cityRepository.delete(id)
 
     return {
+      data: id,
       message: 'Cidade excluída com sucesso!',
       status: 200,
-      data: id,
     }
   }
 }

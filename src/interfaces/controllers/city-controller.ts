@@ -20,13 +20,10 @@ export default class CityController {
 
   async create(request: Request, h: ResponseToolkit): Promise<any> {
     const { nome, uf } = request.payload as any
-    const { cityCreated, message, status } = await this.createCity.execute(
-      nome,
-      uf
-    )
+    const { data, message, status } = await this.createCity.execute(nome, uf)
     return h
       .response({
-        cityCreated,
+        data,
         message,
       })
       .code(status)
@@ -34,13 +31,13 @@ export default class CityController {
 
   async findAll(request: Request, h: ResponseToolkit): Promise<any> {
     const { limit, offset } = request.query as any
-    const { cities, message, status } = await this.findAllCity.execute(
+    const { data, message, status } = await this.findAllCity.execute(
       limit,
       offset
     )
     return h
       .response({
-        cities,
+        data,
         message,
       })
       .code(status)
@@ -48,13 +45,13 @@ export default class CityController {
 
   async update(request: Request, h: ResponseToolkit): Promise<any> {
     const id = request.params.id
-    const { cityUpdated, message, status } = await this.updateCity.execute(
+    const { data, message, status } = await this.updateCity.execute(
       id,
       request.payload
     )
     return h
       .response({
-        cityUpdated,
+        data,
         message,
       })
       .code(status)
@@ -66,8 +63,8 @@ export default class CityController {
     )
     return h
       .response({
-        message,
         data,
+        message,
       })
       .code(status)
   }

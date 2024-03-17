@@ -13,25 +13,18 @@ export default class UpdateTransport {
 
     if (transport.rowCount === 0) {
       return {
+        data: [],
         message: 'Transporte não encontrado',
         status: 404,
-        data: [],
       }
     }
 
     const result = await this.transportsRepository.update(id, data)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
+      data: result,
       message: 'Transporte atualizado com sucesso',
       status: 200,
-      data: result,
     }
   }
 }
