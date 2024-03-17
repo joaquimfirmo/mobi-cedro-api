@@ -15,7 +15,7 @@ export default class UpdateCity {
       return {
         message: 'Cidade não encontrada',
         status: 404,
-        city: [],
+        data: [],
       }
     }
 
@@ -24,7 +24,7 @@ export default class UpdateCity {
     return {
       message: 'Cidade atualizada com sucesso',
       status: 200,
-      cityUpdated: result.rows[0],
+      data: result.rows[0],
     }
   }
 }

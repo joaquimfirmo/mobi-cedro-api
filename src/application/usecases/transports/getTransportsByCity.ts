@@ -13,15 +13,15 @@ export default class GetTransportsByCity {
 
     if (transports.rowCount === 0) {
       return {
+        data: [],
         message: 'Nenhum transporte encontrado para a cidade informada',
-        transports: [],
         status: 404,
       }
     }
 
     return {
+      data: transports,
       message: 'Lista de transportes encontrada com sucesso',
-      transports: transports.rows,
       status: 200,
     }
   }

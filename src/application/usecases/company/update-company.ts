@@ -12,18 +12,18 @@ export default class UpdateCompany {
     const companyExists = await this.companyRepository.findById(id)
     if (companyExists.rowCount === 0) {
       return {
+        data: [],
         message: 'Empresa não encontrada',
         status: 404,
-        company: [],
       }
     }
 
     const result = await this.companyRepository.update(id, company)
 
     return {
+      data: result.rows[0],
       message: 'Empresa atualizada com sucesso',
       status: 200,
-      companyUpdated: result.rows[0],
     }
   }
 }

@@ -13,7 +13,7 @@ export default class FindAllCity {
     return {
       message: 'Cidades encontradas com sucesso',
       status: 200,
-      cities: result,
+      data: result,
     }
   }
 }

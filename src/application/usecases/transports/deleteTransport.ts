@@ -13,18 +13,18 @@ export default class DeleteTransport {
 
     if (transportExists.rowCount === 0) {
       return {
+        data: [],
         message: 'Transporte para exclusão não encontrado',
         status: 404,
-        data: [],
       }
     }
 
     await this.transportsRepository.delete(id)
 
     return {
+      data: id,
       message: 'Transporte excluído com sucesso!',
       status: 200,
-      data: id,
     }
   }
 }

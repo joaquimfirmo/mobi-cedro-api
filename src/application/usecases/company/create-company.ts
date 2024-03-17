@@ -24,6 +24,7 @@ export default class CreateCompany {
 
     if (cnpjExists) {
       return {
+        data: [],
         message: 'CNPJ já existe',
         status: 400,
       }
@@ -33,6 +34,7 @@ export default class CreateCompany {
 
     if (razaoSocialExists) {
       return {
+        data: [],
         message: 'Razão social já existe',
         status: 400,
       }
@@ -41,9 +43,9 @@ export default class CreateCompany {
     const result = await this.companyRepository.create(company)
 
     return {
+      data: result.rows[0],
       message: 'Empresa criada com sucesso',
       status: 201,
-      companyCreated: result.rows[0],
     }
   }
 

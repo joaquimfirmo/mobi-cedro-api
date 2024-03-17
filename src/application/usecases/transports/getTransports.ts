@@ -12,9 +12,9 @@ export default class GetTransports {
     const transports = await this.transportsRepository.findAll()
 
     return {
+      data: transports,
       message: 'Transportes encontrados com sucesso',
       status: 200,
-      transports: transports.rows,
     }
   }
 }

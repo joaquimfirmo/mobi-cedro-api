@@ -25,11 +25,11 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const { message, status, data } = await this.create.execute(request.payload)
+    const { data, message, status } = await this.create.execute(request.payload)
     return h
       .response({
-        message,
         data,
+        message,
       })
       .code(status)
   }
@@ -38,20 +38,26 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const transports = await this.getTransports.execute()
-    return h.response(transports).code(200)
+    const { data, message, status } = await this.getTransports.execute()
+    return h
+      .response({
+        data,
+        message,
+      })
+      .code(status)
   }
 
   public async getTransportsByCity(
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const { transports, message, status } =
-      await this.geTransportsByCity.execute(request.params.id)
+    const { data, message, status } = await this.geTransportsByCity.execute(
+      request.params.id
+    )
 
     return h
       .response({
-        transports,
+        data,
         message,
       })
       .code(status)
@@ -62,14 +68,14 @@ export default class TransportsController {
     h: ResponseToolkit
   ): Promise<any> {
     const { id } = request.params
-    const { message, status, data } = await this.updateTransport.execute(
+    const { data, message, status } = await this.updateTransport.execute(
       id,
       request.payload
     )
     return h
       .response({
-        message,
         data,
+        message,
       })
       .code(status)
   }
@@ -78,13 +84,13 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const { message, status, data } = await this.deleteTransport.execute(
+    const { data, message, status } = await this.deleteTransport.execute(
       request.params.id
     )
     return h
       .response({
-        message,
         data,
+        message,
       })
       .code(status)
   }

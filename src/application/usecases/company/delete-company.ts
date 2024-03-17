@@ -13,18 +13,18 @@ export default class DeleteCompany {
 
     if (companyExists.rowCount === 0) {
       return {
+        data: [],
         message: 'Empresa para exclusão não encontrada',
         status: 404,
-        data: [],
       }
     }
 
     await this.companyRepository.delete(id)
 
     return {
+      data: id,
       message: 'Empresa excluída com sucesso!',
       status: 200,
-      data: id,
     }
   }
 }

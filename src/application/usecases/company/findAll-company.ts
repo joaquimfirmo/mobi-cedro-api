@@ -11,9 +11,9 @@ export default class FindAllCompany {
     const result = await this.companyRepository.findAll(limit, offset)
 
     return {
+      data: result,
       message: 'Empresas encontradas com sucesso',
       status: 200,
-      companies: result,
     }
   }
 }

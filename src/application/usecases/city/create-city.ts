@@ -14,6 +14,7 @@ export default class CreateCity {
 
     if (cityExists.rows?.length > 0) {
       return {
+        data: [],
         message: 'Cidade já existe',
         status: 400,
       }
@@ -21,7 +22,7 @@ export default class CreateCity {
     await this.cityRepository.create(city)
 
     return {
-      cityCreated: city,
+      data: city,
       message: 'Cidade criada com sucesso',
       status: 201,
     }

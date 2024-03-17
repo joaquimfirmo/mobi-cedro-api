@@ -22,9 +22,9 @@ export default class DeleteCity {
     await this.cityRepository.delete(id)
 
     return {
+      data: id,
       message: 'Cidade excluída com sucesso!',
       status: 200,
-      data: id,
     }
   }
 }
