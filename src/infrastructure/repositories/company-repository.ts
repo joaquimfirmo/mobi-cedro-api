@@ -79,6 +79,31 @@ export default class CompanyRepository implements ICompanyRepository {
     }
   }
 
+  async findByCnpj(cnpj: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "empresas" WHERE cnpj = $1`,
+        [cnpj]
+      )
+      return result
+    } catch (error) {
+      console.log(error)
+      return new Error('Erro ao buscar empresa por cnpj')
+    }
+  }
+
+  async findByRazaoSocial(razaoSocial: string): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "empresas" WHERE razao_social = $1`,
+        [razaoSocial]
+      )
+      return result
+    } catch (error) {
+      console.log(error)
+      return new Error('Erro ao buscar empresa por razão social')
+    }
+  }
   async delete(id: string): Promise<any> {
     try {
       const result = await this.connection.execute(
