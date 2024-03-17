@@ -15,6 +15,9 @@ module.exports = {
       {
         method: 'GET',
         path: '/empresas',
+        options: {
+          description: 'Lista todas as empresas',
+        },
         handler: (request: Request, h: ResponseToolkit) =>
           companyController.getAll(request, h),
       },
@@ -22,6 +25,7 @@ module.exports = {
         method: 'POST',
         path: '/empresa',
         options: {
+          description: 'Cria uma empresa',
           validate: {
             payload: async (value: any) => {
               await validationPipe(value, CreateCompanyDto)
@@ -35,6 +39,7 @@ module.exports = {
         method: 'PUT',
         path: '/empresa/{id}',
         options: {
+          description: 'Atualiza uma empresa pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)
@@ -51,6 +56,7 @@ module.exports = {
         method: 'DELETE',
         path: '/empresa/{id}',
         options: {
+          description: 'Deleta uma empresa pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)

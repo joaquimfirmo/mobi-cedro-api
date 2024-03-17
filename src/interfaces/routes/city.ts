@@ -16,6 +16,7 @@ module.exports = {
         method: 'POST',
         path: '/cidade',
         options: {
+          description: 'Cria uma cidade',
           validate: {
             payload: async (value: any) => {
               await validationPipe(value, CreateCityDto)
@@ -28,6 +29,9 @@ module.exports = {
       {
         method: 'GET',
         path: '/cidades',
+        options: {
+          description: 'Lista todas as cidades',
+        },
         handler: (request: Request, h: ResponseToolkit) =>
           cityController.findAll(request, h),
       },
@@ -35,6 +39,7 @@ module.exports = {
         method: 'PUT',
         path: '/cidade/{id}',
         options: {
+          description: 'Atualiza uma cidade pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)
@@ -51,6 +56,7 @@ module.exports = {
         method: 'DELETE',
         path: '/cidade/{id}',
         options: {
+          description: 'Deleta uma cidade pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)

@@ -15,6 +15,9 @@ module.exports = {
       {
         method: 'GET',
         path: '/transportes',
+        options: {
+          description: 'Lista todos os transportes',
+        },
         handler: (request: Request, h: ResponseToolkit) =>
           transportsController.getAllTransports(request, h),
       },
@@ -22,6 +25,7 @@ module.exports = {
         method: 'GET',
         path: '/transportes/cidade/{id}',
         options: {
+          description: 'Lista todos os transportes por cidade',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)
@@ -36,6 +40,7 @@ module.exports = {
         method: 'POST',
         path: '/transporte',
         options: {
+          description: 'Cria um transporte',
           validate: {
             payload: async (value: any) => {
               await validationPipe(value, CreateTransportDto)
@@ -49,6 +54,7 @@ module.exports = {
         method: 'PUT',
         path: '/transportes/{id}',
         options: {
+          description: 'Atualiza um transporte pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)
@@ -65,6 +71,7 @@ module.exports = {
         method: 'DELETE',
         path: '/transportes/{id}',
         options: {
+          description: 'Deleta um transporte pelo id',
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)
