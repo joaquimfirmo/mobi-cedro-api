@@ -40,13 +40,6 @@ export default class CreateTransport {
 
     const result = await this.transportsRepository.create(transport)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
       message: 'Transporte criado com sucesso',
       status: 201,

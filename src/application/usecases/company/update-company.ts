@@ -20,12 +20,6 @@ export default class UpdateCompany {
 
     const result = await this.companyRepository.update(id, company)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
     return {
       message: 'Empresa atualizada com sucesso',
       status: 200,

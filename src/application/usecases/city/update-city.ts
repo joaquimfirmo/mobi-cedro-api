@@ -10,6 +10,7 @@ export default class UpdateCity {
 
   async execute(id: string, city: any): Promise<any> {
     const cityExists = await this.cityRepository.findById(id)
+
     if (cityExists.rowCount === 0) {
       return {
         message: 'Cidade não encontrada',
@@ -19,14 +20,6 @@ export default class UpdateCity {
     }
 
     const result = await this.cityRepository.update(id, city)
-
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-        city: [],
-      }
-    }
 
     return {
       message: 'Cidade atualizada com sucesso',

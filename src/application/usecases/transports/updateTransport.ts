@@ -21,13 +21,6 @@ export default class UpdateTransport {
 
     const result = await this.transportsRepository.update(id, data)
 
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
-
     return {
       message: 'Transporte atualizado com sucesso',
       status: 200,

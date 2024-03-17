@@ -10,6 +10,7 @@ export default class DeleteCompany {
 
   async execute(id: string): Promise<any> {
     const companyExists = await this.companyRepository.findById(id)
+
     if (companyExists.rowCount === 0) {
       return {
         message: 'Empresa para exclusão não encontrada',
@@ -18,14 +19,7 @@ export default class DeleteCompany {
       }
     }
 
-    const result = await this.companyRepository.delete(id)
-
-    if (result instanceof Error) {
-      return {
-        message: result.message,
-        status: 500,
-      }
-    }
+    await this.companyRepository.delete(id)
 
     return {
       message: 'Empresa excluída com sucesso!',

@@ -9,28 +9,21 @@ export default class CreateCity {
   ) {}
 
   async execute(nome: string, uf: string): Promise<any> {
-    try {
-      const city = new City(nome, uf)
-      const cityExists = await this.cityRepository.findByNameAndUf(nome, uf)
+    const city = new City(nome, uf)
+    const cityExists = await this.cityRepository.findByNameAndUf(nome, uf)
 
-      if (cityExists.rows?.length > 0) {
-        return {
-          message: 'Cidade já existe',
-          status: 400,
-        }
+    if (cityExists.rows?.length > 0) {
+      return {
+        message: 'Cidade já existe',
+        status: 400,
       }
-      await this.cityRepository.create(city)
+    }
+    await this.cityRepository.create(city)
 
-      return {
-        cityCreated: city,
-        message: 'Cidade criada com sucesso',
-        status: 201,
-      }
-    } catch (error: any) {
-      return {
-        message: error.message,
-        status: error.message === 'Cidade inválida' ? 400 : 500,
-      }
+    return {
+      cityCreated: city,
+      message: 'Cidade criada com sucesso',
+      status: 201,
     }
   }
 }
