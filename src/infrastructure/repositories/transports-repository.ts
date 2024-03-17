@@ -1,8 +1,10 @@
+import { badImplementation } from '@hapi/boom'
+import Connection from '../database/connection'
 import ITransportsRepository from '../../application/repositories/transports-repository'
 import Transport from '../../domain/entities/transports'
 
 export default class TransportsRepository implements ITransportsRepository {
-  constructor(private readonly connection: any) {}
+  constructor(private readonly connection: Connection) {}
 
   async create(data: Transport): Promise<any> {
     try {
@@ -39,7 +41,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao criar transporte')
+      throw badImplementation('Erro ao criar transporte')
     }
   }
 
@@ -63,7 +65,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar transportes')
+      throw badImplementation('Erro ao buscar transportes')
     }
   }
 
@@ -92,7 +94,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar transportes por cidade')
+      throw badImplementation('Erro ao buscar transportes por cidade')
     }
   }
 
@@ -105,7 +107,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar transporte por id')
+      throw badImplementation('Erro ao buscar transporte por id')
     }
   }
 
@@ -141,7 +143,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao atualizar transporte')
+      throw badImplementation('Erro ao atualizar transporte')
     }
   }
 
@@ -154,7 +156,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar transporte por hash')
+      throw badImplementation('Erro ao buscar transporte por hash')
     }
   }
   async delete(id: string): Promise<any> {
@@ -166,7 +168,7 @@ export default class TransportsRepository implements ITransportsRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao deletar transporte')
+      throw badImplementation('Erro ao excluir transporte')
     }
   }
 }

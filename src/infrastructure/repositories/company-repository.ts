@@ -1,8 +1,10 @@
+import { badImplementation } from '@hapi/boom'
+import Connection from '../database/connection'
 import ICompanyRepository from '../../application/repositories/company-repository'
 import Company from '../../domain/entities/company'
 
 export default class CompanyRepository implements ICompanyRepository {
-  constructor(private readonly connection: any) {}
+  constructor(private readonly connection: Connection) {}
 
   async create(company: Company): Promise<any> {
     try {
@@ -20,7 +22,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao criar empresa')
+      throw badImplementation('Erro ao criar empresa')
     }
   }
 
@@ -49,7 +51,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao atualizar empresa')
+      throw badImplementation('Erro ao atualizar empresa')
     }
   }
 
@@ -62,7 +64,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar empresas')
+      throw badImplementation('Erro ao buscar empresas')
     }
   }
 
@@ -75,7 +77,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar empresa')
+      throw badImplementation('Erro ao buscar empresa por id')
     }
   }
 
@@ -88,7 +90,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar empresa por cnpj')
+      throw badImplementation('Erro ao buscar empresa por cnpj')
     }
   }
 
@@ -101,7 +103,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao buscar empresa por razão social')
+      throw badImplementation('Erro ao buscar empresa por razão social')
     }
   }
   async delete(id: string): Promise<any> {
@@ -113,7 +115,7 @@ export default class CompanyRepository implements ICompanyRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao deletar empresa')
+      throw badImplementation('Erro ao excluir empresa')
     }
   }
 }

@@ -1,8 +1,10 @@
+import { badImplementation } from '@hapi/boom'
+import Connection from '../database/connection'
 import ICityRepository from '../../application/repositories/city-repository'
 import City from '../../domain/entities/city'
 
 export default class CityRepository implements ICityRepository {
-  constructor(private readonly connection: any) {}
+  constructor(private readonly connection: Connection) {}
 
   async create(city: City): Promise<any> {
     try {
@@ -14,7 +16,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      throw new Error('Erro ao criar cidade')
+      throw badImplementation('Erro ao criar cidade')
     }
   }
 
@@ -26,7 +28,8 @@ export default class CityRepository implements ICityRepository {
       )
       return result
     } catch (error) {
-      return new Error('Erro ao buscar cidades')
+      console.log(error)
+      throw badImplementation('Erro ao buscar cidades')
     }
   }
 
@@ -39,7 +42,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      throw new Error('Erro ao buscar cidade')
+      throw badImplementation('Erro ao buscar cidade por id')
     }
   }
 
@@ -51,7 +54,7 @@ export default class CityRepository implements ICityRepository {
       )
       return result
     } catch (error) {
-      throw new Error('Erro ao buscar cidade')
+      throw badImplementation('Erro ao buscar cidade por nome e uf')
     }
   }
 
@@ -64,7 +67,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao atualizar cidade')
+      throw badImplementation('Erro ao atualizar cidade')
     }
   }
 
@@ -77,7 +80,7 @@ export default class CityRepository implements ICityRepository {
       return result
     } catch (error) {
       console.log(error)
-      return new Error('Erro ao excluir cidade')
+      throw badImplementation('Erro ao deletar cidade')
     }
   }
 }
