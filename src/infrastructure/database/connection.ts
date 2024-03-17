@@ -12,7 +12,7 @@ export default class Connection {
     this.conection = await this.pool.connect()
   }
 
-  async execute(query: string, values: any[]): Promise<any> {
+  async execute(query: string, values?: any[]): Promise<any> {
     const { rowCount, rows } = await this.conection.query(query, values)
     return { rowCount, rows }
   }
