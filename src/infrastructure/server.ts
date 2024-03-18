@@ -11,6 +11,7 @@ const createServer = async (): Promise<Hapi.Server> => {
     require('../interfaces/routes/transports'),
     require('../interfaces/routes/company'),
     require('../interfaces/routes/city'),
+    require('../interfaces/routes/user'),
   ])
 
   return server
