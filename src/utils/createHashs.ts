@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import bcrypt from 'bcrypt'
 
 export default class createHashs {
   static createHashMd5(data: any): string {
@@ -19,5 +20,20 @@ export default class createHashs {
     console.log('Gerado objectHashMd5:', objectHashMd5)
 
     return objectHashMd5
+  }
+
+  static async createHashPassword(password: string): Promise<string> {
+    const saltRounds = 10
+    const hash = await bcrypt.hash(password, saltRounds)
+    return hash
+  }
+
+  static async compareHashPassword(
+    password: string,
+    hash: string
+  ): Promise<boolean> {
+    console.log('password', password)
+    const result = await bcrypt.compare(password, hash)
+    return result
   }
 }

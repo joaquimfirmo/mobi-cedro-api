@@ -3,6 +3,7 @@ import Connection from '../../infrastructure/database/connection'
 import TransportsRepository from '../repositories/transports-repository'
 import CompanyRepository from '../repositories/company-repository'
 import CityRepository from '../repositories/city-repository'
+import UserRepository from '../repositories/user-repository'
 
 export default class DataBaseRepositoryFactory implements RepositoryFactory {
   constructor(private readonly connection: Connection) {}
@@ -20,6 +21,10 @@ export default class DataBaseRepositoryFactory implements RepositoryFactory {
       {
         name: 'repository.city',
         repository: new CityRepository(this.connection),
+      },
+      {
+        name: 'repository.user',
+        repository: new UserRepository(this.connection),
       },
     ]
   }
