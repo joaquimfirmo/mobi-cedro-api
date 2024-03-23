@@ -78,8 +78,8 @@ export default class UserRepository implements IUserRepository {
   async update(id: string, user: User): Promise<any> {
     try {
       const result = await this.connection.execute(
-        'UPDATE usuarios SET nome = $1, email = $2, permissoes = $3 , updated_at = NOW() WHERE id = $4 RETURNING id, nome, email, permissoes',
-        [user.name, user.email, user.permissions, id]
+        'UPDATE usuarios SET nome = $1, permissoes = $2 , updated_at = NOW() WHERE id = $3 RETURNING id, nome, email, permissoes',
+        [user.name, user.permissions, id]
       )
 
       return result
