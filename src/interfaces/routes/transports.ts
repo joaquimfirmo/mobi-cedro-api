@@ -17,6 +17,7 @@ module.exports = {
         path: '/transportes',
         options: {
           description: 'Lista todos os transportes',
+          auth: false,
         },
         handler: (request: Request, h: ResponseToolkit) =>
           transportsController.getAllTransports(request, h),
@@ -26,6 +27,7 @@ module.exports = {
         path: '/transportes/cidade/{id}',
         options: {
           description: 'Lista todos os transportes por cidade',
+          auth: false,
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)

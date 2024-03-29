@@ -3,6 +3,7 @@ import { Container } from 'typedi'
 import { validationPipe } from '../../utils/validation'
 import CreateUserDto from '../../application/dto/create-user-dto'
 import UpdateUserDto from '../../application/dto/update-user-dto'
+import LoginDto from '../../application/dto/login-dto'
 import ParamDto from '../../application/dto/param-dto'
 import UserController from '../controllers/user-controller'
 
@@ -26,6 +27,22 @@ module.exports = {
         },
         handler: (request: Request, h: ResponseToolkit) =>
           userController.create(request, h),
+      },
+
+      {
+        method: 'POST',
+        path: '/usuario/login',
+        options: {
+          description: 'Faz login',
+          auth: false,
+          validate: {
+            payload: async (value: any) => {
+              await validationPipe(value, LoginDto)
+            },
+          },
+        },
+        handler: (request: Request, h: ResponseToolkit) =>
+          userController.login(request, h),
       },
 
       {
