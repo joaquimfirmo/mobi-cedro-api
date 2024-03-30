@@ -7,6 +7,7 @@ import UpdateCityDto from '../../application/dto/update-city-dto'
 import { validationPipe } from '../../utils/validation'
 const cityController = Container.get(CityController)
 
+// RBAC plugin for authorization control
 module.exports = {
   name: 'city',
   version: '1.0.0',
@@ -31,6 +32,10 @@ module.exports = {
         path: '/cidades',
         options: {
           description: 'Lista todas as cidades',
+          auth: false,
+          plugins: {
+            rbac: 'none',
+          },
         },
         handler: (request: Request, h: ResponseToolkit) =>
           cityController.findAll(request, h),

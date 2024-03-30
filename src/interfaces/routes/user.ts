@@ -9,6 +9,7 @@ import UserController from '../controllers/user-controller'
 
 const userController = Container.get(UserController)
 
+// RBAC plugin for authorization control
 module.exports = {
   name: 'user',
   version: '1.0.0',
@@ -19,6 +20,13 @@ module.exports = {
         path: '/usuario',
         options: {
           description: 'Cria um usuário',
+          plugins: {
+            rbac: {
+              target: { 'credentials:group': 'SUPER_ADMIN' },
+              apply: 'deny-overrides',
+              effect: 'permit',
+            },
+          },
           validate: {
             payload: async (value: any) => {
               await validationPipe(value, CreateUserDto)
@@ -35,6 +43,9 @@ module.exports = {
         options: {
           description: 'Faz login',
           auth: false,
+          plugins: {
+            rbac: 'none',
+          },
           validate: {
             payload: async (value: any) => {
               await validationPipe(value, LoginDto)
@@ -78,6 +89,13 @@ module.exports = {
         path: '/usuario/{id}',
         options: {
           description: 'Deleta um usuário',
+          plugins: {
+            rbac: {
+              target: { 'credentials:group': 'SUPER_ADMIN' },
+              apply: 'deny-overrides',
+              effect: 'permit',
+            },
+          },
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)

@@ -6,6 +6,7 @@ import ParamDto from '../../application/dto/param-dto'
 import UpdateTransports from '../../application/dto/update-transports-dto'
 import CreateTransportDto from '../../application/dto/create-transports-dto'
 const transportsController = Container.get(TransportsController)
+// RBAC plugin for authorization control
 
 module.exports = {
   name: 'transports',
@@ -18,6 +19,9 @@ module.exports = {
         options: {
           description: 'Lista todos os transportes',
           auth: false,
+          plugins: {
+            rbac: 'none',
+          },
         },
         handler: (request: Request, h: ResponseToolkit) =>
           transportsController.getAllTransports(request, h),
@@ -28,6 +32,9 @@ module.exports = {
         options: {
           description: 'Lista todos os transportes por cidade',
           auth: false,
+          plugins: {
+            rbac: 'none',
+          },
           validate: {
             params: async (value: any) => {
               await validationPipe(value, ParamDto)

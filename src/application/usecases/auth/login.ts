@@ -30,7 +30,7 @@ export default class Login {
 
     return {
       data: {
-        token: this.auth.createToken(userId),
+        token: this.auth.createToken(userId, user.rows[0].permissoes),
         userId: userId,
       },
       message: 'Usuário logado com sucesso',
