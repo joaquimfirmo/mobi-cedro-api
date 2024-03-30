@@ -13,10 +13,17 @@ export default class Auth {
     return await bcrypt.compare(password, hash)
   }
 
-  public createToken(userId: any): string {
-    return sign({ userId }, process.env.SECRET_KEY!, {
-      expiresIn: '1h',
-    })
+  public createToken(userId: string, permissions: string): string {
+    return sign(
+      {
+        userId,
+        permissions,
+      },
+      process.env.SECRET_KEY!,
+      {
+        expiresIn: '1h',
+      }
+    )
   }
 
   public validate(decoded: any): any {
@@ -27,6 +34,7 @@ export default class Auth {
         isValid: true,
         credentials: {
           userId: decoded.userId,
+          group: decoded.permissions,
           expiresIn: decoded.exp,
         },
       }
