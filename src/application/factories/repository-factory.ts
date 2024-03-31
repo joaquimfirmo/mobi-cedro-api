@@ -1,3 +1,4 @@
 export default interface RepositoryFactory {
-  createAllRepositories(): Array<{ name: string; repository: any }>
+  createAllRepositories(): Promise<void>
+  injectRepositories(repositories: any[]): void
 }
