@@ -1,23 +1,25 @@
 'use strict'
 import 'reflect-metadata'
-import Booststrap from './infrastructure/booststrap'
-import createServer from './infrastructure/server'
-import 'dotenv/config'
+import HapiFactory from '../src/infrastructure/factories/hapi-factory'
+import DataBaseRepositoryFactory from '../src/infrastructure/factories/database-repository-factory'
 
-const initServer = async (): Promise<void> => {
-  await Booststrap.run()
+async function booststrap() {
+  try {
+    const hapiFactory = new HapiFactory()
+    const databaseRepositoryFactory = new DataBaseRepositoryFactory()
 
-  const server = await createServer()
+    await databaseRepositoryFactory.createAllRepositories()
 
-  await server.start()
+    const server = await hapiFactory.createServer()
 
-  console.log(`Listening on ${server.settings.host}:${server.settings.port}`)
+    await server.start()
+
+    console.log(`Listening on ${server.settings.host}:${server.settings.port}`)
+  } catch (err) {
+    console.error('bootstrap error')
+    console.error(err)
+    process.exit(1)
+  }
 }
 
-process.on('unhandledRejection', (err) => {
-  console.error('unhandledRejection')
-  console.error(err)
-  process.exit(1)
-})
-
-initServer()
+booststrap()
