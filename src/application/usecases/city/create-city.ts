@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi'
 import City from '../../../domain/entities/city'
 import CityRepository from '../../repositories/city-repository'
 
-@Service('usecase.createCity')
+@Service()
 export default class CreateCity {
   constructor(
     @Inject('repository.city') readonly cityRepository: CityRepository
