@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import ITransportsRepository from '../../repositories/transports-repository'
 
-@Service('usecase.updateTransport')
+@Service()
 export default class UpdateTransport {
   constructor(
     @Inject('repository.transports')

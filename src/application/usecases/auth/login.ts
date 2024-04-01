@@ -3,11 +3,11 @@ import { unauthorized } from '@hapi/boom'
 import UserRepository from '../../repositories/user-repository'
 import Auth from '../../../domain/entities/Auth'
 
-@Service('usecase.login')
+@Service()
 export default class Login {
   constructor(
     @Inject('repository.user') readonly userRepository: UserRepository,
-    @Inject('auth') readonly auth: Auth
+    readonly auth: Auth
   ) {}
 
   public async execute(data: any): Promise<any> {

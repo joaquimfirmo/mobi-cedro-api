@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
 import CreateCity from '../../application/usecases/city/create-city'
 import FindAllCity from '../../application/usecases/city/findAll-city'
@@ -8,13 +8,9 @@ import DeleteCity from '../../application/usecases/city/delete-city'
 @Service()
 export default class CityController {
   constructor(
-    @Inject('usecase.createCity')
     private readonly createCity: CreateCity,
-    @Inject('usecase.findAllCity')
     private readonly findAllCity: FindAllCity,
-    @Inject('usecase.updateCity')
     private readonly updateCity: UpdateCity,
-    @Inject('usecase.deleteCity')
     private readonly deleteCity: DeleteCity
   ) {}
 

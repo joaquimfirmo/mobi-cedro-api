@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
 import GetTransports from '../../application/usecases/transports/getTransports'
 import GetTransportsByCity from '../../application/usecases/transports/getTransportsByCity'
@@ -9,16 +9,11 @@ import DeleteTransport from '../../application/usecases/transports/deleteTranspo
 @Service()
 export default class TransportsController {
   constructor(
-    @Inject('usecase.deleteTransport')
-    readonly deleteTransport: DeleteTransport,
-    @Inject('usecase.getTransports')
-    readonly getTransports: GetTransports,
-    @Inject('usecase.getTransportsByCity')
-    readonly geTransportsByCity: GetTransportsByCity,
-    @Inject('usecase.updateTransport')
-    readonly updateTransport: UpdateTransport,
-    @Inject('usecase.createTransport')
-    readonly create: CreateTransport
+    private readonly deleteTransport: DeleteTransport,
+    private readonly getTransports: GetTransports,
+    private readonly geTransportsByCity: GetTransportsByCity,
+    private readonly updateTransport: UpdateTransport,
+    private readonly create: CreateTransport
   ) {}
 
   public async createTransport(

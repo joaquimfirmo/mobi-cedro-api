@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi'
 import Company from '../../../domain/entities/company'
 import CompanyRepository from '../../repositories/company-repository'
 
-@Service('usecase.createCompany')
+@Service()
 export default class CreateCompany {
   constructor(
     @Inject('repository.company') readonly companyRepository: CompanyRepository

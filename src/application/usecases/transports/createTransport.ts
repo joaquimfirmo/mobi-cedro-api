@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi'
 import TransportsRepository from '../../repositories/transports-repository'
 import Transport from '../../../domain/entities/transports'
 
-@Service('usecase.createTransport')
+@Service()
 export default class CreateTransport {
   constructor(
     @Inject('repository.transports')

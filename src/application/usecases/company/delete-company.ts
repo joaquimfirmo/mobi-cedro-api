@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import CompanyRepository from '../../repositories/company-repository'
 
-@Service('usecase.deleteCompany')
+@Service()
 export default class DeleteCompany {
   constructor(
     @Inject('repository.company')

@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import CityRepository from '../../../infrastructure/repositories/city-repository'
 
-@Service('usecase.findAllCity')
+@Service()
 export default class FindAllCity {
   constructor(
     @Inject('repository.city') readonly cityRepository: CityRepository

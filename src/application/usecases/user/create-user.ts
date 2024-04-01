@@ -3,7 +3,7 @@ import UserRepository from '../../repositories/user-repository'
 import User from '../../../domain/entities/user'
 import createHashs from '../../../utils/createHashs'
 
-@Service('usecase.createUser')
+@Service()
 export default class CreateUser {
   constructor(
     @Inject('repository.user') readonly userRepository: UserRepository

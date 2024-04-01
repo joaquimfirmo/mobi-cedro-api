@@ -2,7 +2,7 @@ import { Inject, Service } from 'typedi'
 import UserRepository from '../../repositories/user-repository'
 import User from '../../../domain/entities/user'
 
-@Service('usecase.updateUser')
+@Service()
 export default class UpdateUser {
   constructor(
     @Inject('repository.user') readonly userRepository: UserRepository
