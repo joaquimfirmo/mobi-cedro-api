@@ -1,7 +1,7 @@
 import { Inject, Service } from 'typedi'
 import UserRepository from '../../repositories/user-repository'
 
-@Service('usecase.findAllUsers')
+@Service()
 export default class FindAllUsers {
   constructor(
     @Inject('repository.user') readonly userRepository: UserRepository

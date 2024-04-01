@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
 import CreateUser from '../../application/usecases/user/create-user'
 import FindAllUsers from '../../application/usecases/user/findAll-users'
@@ -9,11 +9,11 @@ import Login from '../../application/usecases/auth/login'
 @Service()
 export default class UserController {
   constructor(
-    @Inject('usecase.createUser') private readonly createUser: CreateUser,
-    @Inject('usecase.findAllUsers') private readonly findAllUsers: FindAllUsers,
-    @Inject('usecase.updateUser') private readonly updateUser: UpdateUser,
-    @Inject('usecase.deleteUser') private readonly deleteUser: DeleteUser,
-    @Inject('usecase.login') private readonly authenticate: Login
+    private readonly createUser: CreateUser,
+    private readonly findAllUsers: FindAllUsers,
+    private readonly updateUser: UpdateUser,
+    private readonly deleteUser: DeleteUser,
+    private readonly authenticate: Login
   ) {}
 
   async create(request: Request, h: ResponseToolkit): Promise<any> {

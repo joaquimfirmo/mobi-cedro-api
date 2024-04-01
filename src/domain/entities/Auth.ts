@@ -2,7 +2,7 @@ import { sign } from 'jsonwebtoken'
 import { Service } from 'typedi'
 import bcrypt from 'bcrypt'
 
-@Service('auth')
+@Service()
 export default class Auth {
   constructor() {}
 
