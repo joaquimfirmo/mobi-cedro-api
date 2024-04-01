@@ -9,11 +9,8 @@ import DeleteCompany from '../../application/usecases/company/delete-company'
 export default class CompanyController {
   constructor(
     private readonly createCompany: CreateCompany,
-
     private readonly findAllCompany: FindAllCompany,
-
     private readonly updateCompany: UpdateCompany,
-
     private readonly deleteCompany: DeleteCompany
   ) {}
 

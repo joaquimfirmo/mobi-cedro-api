@@ -9,15 +9,11 @@ import DeleteTransport from '../../application/usecases/transports/deleteTranspo
 @Service()
 export default class TransportsController {
   constructor(
-    readonly deleteTransport: DeleteTransport,
-
-    readonly getTransports: GetTransports,
-
-    readonly geTransportsByCity: GetTransportsByCity,
-
-    readonly updateTransport: UpdateTransport,
-
-    readonly create: CreateTransport
+    private readonly deleteTransport: DeleteTransport,
+    private readonly getTransports: GetTransports,
+    private readonly geTransportsByCity: GetTransportsByCity,
+    private readonly updateTransport: UpdateTransport,
+    private readonly create: CreateTransport
   ) {}
 
   public async createTransport(
