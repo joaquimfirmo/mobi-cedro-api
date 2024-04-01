@@ -1,4 +1,4 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
 import CreateCompany from '../../application/usecases/company/create-company'
 import FindAllCompany from '../../application/usecases/company/findAll-company'
@@ -8,13 +8,12 @@ import DeleteCompany from '../../application/usecases/company/delete-company'
 @Service()
 export default class CompanyController {
   constructor(
-    @Inject('usecase.createCompany')
     private readonly createCompany: CreateCompany,
-    @Inject('usecase.findAllCompany')
+
     private readonly findAllCompany: FindAllCompany,
-    @Inject('usecase.updateCompany')
+
     private readonly updateCompany: UpdateCompany,
-    @Inject('usecase.deleteCompany')
+
     private readonly deleteCompany: DeleteCompany
   ) {}
 
