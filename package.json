@@ -8,7 +8,8 @@
     "start": "TZ='UTC' node dist/src/index.js",
     "dev": "TZ='UTC' ts-node-dev  --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --detectOpenHandles",
-    "build": "tsc"
+    "build": "tsc",
+    "migrate": "node-pg-migrate"
   },
   "jest": {
     "testEnvironment": "node",
@@ -55,6 +56,7 @@
     "hapi-auth-jwt2": "^10.5.1",
     "hapi-rbac": "^3.0.0",
     "jsonwebtoken": "^9.0.2",
+    "node-pg-migrate": "^6.2.2",
     "pg": "^8.11.3",
     "reflect-metadata": "^0.2.1",
     "typedi": "^0.10.0"
