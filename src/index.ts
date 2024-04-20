@@ -1,16 +1,10 @@
 'use strict'
 import 'reflect-metadata'
-import HapiFactory from '../src/infrastructure/factories/hapi-factory'
-import DataBaseRepositoryFactory from '../src/infrastructure/factories/database-repository-factory'
+import createServer from './infrastructure/server'
 
 async function booststrap() {
   try {
-    const hapiFactory = new HapiFactory()
-    const databaseRepositoryFactory = new DataBaseRepositoryFactory()
-
-    await databaseRepositoryFactory.createAllRepositories()
-
-    const server = await hapiFactory.createServer()
+    const server = await createServer()
 
     await server.start()
 
