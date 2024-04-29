@@ -13,6 +13,8 @@ export default class Pool {
         database: process.env.BD_DATABASE,
         password: process.env.BD_PASSWORD,
         port: Number(process.env.BD_PORT),
+        connectionString: process.env.DATABASE_URL + '?ssl=require',
+
         max: 20,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
