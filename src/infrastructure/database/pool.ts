@@ -5,11 +5,15 @@ export default class Pool {
 
   private constructor() {}
 
-  public static getInstance(): PoolPG {
+  public static getInstance(config: any): PoolPG {
     if (!Pool.instance) {
       Pool.instance = new PoolPG({
-        connectionString: process.env.DATABASE_URL,
-
+        user: config.user,
+        host: config.host || 'localhost',
+        database: config.database || '',
+        password: config.password || '',
+        port: config.port || 3306,
+        ssl: true,
         max: 20,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,

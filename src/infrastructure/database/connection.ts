@@ -1,11 +1,11 @@
-import { Pool } from 'pg'
+import Pool from './pool'
 import config from './config'
 
 export default class Connection {
   pool: any
   conection: any
   constructor() {
-    this.pool = new Pool(config)
+    this.pool = Pool.getInstance(config)
   }
 
   async connect(): Promise<void> {
