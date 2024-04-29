@@ -9,7 +9,8 @@
     "dev": "TZ='UTC' ts-node-dev  --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --detectOpenHandles",
     "build": "tsc",
-    "migrate": "node-pg-migrate"
+    "migrate": "node-pg-migrate",
+    "migrate:run": "node-pg-migrate up"
   },
   "jest": {
     "testEnvironment": "node",
@@ -44,7 +45,8 @@
       "/node_modules/"
     ],
     "testPathIgnorePatterns": [
-      "/node_modules/"
+      "/node_modules/",
+      "/dist/"
     ]
   },
   "dependencies": {
