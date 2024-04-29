@@ -180,9 +180,9 @@ exports.up = (pgm) => {
     { ifNotExists: true, constraints: 'transportes_pkey' }
   )
 
-  // pgm.createType('permissions', ['SUPER_ADMIN', 'ADMIN', 'USER', 'GUEST'], {
-  //   ifNotExists: true,
-  // })
+  pgm.createType('permissions', ['SUPER_ADMIN', 'ADMIN', 'USER', 'GUEST'], {
+    ifNotExists: true,
+  })
 
   pgm.createTable(
     'usuarios',
