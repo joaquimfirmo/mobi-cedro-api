@@ -21,11 +21,7 @@ module.exports = {
         options: {
           description: 'Cria um usuário',
           plugins: {
-            rbac: {
-              target: { 'credentials:group': 'SUPER_ADMIN' },
-              apply: 'deny-overrides',
-              effect: 'permit',
-            },
+            rbac: 'none',
           },
           validate: {
             payload: async (value: any) => {
