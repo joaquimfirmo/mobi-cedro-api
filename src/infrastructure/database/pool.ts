@@ -8,7 +8,7 @@ export default class Pool {
   public static getInstance(): PoolPG {
     if (!Pool.instance) {
       Pool.instance = new PoolPG({
-        connectionString: process.env.DATABASE_URL + '?ssl=require',
+        connectionString: process.env.DATABASE_URL,
 
         max: 20,
         idleTimeoutMillis: 30000,
