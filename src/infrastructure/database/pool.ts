@@ -13,7 +13,6 @@ export default class Pool {
         database: config.database || '',
         password: config.password || '',
         port: config.port || 3306,
-        ssl: true,
         max: 20,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
