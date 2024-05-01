@@ -1,17 +1,23 @@
-import { Container } from 'typedi'
+import { Container, Service, Inject } from 'typedi'
 import RepositoryFactory from '../../application/factories/repository-factory'
 import Connection from '../../infrastructure/database/connection'
 import TransportsRepository from '../repositories/transports-repository'
 import CompanyRepository from '../repositories/company-repository'
-import CityRepository from '../repositories/city-repository'
 import UserRepository from '../repositories/user-repository'
+import ICache from '../../application/cache/cache'
+import { CacheManagerToken } from '../cacheManager'
 
 type Repositories = {
   name: string
   repository: any
 }
+
+@Service()
 export default class DataBaseRepositoryFactory implements RepositoryFactory {
-  connection: Connection = new Connection()
+  constructor(
+    private connection: Connection,
+    @Inject(CacheManagerToken) private cache: ICache
+  ) {}
 
   async createAllRepositories(): Promise<void> {
     await this.connection.connect()
@@ -25,10 +31,7 @@ export default class DataBaseRepositoryFactory implements RepositoryFactory {
         name: 'repository.company',
         repository: new CompanyRepository(this.connection),
       },
-      {
-        name: 'repository.city',
-        repository: new CityRepository(this.connection),
-      },
+
       {
         name: 'repository.user',
         repository: new UserRepository(this.connection),
