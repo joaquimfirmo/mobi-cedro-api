@@ -65,7 +65,9 @@ describe('Transports Repository', () => {
               empresas.nome_fantasia as empresa
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
-              INNER JOIN empresas ON empresas.id = transportes.id_empresa`
+              INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              LIMIT $1 OFFSET $2`,
+      [20, 0]
     )
 
     expect(response).toEqual(result)

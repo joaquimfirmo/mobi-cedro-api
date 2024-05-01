@@ -1,12 +1,14 @@
-import { Inject, Service } from 'typedi'
-import TransportsRepository from '../../repositories/transports-repository'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
+import ITransportsRepository from '../../repositories/transports-repository'
+import TransportsRepository from '../../../infrastructure/repositories/transports-repository'
 import Transport from '../../../domain/entities/transports'
 
 @Service()
 export default class CreateTransport {
   constructor(
-    @Inject('repository.transports')
-    private readonly transportsRepository: TransportsRepository
+    @InjectRepository(TransportsRepository)
+    private readonly transportsRepository: ITransportsRepository
   ) {}
 
   async execute(data: any): Promise<any> {

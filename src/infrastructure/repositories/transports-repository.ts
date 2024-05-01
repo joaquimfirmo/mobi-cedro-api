@@ -2,9 +2,12 @@ import { badImplementation } from '@hapi/boom'
 import Connection from '../database/connection'
 import ITransportsRepository from '../../application/repositories/transports-repository'
 import Transport from '../../domain/entities/transports'
-
+import ICache from '../../application/cache/cache'
 export default class TransportsRepository implements ITransportsRepository {
-  constructor(private readonly connection: Connection) {}
+  constructor(
+    private readonly connection: Connection,
+    private readonly cache?: ICache
+  ) {}
 
   async create(data: Transport): Promise<any> {
     try {
@@ -45,7 +48,7 @@ export default class TransportsRepository implements ITransportsRepository {
     }
   }
 
-  async findAll(): Promise<any> {
+  async findAll(limit: number = 20, offset: number = 0): Promise<any> {
     try {
       const result = await this.connection.execute(
         `SELECT transportes.cidade_origem,
@@ -59,7 +62,9 @@ export default class TransportsRepository implements ITransportsRepository {
               empresas.nome_fantasia as empresa
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
-              INNER JOIN empresas ON empresas.id = transportes.id_empresa`
+              INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              LIMIT $1 OFFSET $2`,
+        [limit, offset]
       )
 
       return result
