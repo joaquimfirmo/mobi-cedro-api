@@ -1,6 +1,8 @@
+import { Service } from 'typedi'
 import Pool from './pool'
 import config from './config'
 
+@Service()
 export default class Connection {
   pool: any
   conection: any
