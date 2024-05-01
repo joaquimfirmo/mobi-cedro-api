@@ -1,11 +1,13 @@
-import { Inject, Service } from 'typedi'
-import CompanyRepository from '../../repositories/company-repository'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
+import CompanyRepository from '../../../infrastructure/repositories/company-repository'
+import ICompanyRepository from '../../../application/repositories/company-repository'
 
 @Service()
 export default class DeleteCompany {
   constructor(
-    @Inject('repository.company')
-    readonly companyRepository: CompanyRepository
+    @InjectRepository(CompanyRepository)
+    readonly companyRepository: ICompanyRepository
   ) {}
 
   async execute(id: string): Promise<any> {
