@@ -1,11 +1,13 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repositrory'
 import City from '../../../domain/entities/city'
-import CityRepository from '../../repositories/city-repository'
+import CityRepository from '../../../infrastructure/repositories/city-repository'
+import ICityRepository from '../../../application/repositories/city-repository'
 
 @Service()
 export default class CreateCity {
   constructor(
-    @Inject('repository.city') readonly cityRepository: CityRepository
+    @InjectRepository(CityRepository) readonly cityRepository: ICityRepository
   ) {}
 
   async execute(nome: string, uf: string): Promise<any> {

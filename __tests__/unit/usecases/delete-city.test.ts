@@ -1,4 +1,16 @@
+import 'reflect-metadata'
+import { Container } from 'typedi'
 import DeleteCity from '../../../src/application/usecases/city/delete-city'
+import Connection from '../../../src/infrastructure/database/connection'
+
+jest.mock('../../../src/infrastructure/database/pool', () => ({
+  getInstance: jest.fn().mockReturnValue({
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn(),
+      end: jest.fn(),
+    }),
+  }),
+}))
 
 describe('DeleteCityUseCase', () => {
   let deleteCity: DeleteCity
@@ -7,6 +19,8 @@ describe('DeleteCityUseCase', () => {
   const id = Math.random().toString()
 
   beforeEach(() => {
+    Container.set(Connection, new Connection())
+
     cityRepository = {
       findById: jest.fn(),
       delete: jest.fn(),

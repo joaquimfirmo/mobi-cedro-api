@@ -1,4 +1,17 @@
+import 'reflect-metadata'
+import { badImplementation } from '@hapi/boom'
 import FindAllCity from '../../../src/application/usecases/city/findAll-city'
+import { Container } from 'typedi'
+import Connection from '../../../src/infrastructure/database/connection'
+
+jest.mock('../../../src/infrastructure/database/pool', () => ({
+  getInstance: jest.fn().mockReturnValue({
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn(),
+      end: jest.fn(),
+    }),
+  }),
+}))
 
 describe('FindAllCityUseCase', () => {
   let findAllCity: FindAllCity
@@ -7,10 +20,13 @@ describe('FindAllCityUseCase', () => {
   const limit = Math.random()
   const offset = Math.random()
 
-  beforeEach(() => {
+  beforeAll(async () => {
+    Container.set(Connection, new Connection())
+
     cityRepository = {
       findAll: jest.fn(),
     }
+
     findAllCity = new FindAllCity(cityRepository)
   })
 
@@ -28,5 +44,18 @@ describe('FindAllCityUseCase', () => {
       status: 200,
       data: [{ id: expect.any(Number) }],
     })
+  })
+
+  it('should return 500 if an error occurs', async () => {
+    cityRepository.findAll.mockRejectedValueOnce(
+      badImplementation('Erro ao buscar cidades')
+    )
+
+    try {
+      await findAllCity.execute(limit, offset)
+    } catch (error: any) {
+      expect(error).toEqual(Error('Erro ao buscar cidades'))
+      expect(error.output.statusCode).toBe(500)
+    }
   })
 })
