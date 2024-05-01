@@ -1,5 +1,5 @@
 import { Service } from 'typedi'
-import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repositrory'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import City from '../../../domain/entities/city'
 import CityRepository from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
