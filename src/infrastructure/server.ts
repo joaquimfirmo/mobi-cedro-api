@@ -2,7 +2,7 @@ import * as Hapi from '@hapi/hapi'
 import 'dotenv/config'
 import Container from 'typedi'
 import Auth from '../domain/entities/Auth'
-import DataBaseRepositoryFactory from './factories/database-repository-factory'
+import Connection from './database/connection'
 
 const createServer = async (): Promise<Hapi.Server> => {
   const server: Hapi.Server = Hapi.server({
@@ -12,9 +12,9 @@ const createServer = async (): Promise<Hapi.Server> => {
 
   const authentication: Auth = new Auth()
 
-  //create repositories
-  const databaseRepositoryFactory = Container.get(DataBaseRepositoryFactory)
-  await databaseRepositoryFactory.createAllRepositories()
+  //start connection with database
+  const connection = Container.get(Connection)
+  await connection.connect()
 
   //set plugin autorization
   await server.register({
