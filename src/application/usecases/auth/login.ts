@@ -1,12 +1,15 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
 import { unauthorized } from '@hapi/boom'
-import UserRepository from '../../repositories/user-repository'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
+import UserRepository from '../../../infrastructure/repositories/user-repository'
+import IUserRepository from '../../repositories/user-repository'
 import Auth from '../../../domain/entities/Auth'
 
 @Service()
 export default class Login {
   constructor(
-    @Inject('repository.user') readonly userRepository: UserRepository,
+    @InjectRepository(UserRepository)
+    private readonly userRepository: IUserRepository,
     readonly auth: Auth
   ) {}
 
