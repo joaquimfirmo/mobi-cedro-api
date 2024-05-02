@@ -1,10 +1,14 @@
 import { badImplementation } from '@hapi/boom'
 import Connection from '../database/connection'
 import IUserRepository from '../../application/repositories/user-repository'
+import ICache from '../../application/cache/cache'
 import User from '../../domain/entities/user'
 
 export default class UserRepository implements IUserRepository {
-  constructor(private readonly connection: Connection) {}
+  constructor(
+    private readonly connection: Connection,
+    private readonly cache?: ICache
+  ) {}
 
   async create(user: User): Promise<any> {
     try {

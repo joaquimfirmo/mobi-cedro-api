@@ -1,10 +1,13 @@
-import { Inject, Service } from 'typedi'
-import UserRepository from '../../repositories/user-repository'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
+import UserRepository from '../../../infrastructure/repositories/user-repository'
+import IUserRepository from '../../repositories/user-repository'
 
 @Service()
 export default class FindAllUsers {
   constructor(
-    @Inject('repository.user') readonly userRepository: UserRepository
+    @InjectRepository(UserRepository)
+    private readonly userRepository: IUserRepository
   ) {}
 
   async execute(): Promise<any> {
