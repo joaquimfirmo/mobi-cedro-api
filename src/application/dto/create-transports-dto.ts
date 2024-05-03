@@ -7,7 +7,7 @@ import {
   Matches,
   IsUUID,
 } from 'class-validator'
-import { IsValidKey } from '../../utils/decorators/validators/key-validation'
+import { IsValidForeignKey } from '../../utils/decorators/validators/foreignkey-validation'
 
 export default class CreateTransportsDto {
   @MinLength(2, {
@@ -60,7 +60,7 @@ export default class CreateTransportsDto {
   preco: string
 
   @IsUUID(4)
-  @IsValidKey(
+  @IsValidForeignKey(
     {
       tableName: 'empresas',
     },
@@ -71,7 +71,7 @@ export default class CreateTransportsDto {
   id_empresa: string
 
   @IsUUID(4)
-  @IsValidKey(
+  @IsValidForeignKey(
     {
       tableName: 'veiculos',
     },
@@ -82,7 +82,7 @@ export default class CreateTransportsDto {
   id_veiculo: string
 
   @IsUUID(4)
-  @IsValidKey(
+  @IsValidForeignKey(
     {
       tableName: 'cidades',
     },

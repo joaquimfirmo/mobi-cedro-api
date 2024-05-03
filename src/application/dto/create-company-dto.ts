@@ -8,7 +8,7 @@ import {
 } from 'class-validator'
 
 import { IsValidCNPJ } from '../../utils/validation'
-import { IsValidKey } from '../../utils/decorators/validators/key-validation'
+import { IsValidForeignKey } from '../../utils/decorators/validators/foreignkey-validation'
 export default class CreateCompanyDto {
   @IsString()
   @MinLength(2, {
@@ -38,7 +38,7 @@ export default class CreateCompanyDto {
   cnpj: string
 
   @IsUUID(4)
-  @IsValidKey(
+  @IsValidForeignKey(
     {
       tableName: 'cidades',
     },

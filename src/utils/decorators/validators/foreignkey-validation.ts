@@ -13,7 +13,7 @@ type table = {
   tableName: string
 }
 
-export function IsValidKey(
+export function IsValidForeignKey(
   tableName: table,
   validationOptions?: ValidationOptions
 ) {
