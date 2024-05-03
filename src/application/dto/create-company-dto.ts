@@ -8,7 +8,7 @@ import {
 } from 'class-validator'
 
 import { IsValidCNPJ } from '../../utils/validation'
-
+import { IsValidKey } from '../../utils/decorators/validators/key-validation'
 export default class CreateCompanyDto {
   @IsString()
   @MinLength(2, {
@@ -38,5 +38,13 @@ export default class CreateCompanyDto {
   cnpj: string
 
   @IsUUID(4)
+  @IsValidKey(
+    {
+      tableName: 'cidades',
+    },
+    {
+      message: 'Cidade $value informada não existe no banco de dados',
+    }
+  )
   id_cidade: string
 }

@@ -7,6 +7,7 @@ import {
   Matches,
   IsUUID,
 } from 'class-validator'
+import { IsValidKey } from '../../utils/decorators/validators/key-validation'
 
 export default class CreateTransportsDto {
   @MinLength(2, {
@@ -59,11 +60,35 @@ export default class CreateTransportsDto {
   preco: string
 
   @IsUUID(4)
+  @IsValidKey(
+    {
+      tableName: 'empresas',
+    },
+    {
+      message: 'Empresa $value informada não existe no banco de dados',
+    }
+  )
   id_empresa: string
 
   @IsUUID(4)
+  @IsValidKey(
+    {
+      tableName: 'veiculos',
+    },
+    {
+      message: 'Veículo $value informado não existe no banco de dados',
+    }
+  )
   id_veiculo: string
 
   @IsUUID(4)
+  @IsValidKey(
+    {
+      tableName: 'cidades',
+    },
+    {
+      message: 'Cidade $value informada não existe no banco de dados',
+    }
+  )
   id_cidade: string
 }
