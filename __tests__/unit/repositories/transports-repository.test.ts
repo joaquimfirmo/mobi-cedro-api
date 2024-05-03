@@ -54,7 +54,8 @@ describe('Transports Repository', () => {
     const response = await transportsRepository.findAll()
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `SELECT transportes.cidade_origem,
+      `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino,
               transportes.dia_semana,
               transportes.localizacao,

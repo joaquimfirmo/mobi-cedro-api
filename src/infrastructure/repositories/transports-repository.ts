@@ -51,7 +51,8 @@ export default class TransportsRepository implements ITransportsRepository {
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
     try {
       const result = await this.connection.execute(
-        `SELECT transportes.cidade_origem,
+        `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino,
               transportes.dia_semana,
               transportes.localizacao,
