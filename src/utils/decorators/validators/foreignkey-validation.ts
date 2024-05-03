@@ -10,11 +10,11 @@ import { Container } from 'typedi'
 import Connection from '../../../infrastructure/database/connection'
 
 type table = {
-  tableName: string
+  referenceTableName: string
 }
 
 export function IsValidForeignKey(
-  tableName: table,
+  referenceTableName: table,
   validationOptions?: ValidationOptions
 ) {
   return function (object: Object, propertyName: string) {
@@ -22,7 +22,7 @@ export function IsValidForeignKey(
       target: object.constructor,
       propertyName: propertyName,
       options: validationOptions,
-      constraints: [tableName],
+      constraints: [referenceTableName],
       validator: IsValidKeyConstraint,
     })
   }
@@ -31,7 +31,7 @@ export function IsValidForeignKey(
 @ValidatorConstraint({ async: true })
 class IsValidKeyConstraint implements ValidatorConstraintInterface {
   async validate(id: string, args: ValidationArguments) {
-    const tableName = args.constraints[0].tableName
+    const tableName = args.constraints[0].referenceTableName
     const connection = Container.get(Connection)
     const query = `SELECT id FROM ${tableName} WHERE id = $1`
     const result = await connection.execute(query, [id])

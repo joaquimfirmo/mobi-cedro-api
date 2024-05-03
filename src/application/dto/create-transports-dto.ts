@@ -62,7 +62,7 @@ export default class CreateTransportsDto {
   @IsUUID(4)
   @IsValidForeignKey(
     {
-      tableName: 'empresas',
+      referenceTableName: 'empresas',
     },
     {
       message: 'Empresa $value informada não existe no banco de dados',
@@ -73,7 +73,7 @@ export default class CreateTransportsDto {
   @IsUUID(4)
   @IsValidForeignKey(
     {
-      tableName: 'veiculos',
+      referenceTableName: 'veiculos',
     },
     {
       message: 'Veículo $value informado não existe no banco de dados',
@@ -84,7 +84,7 @@ export default class CreateTransportsDto {
   @IsUUID(4)
   @IsValidForeignKey(
     {
-      tableName: 'cidades',
+      referenceTableName: 'cidades',
     },
     {
       message: 'Cidade $value informada não existe no banco de dados',

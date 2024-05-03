@@ -40,7 +40,7 @@ export default class CreateCompanyDto {
   @IsUUID(4)
   @IsValidForeignKey(
     {
-      tableName: 'cidades',
+      referenceTableName: 'cidades',
     },
     {
       message: 'Cidade $value informada não existe no banco de dados',
