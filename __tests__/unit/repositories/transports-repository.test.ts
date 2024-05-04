@@ -3,12 +3,19 @@ import TransportsRepository from '../../../src/infrastructure/repositories/trans
 describe('Transports Repository', () => {
   let transportsRepository: TransportsRepository
   let connection: any
+  let cache: any
 
   beforeEach(() => {
     connection = {
       execute: jest.fn(),
     }
-    transportsRepository = new TransportsRepository(connection)
+
+    cache = {
+      get: jest.fn(),
+      set: jest.fn(),
+    }
+
+    transportsRepository = new TransportsRepository(connection, cache)
   })
 
   afterAll(() => {
