@@ -6,7 +6,7 @@ import ICache from '../../application/cache/cache'
 export default class TransportsRepository implements ITransportsRepository {
   constructor(
     private readonly connection: Connection,
-    private readonly cache?: ICache
+    private readonly cache: ICache
   ) {}
 
   async create(data: Transport): Promise<any> {
@@ -49,8 +49,17 @@ export default class TransportsRepository implements ITransportsRepository {
   }
 
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
+    const cacheKey = `transports:${limit}:${offset}`
+    let result
+    result = this.getTransportsFromCache(cacheKey)
+
+    if (result) {
+      console.log('Retornando transportes do cache')
+      return result
+    }
+
     try {
-      const result = await this.connection.execute(
+      result = await this.connection.execute(
         `SELECT transportes.id,
               transportes.cidade_origem,
               transportes.cidade_destino,
@@ -68,6 +77,11 @@ export default class TransportsRepository implements ITransportsRepository {
         [limit, offset]
       )
 
+      if (result.rowCount > 0) {
+        console.log('Salvando transportes no cache')
+        this.setTransportsToCache(cacheKey, result)
+      }
+
       return result
     } catch (error) {
       console.log(error)
@@ -76,8 +90,17 @@ export default class TransportsRepository implements ITransportsRepository {
   }
 
   async findByCity(cityId: string): Promise<any> {
+    const cacheKey = `transports:city:${cityId}`
+    let result
+
+    result = this.getTransportsFromCache(cacheKey)
+
+    if (result) {
+      console.log('Retornando transportes do cache')
+      return result
+    }
     try {
-      const result = await this.connection.execute(
+      result = await this.connection.execute(
         `SELECT transportes.id,
               transportes.cidade_origem,
               transportes.cidade_destino, 
@@ -96,6 +119,10 @@ export default class TransportsRepository implements ITransportsRepository {
             ORDER BY transportes.dia_semana ASC, transportes.hora_saida ASC`,
         [cityId]
       )
+
+      if (result.rowCount > 0) {
+        this.setTransportsToCache(cacheKey, result)
+      }
 
       return result
     } catch (error) {
@@ -176,5 +203,13 @@ export default class TransportsRepository implements ITransportsRepository {
       console.log(error)
       throw badImplementation('Erro ao excluir transporte')
     }
+  }
+
+  getTransportsFromCache(key: string) {
+    return this.cache.get(key)
+  }
+
+  setTransportsToCache(key: string, value: any): void {
+    this.cache.set(key, value)
   }
 }

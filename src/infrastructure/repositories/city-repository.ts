@@ -25,9 +25,10 @@ export default class CityRepository implements ICityRepository {
   }
 
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
+    const cacheKey = `cities:${limit}:${offset}`
     let result
 
-    result = this.getCitiesFromCache(`cities:${limit}:${offset}`)
+    result = this.getCitiesFromCache(cacheKey)
     if (result) {
       console.log('Retornando cidades do cache')
       return result
@@ -38,7 +39,10 @@ export default class CityRepository implements ICityRepository {
         `SELECT * FROM "cidades" LIMIT $1 OFFSET $2`,
         [limit, offset]
       )
-      this.setCitiesToCache(`cities:${limit}:${offset}`, result)
+
+      if (result.rowCount > 0) {
+        this.setCitiesToCache(cacheKey, result)
+      }
       return result
     } catch (error) {
       console.log(error)
