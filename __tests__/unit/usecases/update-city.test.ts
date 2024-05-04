@@ -1,4 +1,16 @@
+import 'reflect-metadata'
+import { Container } from 'typedi'
 import UpdateCity from '../../../src/application/usecases/city/update-city'
+import Connection from '../../../src/infrastructure/database/connection'
+
+jest.mock('../../../src/infrastructure/database/pool', () => ({
+  getInstance: jest.fn().mockReturnValue({
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn(),
+      end: jest.fn(),
+    }),
+  }),
+}))
 
 describe('UpdateCityUseCase', () => {
   let updateCity: UpdateCity
@@ -11,6 +23,8 @@ describe('UpdateCityUseCase', () => {
   }
 
   beforeEach(() => {
+    Container.set(Connection, new Connection())
+
     cityRepository = {
       findById: jest.fn(),
       update: jest.fn(),

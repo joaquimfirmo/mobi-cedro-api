@@ -1,10 +1,11 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import ITransportsRepository from '../../repositories/transports-repository'
-
+import TransportsRepository from '../../../infrastructure/repositories/transports-repository'
 @Service()
 export default class UpdateTransport {
   constructor(
-    @Inject('repository.transports')
+    @InjectRepository(TransportsRepository)
     private readonly transportsRepository: ITransportsRepository
   ) {}
 

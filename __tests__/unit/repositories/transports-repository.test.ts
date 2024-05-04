@@ -54,7 +54,8 @@ describe('Transports Repository', () => {
     const response = await transportsRepository.findAll()
     expect(connection.execute).toHaveBeenCalledTimes(1)
     expect(connection.execute).toHaveBeenCalledWith(
-      `SELECT transportes.cidade_origem,
+      `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino,
               transportes.dia_semana,
               transportes.localizacao,
@@ -65,7 +66,9 @@ describe('Transports Repository', () => {
               empresas.nome_fantasia as empresa
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
-              INNER JOIN empresas ON empresas.id = transportes.id_empresa`
+              INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              LIMIT $1 OFFSET $2`,
+      [20, 0]
     )
 
     expect(response).toEqual(result)

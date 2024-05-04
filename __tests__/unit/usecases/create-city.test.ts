@@ -1,9 +1,23 @@
+import 'reflect-metadata'
+import { Container } from 'typedi'
 import CreateCity from '../../../src/application/usecases/city/create-city'
+import Connection from '../../../src/infrastructure/database/connection'
+
+jest.mock('../../../src/infrastructure/database/pool', () => ({
+  getInstance: jest.fn().mockReturnValue({
+    connect: jest.fn().mockResolvedValue({
+      query: jest.fn(),
+      end: jest.fn(),
+    }),
+  }),
+}))
 describe('CreateCityUseCase', () => {
   let createCity: CreateCity
   let cityRepository: any
 
   beforeEach(() => {
+    Container.set(Connection, new Connection())
+
     cityRepository = {
       create: jest.fn(),
       findByNameAndUf: jest.fn(),

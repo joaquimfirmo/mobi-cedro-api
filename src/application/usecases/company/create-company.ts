@@ -1,11 +1,14 @@
-import { Inject, Service } from 'typedi'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import Company from '../../../domain/entities/company'
-import CompanyRepository from '../../repositories/company-repository'
+import CompanyRepository from '../../../infrastructure/repositories/company-repository'
+import ICompanyRepository from '../../../application/repositories/company-repository'
 
 @Service()
 export default class CreateCompany {
   constructor(
-    @Inject('repository.company') readonly companyRepository: CompanyRepository
+    @InjectRepository(CompanyRepository)
+    readonly companyRepository: ICompanyRepository
   ) {}
   async execute(
     razao_social: string,

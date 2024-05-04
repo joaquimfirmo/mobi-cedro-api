@@ -2,9 +2,13 @@ import { badImplementation } from '@hapi/boom'
 import Connection from '../database/connection'
 import ICityRepository from '../../application/repositories/city-repository'
 import City from '../../domain/entities/city'
+import ICache from '../../application/cache/cache'
 
 export default class CityRepository implements ICityRepository {
-  constructor(private readonly connection: Connection) {}
+  constructor(
+    private readonly connection: Connection,
+    private readonly cache: ICache
+  ) {}
 
   async create(city: City): Promise<any> {
     try {
@@ -21,11 +25,24 @@ export default class CityRepository implements ICityRepository {
   }
 
   async findAll(limit: number = 20, offset: number = 0): Promise<any> {
+    const cacheKey = `cities:${limit}:${offset}`
+    let result
+
+    result = this.getCitiesFromCache(cacheKey)
+    if (result) {
+      console.log('Retornando cidades do cache')
+      return result
+    }
+
     try {
-      const result = await this.connection.execute(
+      result = await this.connection.execute(
         `SELECT * FROM "cidades" LIMIT $1 OFFSET $2`,
         [limit, offset]
       )
+
+      if (result.rowCount > 0) {
+        this.setCitiesToCache(cacheKey, result)
+      }
       return result
     } catch (error) {
       console.log(error)
@@ -82,5 +99,14 @@ export default class CityRepository implements ICityRepository {
       console.log(error)
       throw badImplementation('Erro ao deletar cidade')
     }
+  }
+
+  getCitiesFromCache(key: string): any {
+    return this.cache.get(key)
+  }
+
+  setCitiesToCache(key: string, value: any): void {
+    this.cache.set(key, value)
+    console.log('Cidades salvas no cache')
   }
 }

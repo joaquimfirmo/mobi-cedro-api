@@ -33,7 +33,12 @@ export default class TransportsController {
     request: Request,
     h: ResponseToolkit
   ): Promise<any> {
-    const { data, message, status } = await this.getTransports.execute()
+    const { limit, offset } = request.query as any
+
+    const { data, message, status } = await this.getTransports.execute(
+      limit,
+      offset
+    )
     return h
       .response({
         data,

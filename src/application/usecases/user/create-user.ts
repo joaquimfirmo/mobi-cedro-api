@@ -1,12 +1,15 @@
-import { Inject, Service } from 'typedi'
-import UserRepository from '../../repositories/user-repository'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
+import UserRepository from '../../../infrastructure/repositories/user-repository'
+import IUserRepository from '../../repositories/user-repository'
 import User from '../../../domain/entities/user'
 import createHashs from '../../../utils/createHashs'
 
 @Service()
 export default class CreateUser {
   constructor(
-    @Inject('repository.user') readonly userRepository: UserRepository
+    @InjectRepository(UserRepository)
+    private readonly userRepository: IUserRepository
   ) {}
 
   async execute(data: any): Promise<any> {

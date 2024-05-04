@@ -2,9 +2,12 @@ import { badImplementation } from '@hapi/boom'
 import Connection from '../database/connection'
 import ITransportsRepository from '../../application/repositories/transports-repository'
 import Transport from '../../domain/entities/transports'
-
+import ICache from '../../application/cache/cache'
 export default class TransportsRepository implements ITransportsRepository {
-  constructor(private readonly connection: Connection) {}
+  constructor(
+    private readonly connection: Connection,
+    private readonly cache: ICache
+  ) {}
 
   async create(data: Transport): Promise<any> {
     try {
@@ -45,10 +48,20 @@ export default class TransportsRepository implements ITransportsRepository {
     }
   }
 
-  async findAll(): Promise<any> {
+  async findAll(limit: number = 20, offset: number = 0): Promise<any> {
+    const cacheKey = `transports:${limit}:${offset}`
+    let result
+    result = this.getTransportsFromCache(cacheKey)
+
+    if (result) {
+      console.log('Retornando transportes do cache')
+      return result
+    }
+
     try {
-      const result = await this.connection.execute(
-        `SELECT transportes.cidade_origem,
+      result = await this.connection.execute(
+        `SELECT transportes.id,
+              transportes.cidade_origem,
               transportes.cidade_destino,
               transportes.dia_semana,
               transportes.localizacao,
@@ -59,8 +72,15 @@ export default class TransportsRepository implements ITransportsRepository {
               empresas.nome_fantasia as empresa
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
-              INNER JOIN empresas ON empresas.id = transportes.id_empresa`
+              INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              LIMIT $1 OFFSET $2`,
+        [limit, offset]
       )
+
+      if (result.rowCount > 0) {
+        console.log('Salvando transportes no cache')
+        this.setTransportsToCache(cacheKey, result)
+      }
 
       return result
     } catch (error) {
@@ -70,8 +90,17 @@ export default class TransportsRepository implements ITransportsRepository {
   }
 
   async findByCity(cityId: string): Promise<any> {
+    const cacheKey = `transports:city:${cityId}`
+    let result
+
+    result = this.getTransportsFromCache(cacheKey)
+
+    if (result) {
+      console.log('Retornando transportes do cache')
+      return result
+    }
     try {
-      const result = await this.connection.execute(
+      result = await this.connection.execute(
         `SELECT transportes.id,
               transportes.cidade_origem,
               transportes.cidade_destino, 
@@ -90,6 +119,10 @@ export default class TransportsRepository implements ITransportsRepository {
             ORDER BY transportes.dia_semana ASC, transportes.hora_saida ASC`,
         [cityId]
       )
+
+      if (result.rowCount > 0) {
+        this.setTransportsToCache(cacheKey, result)
+      }
 
       return result
     } catch (error) {
@@ -170,5 +203,13 @@ export default class TransportsRepository implements ITransportsRepository {
       console.log(error)
       throw badImplementation('Erro ao excluir transporte')
     }
+  }
+
+  getTransportsFromCache(key: string) {
+    return this.cache.get(key)
+  }
+
+  setTransportsToCache(key: string, value: any): void {
+    this.cache.set(key, value)
   }
 }
