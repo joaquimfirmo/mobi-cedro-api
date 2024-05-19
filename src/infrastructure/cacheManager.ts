@@ -16,6 +16,13 @@ export class CacheManager implements ICache {
   public set(key: string, cities: any) {
     this.cache.set(key, cities)
   }
+  public del(key: string) {
+    if (this.cache.has(key)) {
+      console.log('Deletando cache')
+      this.cache.del(key)
+    }
+    return
+  }
 }
 
 const CacheManagerToken = new Token<CacheManager>()
