@@ -5,8 +5,8 @@
   "author": "joaquim firmo ferreira neto",
   "license": "MIT",
   "scripts": {
-    "start": "TZ='UTC' node dist/src/index.js",
-    "dev": "TZ='UTC' ts-node-dev  --respawn --transpile-only src/index.ts",
+    "start": "TZ='UTC' NODE_ENV=production node dist/src/index.js",
+    "dev": "TZ='UTC' NODE_ENV=development  ts-node-dev  --respawn --transpile-only src/index.ts",
     "test": "jest --coverage --detectOpenHandles",
     "build": "tsc",
     "migrate": "node-pg-migrate",

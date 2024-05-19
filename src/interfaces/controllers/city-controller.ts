@@ -1,5 +1,6 @@
 import { Service } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
+import City from '../../domain/entities/city'
 import CreateCity from '../../application/usecases/city/create-city'
 import FindAllCity from '../../application/usecases/city/findAll-city'
 import UpdateCity from '../../application/usecases/city/update-city'
@@ -41,10 +42,12 @@ export default class CityController {
 
   async update(request: Request, h: ResponseToolkit): Promise<any> {
     const id = request.params.id
-    const { data, message, status } = await this.updateCity.execute(
-      id,
-      request.payload
-    )
+
+    const { nome, uf } = request.payload as any
+
+    const city: City = new City(id, nome, uf)
+
+    const { data, message, status } = await this.updateCity.execute(id, city)
     return h
       .response({
         data,

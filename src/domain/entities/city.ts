@@ -13,11 +13,16 @@ export default class City {
   @MaxLength(2)
   public readonly uf: string
 
-  constructor(nome: string, uf: string) {
-    this.id = crypto.randomUUID()
+  constructor(id: string, nome: string, uf: string) {
+    this.id = id
     this.nome = nome
     this.uf = uf
     this.validateCity(nome, uf)
+  }
+
+  static create(nome: string, uf: string): City {
+    const id = crypto.randomUUID()
+    return new City(id, nome, uf)
   }
 
   validateCity(nome: string, uf: string): void {
