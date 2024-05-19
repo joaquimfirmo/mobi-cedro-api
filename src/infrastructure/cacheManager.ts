@@ -6,7 +6,7 @@ export class CacheManager implements ICache {
   private cache: NodeCache
 
   constructor() {
-    this.cache = new NodeCache({ stdTTL: 500, checkperiod: 120 })
+    this.cache = new NodeCache({ stdTTL: 300, checkperiod: 120 })
   }
 
   public get(key: string) {
