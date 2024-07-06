@@ -35,14 +35,20 @@ describe('FindAllCityUseCase', () => {
   })
 
   it('should return 200 if cities were found', async () => {
-    cityRepository.findAll.mockResolvedValue([{ id: Math.random() }])
+    cityRepository.findAll.mockResolvedValue({
+      rowCount: 1,
+      rows: [{ id: Math.random(), nome: 'Cedro', uf: 'CE' }],
+    })
 
     const response = await findAllCity.execute(limit, offset)
 
     expect(response).toEqual({
       message: 'Cidades encontradas com sucesso',
       status: 200,
-      data: [{ id: expect.any(Number) }],
+      data: {
+        rowCount: 1,
+        cities: [{ id: expect.any(Number), nome: 'Cedro', uf: 'CE' }],
+      },
     })
   })
 

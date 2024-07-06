@@ -1,4 +1,5 @@
 import { Service } from 'typedi'
+import City from '../../../domain/entities/city'
 import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import CityRepository from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
@@ -10,7 +11,7 @@ export default class UpdateCity {
     readonly cityRepository: ICityRepository
   ) {}
 
-  async execute(id: string, city: any): Promise<any> {
+  async execute(id: string, city: City): Promise<any> {
     const cityExists = await this.cityRepository.findById(id)
 
     if (cityExists.rowCount === 0) {
@@ -23,10 +24,16 @@ export default class UpdateCity {
 
     const result = await this.cityRepository.update(id, city)
 
+    if (result) {
+      return {
+        message: 'Cidade atualizada com sucesso',
+        status: 200,
+      }
+    }
+
     return {
-      message: 'Cidade atualizada com sucesso',
-      status: 200,
-      data: result.rows[0],
+      message: 'Não foi possível atualizar a cidade',
+      status: 500,
     }
   }
 }

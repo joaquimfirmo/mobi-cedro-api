@@ -76,6 +76,7 @@ export default class Transports {
   public readonly md5_hash: string
 
   constructor(
+    id: string,
     cidade_origem: string,
     cidade_destino: string,
     dia_semana: string,
@@ -85,9 +86,10 @@ export default class Transports {
     preco: number,
     id_veiculo: string,
     id_empresa: string,
-    id_cidade: string
+    id_cidade: string,
+    md5_hash: string
   ) {
-    this.id = crypto.randomUUID()
+    this.id = id
     this.cidadeOrigem = cidade_origem
     this.cidadeDestino = cidade_destino
     this.diaSemana = dia_semana
@@ -98,7 +100,25 @@ export default class Transports {
     this.veiculoId = id_veiculo
     this.empresaId = id_empresa
     this.cidadeId = id_cidade
-    this.md5_hash = createHashs.createHashMd5({
+    this.md5_hash = md5_hash
+  }
+
+  public static create(data: any): Transports {
+    const id = crypto.randomUUID()
+    const {
+      cidade_origem,
+      cidade_destino,
+      dia_semana,
+      localizacao,
+      hora_saida,
+      preco,
+      hora_chegada,
+      id_veiculo,
+      id_empresa,
+      id_cidade,
+    } = data
+
+    const md5_hash = createHashs.createHashMd5({
       cidade_origem,
       cidade_destino,
       dia_semana,
@@ -109,5 +129,20 @@ export default class Transports {
       id_empresa,
       id_cidade,
     })
+
+    return new Transports(
+      id,
+      cidade_origem,
+      cidade_destino,
+      dia_semana,
+      localizacao,
+      hora_saida,
+      hora_chegada,
+      preco,
+      id_veiculo,
+      id_empresa,
+      id_cidade,
+      md5_hash
+    )
   }
 }

@@ -1,6 +1,7 @@
 import 'reflect-metadata'
 import { Container } from 'typedi'
 import UpdateCity from '../../../src/application/usecases/city/update-city'
+import City from '../../../src/domain/entities/city'
 import Connection from '../../../src/infrastructure/database/connection'
 
 jest.mock('../../../src/infrastructure/database/pool', () => ({
@@ -17,10 +18,7 @@ describe('UpdateCityUseCase', () => {
   let cityRepository: any
 
   const id = Math.random().toString()
-  const city = {
-    nome: 'any_nome',
-    uf: 'any_uf',
-  }
+  const city: City = City.create('Cedro', 'CE')
 
   beforeEach(() => {
     Container.set(Connection, new Connection())
@@ -55,7 +53,6 @@ describe('UpdateCityUseCase', () => {
     const response = await updateCity.execute(id, city)
 
     expect(response).toEqual({
-      data: city,
       message: 'Cidade atualizada com sucesso',
       status: 200,
     })

@@ -12,18 +12,7 @@ export default class CreateTransport {
   ) {}
 
   async execute(data: any): Promise<any> {
-    const transport = new Transport(
-      data.cidade_origem,
-      data.cidade_destino,
-      data.dia_semana,
-      data.localizacao,
-      data.hora_saida,
-      data.hora_chegada,
-      data.preco,
-      data.id_veiculo,
-      data.id_empresa,
-      data.id_cidade
-    )
+    const transport = Transport.create(data)
 
     const transportExist = await this.verifyTransportExists(transport)
 

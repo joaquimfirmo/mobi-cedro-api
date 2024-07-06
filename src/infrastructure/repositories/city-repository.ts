@@ -17,6 +17,9 @@ export default class CityRepository implements ICityRepository {
         [city.id, city.nome, city.uf]
       )
 
+      if (result.rowCount > 0) {
+        this.cache.del('cities:20:0')
+      }
       return result
     } catch (error) {
       console.log(error)
@@ -29,6 +32,7 @@ export default class CityRepository implements ICityRepository {
     let result
 
     result = this.getCitiesFromCache(cacheKey)
+
     if (result) {
       console.log('Retornando cidades do cache')
       return result
@@ -81,7 +85,12 @@ export default class CityRepository implements ICityRepository {
         `UPDATE cidades SET nome = $1, uf = $2 WHERE id = $3`,
         [city.nome, city.uf, id]
       )
-      return result
+
+      if (result.rowCount > 0) {
+        this.cache.del('cities:20:0')
+        return true
+      }
+      return false
     } catch (error) {
       console.log(error)
       throw badImplementation('Erro ao atualizar cidade')
@@ -94,6 +103,10 @@ export default class CityRepository implements ICityRepository {
         `DELETE FROM cidades WHERE id = $1`,
         [id]
       )
+
+      if (result.rowCount > 0) {
+        this.cache.del('cities:20:0')
+      }
       return result
     } catch (error) {
       console.log(error)

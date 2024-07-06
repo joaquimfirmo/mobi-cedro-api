@@ -11,8 +11,12 @@ export default class CreateCity {
   ) {}
 
   async execute(nome: string, uf: string): Promise<any> {
-    const city = new City(nome, uf)
-    const cityExists = await this.cityRepository.findByNameAndUf(nome, uf)
+    const city: City = City.create(nome, uf)
+
+    const cityExists = await this.cityRepository.findByNameAndUf(
+      city.nome,
+      city.uf
+    )
 
     if (cityExists.rows?.length > 0) {
       return {

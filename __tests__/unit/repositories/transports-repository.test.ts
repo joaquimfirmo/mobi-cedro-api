@@ -74,6 +74,7 @@ describe('Transports Repository', () => {
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
               INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              ORDER BY transportes.dia_semana ASC, transportes.hora_saida ASC
               LIMIT $1 OFFSET $2`,
       [20, 0]
     )
