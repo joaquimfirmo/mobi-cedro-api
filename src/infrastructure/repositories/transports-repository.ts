@@ -41,6 +41,11 @@ export default class TransportsRepository implements ITransportsRepository {
           data.md5_hash,
         ]
       )
+
+      if (result.rowCount > 0) {
+        console.log('Deletando cache de transportes')
+        this.cache.del('transports:20:0')
+      }
       return result
     } catch (error) {
       console.log(error)
@@ -73,6 +78,7 @@ export default class TransportsRepository implements ITransportsRepository {
           FROM transportes
               INNER JOIN veiculos ON veiculos.id = transportes.id_veiculo
               INNER JOIN empresas ON empresas.id = transportes.id_empresa
+              ORDER BY transportes.dia_semana ASC, transportes.hora_saida ASC
               LIMIT $1 OFFSET $2`,
         [limit, offset]
       )

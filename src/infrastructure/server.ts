@@ -1,7 +1,7 @@
 import * as Hapi from '@hapi/hapi'
 import 'dotenv/config'
 import Container from 'typedi'
-import Auth from '../domain/entities/Auth'
+import Auth from '../domain/entities/auth'
 import Connection from './database/connection'
 
 const createServer = async (): Promise<Hapi.Server> => {

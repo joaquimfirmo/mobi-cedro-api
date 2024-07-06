@@ -3,7 +3,7 @@ import { unauthorized } from '@hapi/boom'
 import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import UserRepository from '../../../infrastructure/repositories/user-repository'
 import IUserRepository from '../../repositories/user-repository'
-import Auth from '../../../domain/entities/Auth'
+import Auth from '../../../domain/entities/auth'
 
 @Service()
 export default class Login {
