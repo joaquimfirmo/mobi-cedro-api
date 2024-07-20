@@ -72,18 +72,5 @@ describe('CreateCityUseCase', () => {
     expect(async () => {
       await createCity.execute(city)
     }).rejects.toThrow(badRequest(`Cidade ${city.nome}-${city.uf} já existe`))
-
-    // try {
-    //   await createCity.execute(city)
-    // } catch (error: any) {
-    //   expect(cityRepository.findByNameAndUf).toHaveBeenCalledTimes(1)
-    //   expect(cityRepository.findByNameAndUf).toHaveBeenCalledWith(city)
-
-    //   expect(cityRepository.create).toHaveBeenCalledTimes(0)
-    //   expect(error.message).toBe('Cidade São Paulo-SP já existe')
-    //   expect(error.output.statusCode).toBe(400)
-    // }
-
-    //criar um teste para verificar se a mensagem de erro é a esperada
   })
 })
