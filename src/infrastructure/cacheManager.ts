@@ -18,7 +18,8 @@ export class CacheManager implements ICache {
   }
   public del(key: string) {
     if (this.cache.has(key)) {
-      console.log('Deletando cache')
+      const cacheName = key.split(':')[0]
+      console.log('Deletando cache', cacheName)
       this.cache.del(key)
     }
     return

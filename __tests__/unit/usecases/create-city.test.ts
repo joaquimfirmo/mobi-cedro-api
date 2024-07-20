@@ -2,6 +2,8 @@ import 'reflect-metadata'
 import { Container } from 'typedi'
 import CreateCity from '../../../src/application/usecases/city/create-city'
 import Connection from '../../../src/infrastructure/database/connection'
+import City from '../../../src/domain/entities/city'
+import { badRequest } from 'boom'
 
 jest.mock('../../../src/infrastructure/database/pool', () => ({
   getInstance: jest.fn().mockReturnValue({
@@ -34,14 +36,11 @@ describe('CreateCityUseCase', () => {
       rows: [],
     }
 
-    const city = {
-      nome: 'São Paulo',
-      uf: 'SP',
-    }
+    const city: City = City.create('São Paulo', 'SP')
     cityRepository.findByNameAndUf.mockResolvedValueOnce(cityExists)
     cityRepository.create.mockResolvedValueOnce({})
 
-    const response = await createCity.execute(city.nome, city.uf)
+    const response = await createCity.execute(city)
 
     expect(cityRepository.findByNameAndUf).toHaveBeenCalledTimes(1)
 
@@ -56,11 +55,8 @@ describe('CreateCityUseCase', () => {
     })
   })
 
-  it('should return a message when the city already exists', async () => {
-    const city = {
-      nome: 'São Paulo',
-      uf: 'SP',
-    }
+  it('should return a error of badRequest if city alexist', async () => {
+    const city: City = City.create('São Paulo', 'SP')
 
     const cityExists = {
       rows: [
@@ -73,20 +69,8 @@ describe('CreateCityUseCase', () => {
 
     cityRepository.findByNameAndUf.mockResolvedValueOnce(cityExists)
 
-    const response = await createCity.execute(city.nome, city.uf)
-
-    expect(cityRepository.findByNameAndUf).toHaveBeenCalledTimes(1)
-    expect(cityRepository.findByNameAndUf).toHaveBeenCalledWith(
-      city.nome,
-      city.uf
-    )
-
-    expect(cityRepository.create).toHaveBeenCalledTimes(0)
-
-    expect(response).toEqual({
-      data: [],
-      message: 'Cidade já existe',
-      status: 400,
-    })
+    expect(async () => {
+      await createCity.execute(city)
+    }).rejects.toThrow(badRequest(`Cidade ${city.nome}-${city.uf} já existe`))
   })
 })

@@ -16,7 +16,6 @@ jest.mock('../../../src/infrastructure/database/pool', () => ({
 describe('FindAllCityUseCase', () => {
   let findAllCity: FindAllCity
   let cityRepository: any
-
   const limit = Math.random()
   const offset = Math.random()
 
@@ -36,19 +35,15 @@ describe('FindAllCityUseCase', () => {
 
   it('should return 200 if cities were found', async () => {
     cityRepository.findAll.mockResolvedValue({
-      rowCount: 1,
-      rows: [{ id: Math.random(), nome: 'Cedro', uf: 'CE' }],
+      rows: 1,
+      cities: [{ id: Math.random(), nome: 'Cedro', uf: 'CE' }],
     })
 
     const response = await findAllCity.execute(limit, offset)
 
     expect(response).toEqual({
-      message: 'Cidades encontradas com sucesso',
-      status: 200,
-      data: {
-        rowCount: 1,
-        cities: [{ id: expect.any(Number), nome: 'Cedro', uf: 'CE' }],
-      },
+      data: [{ id: expect.any(Number), nome: 'Cedro', uf: 'CE' }],
+      rows: 1,
     })
   })
 

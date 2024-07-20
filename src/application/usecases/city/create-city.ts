@@ -1,29 +1,27 @@
 import { Service } from 'typedi'
+import { badRequest } from 'boom'
 import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import City from '../../../domain/entities/city'
 import CityRepository from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
+import { cityIsValid } from '../../../utils/validateCity'
 
 @Service()
 export default class CreateCity {
   constructor(
-    @InjectRepository(CityRepository) readonly cityRepository: ICityRepository
+    @InjectRepository(CityRepository)
+    private readonly cityRepository: ICityRepository
   ) {}
 
-  async execute(nome: string, uf: string): Promise<any> {
-    const city: City = City.create(nome, uf)
+  async execute(city: City): Promise<any> {
+    if (!cityIsValid(city.nome, city.uf)) {
+      throw badRequest(`Cidade ${city.nome}-${city.uf} é inválida`)
+    }
 
-    const cityExists = await this.cityRepository.findByNameAndUf(
-      city.nome,
-      city.uf
-    )
+    const cityExists = await this.cityRepository.findByNameAndUf(city)
 
     if (cityExists.rows?.length > 0) {
-      return {
-        data: [],
-        message: 'Cidade já existe',
-        status: 400,
-      }
+      throw badRequest(`Cidade ${city.nome}-${city.uf} já existe`)
     }
     await this.cityRepository.create(city)
 
