@@ -1,8 +1,8 @@
 import { badImplementation } from '@hapi/boom'
-import Connection from '../database/connection'
 import ICityRepository from '../../application/repositories/city-repository'
-import City from '../../domain/entities/city'
 import ICache from '../../application/cache/cache'
+import Connection from '../database/connection'
+import City from '../../domain/entities/city'
 
 export default class CityRepository implements ICityRepository {
   constructor(
@@ -45,9 +45,19 @@ export default class CityRepository implements ICityRepository {
       )
 
       if (result.rowCount > 0) {
-        this.setCitiesToCache(cacheKey, result)
+        this.setCitiesToCache(cacheKey, {
+          cities: result.rows.map(
+            (city: any) => new City(city.id, city.nome, city.uf)
+          ),
+          rows: result.rowCount,
+        })
       }
-      return result
+      return {
+        cities: result.rows.map(
+          (city: any) => new City(city.id, city.nome, city.uf)
+        ),
+        rows: result.rowCount,
+      }
     } catch (error) {
       console.log(error)
       throw badImplementation('Erro ao buscar cidades')
@@ -67,11 +77,11 @@ export default class CityRepository implements ICityRepository {
     }
   }
 
-  async findByNameAndUf(nome: string, uf: string): Promise<any> {
+  async findByNameAndUf(city: City): Promise<any> {
     try {
       const result = await this.connection.execute(
         `SELECT * FROM "cidades" WHERE nome = $1 AND uf = $2`,
-        [nome, uf]
+        [city.nome, city.uf]
       )
       return result
     } catch (error) {
