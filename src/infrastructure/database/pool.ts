@@ -7,12 +7,13 @@ export default class Pool {
 
   public static getInstance(config: any): PoolPG {
     if (!Pool.instance) {
+      console.log('Creating new pool')
       Pool.instance = new PoolPG({
         user: config.user,
         host: config.host || 'localhost',
         database: config.database || '',
         password: config.password || '',
-        port: config.port || 3306,
+        port: config.port || 5432,
         max: 20,
         idleTimeoutMillis: 30000,
         connectionTimeoutMillis: 2000,
