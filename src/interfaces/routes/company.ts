@@ -3,7 +3,6 @@ import { validationPipe } from '../../utils/validation'
 import ParamDto from '../../application/dto/param-dto'
 import CreateCompanyDto from '../../application/dto/create-company-dto'
 import UpdateCompanyDto from '../../application/dto/update-company-dto'
-
 import {
   findAllCompany,
   createCompany,
