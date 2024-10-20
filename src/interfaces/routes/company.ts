@@ -1,11 +1,15 @@
-import { Server, Request, ResponseToolkit } from 'hapi'
-import { Container } from 'typedi'
+import { Server } from 'hapi'
 import { validationPipe } from '../../utils/validation'
 import ParamDto from '../../application/dto/param-dto'
 import CreateCompanyDto from '../../application/dto/create-company-dto'
 import UpdateCompanyDto from '../../application/dto/update-company-dto'
-import CompanyController from '../controllers/company-controller'
-const companyController = Container.get(CompanyController)
+
+import {
+  findAllCompany,
+  createCompany,
+  updateCompany,
+  deleteCompany,
+} from '../handlers/company'
 
 module.exports = {
   name: 'company',
@@ -18,8 +22,7 @@ module.exports = {
         options: {
           description: 'Lista todas as empresas',
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          companyController.getAll(request, h),
+        handler: findAllCompany,
       },
       {
         method: 'POST',
@@ -32,8 +35,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          companyController.create(request, h),
+        handler: createCompany,
       },
       {
         method: 'PUT',
@@ -49,8 +51,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          companyController.update(request, h),
+        handler: updateCompany,
       },
       {
         method: 'DELETE',
@@ -63,8 +64,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          companyController.delete(request, h),
+        handler: deleteCompany,
       },
     ])
   },
