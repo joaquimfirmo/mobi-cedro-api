@@ -5,7 +5,7 @@ import Connection from '../../database/connection'
 import { CacheManagerToken, CacheManager } from '../../cacheManager'
 
 export function InjectRepository(className: any) {
-  return function (object: any, propertyName: string, index?: number) {
+  return function (object: any, propertyName?: string, index?: number) {
     const connection: Connection = Container.get(Connection)
     const repository = new className(
       connection,
