@@ -1,11 +1,16 @@
-import { Server, Request, ResponseToolkit } from 'hapi'
-import { Container } from 'typedi'
-import TransportsController from '../controllers/transports-controller'
+import { Server } from 'hapi'
 import { validationPipe } from '../../utils/validation'
 import ParamDto from '../../application/dto/param-dto'
 import UpdateTransports from '../../application/dto/update-transports-dto'
 import CreateTransportDto from '../../application/dto/create-transports-dto'
-const transportsController = Container.get(TransportsController)
+import {
+  findAllTransports,
+  findAllTransportsByCity,
+  createTransport,
+  updateTransport,
+  deleteTransport,
+} from '../handlers/transports'
+
 // RBAC plugin for authorization control
 
 module.exports = {
@@ -23,8 +28,7 @@ module.exports = {
             rbac: 'none',
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          transportsController.getAllTransports(request, h),
+        handler: findAllTransports,
       },
       {
         method: 'GET',
@@ -41,8 +45,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          transportsController.getTransportsByCity(request, h),
+        handler: findAllTransportsByCity,
       },
 
       {
@@ -56,8 +59,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          transportsController.createTransport(request, h),
+        handler: createTransport,
       },
       {
         method: 'PUT',
@@ -73,8 +75,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          transportsController.updateTransportById(request, h),
+        handler: updateTransport,
       },
       {
         method: 'DELETE',
@@ -87,8 +88,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          transportsController.deleteTransportById(request, h),
+        handler: deleteTransport,
       },
     ])
   },
