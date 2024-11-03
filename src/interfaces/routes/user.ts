@@ -1,13 +1,16 @@
-import { Server, Request, ResponseToolkit } from 'hapi'
-import { Container } from 'typedi'
+import { Server } from 'hapi'
 import { validationPipe } from '../../utils/validation'
 import CreateUserDto from '../../application/dto/create-user-dto'
 import UpdateUserDto from '../../application/dto/update-user-dto'
 import LoginDto from '../../application/dto/login-dto'
 import ParamDto from '../../application/dto/param-dto'
-import UserController from '../controllers/user-controller'
-
-const userController = Container.get(UserController)
+import {
+  loginUser,
+  findAllUsers,
+  updateUser,
+  createUser,
+  deleteUser,
+} from '../handlers/user'
 
 // RBAC plugin for authorization control
 module.exports = {
@@ -33,8 +36,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          userController.create(request, h),
+        handler: createUser,
       },
 
       {
@@ -52,8 +54,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          userController.login(request, h),
+        handler: loginUser,
       },
 
       {
@@ -62,8 +63,7 @@ module.exports = {
         options: {
           description: 'Busca todos os usuários',
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          userController.findAll(request, h),
+        handler: findAllUsers,
       },
 
       {
@@ -80,8 +80,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          userController.update(request, h),
+        handler: updateUser,
       },
 
       {
@@ -102,8 +101,7 @@ module.exports = {
             },
           },
         },
-        handler: (request: Request, h: ResponseToolkit) =>
-          userController.delete(request, h),
+        handler: deleteUser,
       },
     ])
   },
