@@ -25,11 +25,6 @@
       "ts",
       "json"
     ],
-    "globals": {
-      "ts-jest": {
-        "tsconfig": "tsconfig.json"
-      }
-    },
     "collectCoverageFrom": [
       "**/src/**/*.ts"
     ],

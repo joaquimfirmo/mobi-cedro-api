@@ -1,5 +1,5 @@
 import IHttpClient from '../../application/gateway/http-client'
-import axios, { AxiosInstance, AxiosError } from 'axios'
+import axios, { AxiosInstance } from 'axios'
 
 export default class AxiosClient implements IHttpClient {
   private readonly axiosInstance: AxiosInstance
@@ -15,17 +15,9 @@ export default class AxiosClient implements IHttpClient {
       const response = await this.axiosInstance.get(url, { headers, params })
       return response.data
     } catch (error: any) {
-      if (axios.isAxiosError(error)) {
-        const axiosError: AxiosError = error
-        return {
-          message: axiosError.message,
-          status: axiosError.response?.status,
-        }
-      } else {
-        return {
-          message: error.message,
-          status: 500,
-        }
+      return {
+        message: error.message,
+        status: 500,
       }
     }
   }
