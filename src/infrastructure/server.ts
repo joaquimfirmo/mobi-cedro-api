@@ -4,17 +4,19 @@ import Container from 'typedi'
 import Auth from '../domain/entities/auth'
 import Connection from './database/connection'
 
-const createServer = async (): Promise<Hapi.Server> => {
-  const server: Hapi.Server = Hapi.server({
-    port: process.env.SERVER_PORT || 3000,
-    host: process.env.SERVER_HOST || 'localhost',
-  })
+const configRoutes = async (server: Hapi.Server): Promise<void> => {
+  await server.register([
+    require('../interfaces/routes/transports'),
+    require('../interfaces/routes/company'),
+    require('../interfaces/routes/city'),
+    require('../interfaces/routes/user'),
+    require('../interfaces/routes/state'),
+  ])
+  return
+}
 
+const configAuth = async (server: Hapi.Server): Promise<void> => {
   const authentication: Auth = new Auth()
-
-  //start connection with database
-  const connection = Container.get(Connection)
-  await connection.connect()
 
   //set plugin autorization
   await server.register({
@@ -45,13 +47,22 @@ const createServer = async (): Promise<Hapi.Server> => {
     },
   })
 
-  //config routes
-  await server.register([
-    require('../interfaces/routes/transports'),
-    require('../interfaces/routes/company'),
-    require('../interfaces/routes/city'),
-    require('../interfaces/routes/user'),
-  ])
+  return
+}
+
+const createServer = async (): Promise<Hapi.Server> => {
+  const server: Hapi.Server = Hapi.server({
+    port: process.env.SERVER_PORT || 3000,
+    host: process.env.SERVER_HOST || 'localhost',
+  })
+
+  //start connection with database
+  const connection = Container.get(Connection)
+  await connection.connect()
+
+  await configAuth(server)
+
+  await configRoutes(server)
 
   return server
 }
