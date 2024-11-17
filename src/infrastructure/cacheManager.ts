@@ -26,8 +26,8 @@ export class CacheManager implements ICache {
   }
 }
 
-const CacheManagerToken = new Token<CacheManager>()
+const cacheManager = new Token<CacheManager>()
 
-Container.set(CacheManagerToken, new CacheManager())
+Container.set(cacheManager, new CacheManager())
 
-export { CacheManagerToken }
+export { cacheManager }
