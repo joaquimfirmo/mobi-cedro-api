@@ -1,18 +1,17 @@
-import { Service } from 'typedi'
+import { Service, Inject } from 'typedi'
 import City from '../../../domain/entities/city'
-import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
-import CityRepository from '../../../infrastructure/repositories/city-repository'
+import { cityRepository } from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
 
 @Service()
 export default class UpdateCity {
   constructor(
-    @InjectRepository(CityRepository)
-    readonly cityRepository: ICityRepository
+    @Inject(cityRepository)
+    readonly repository: ICityRepository
   ) {}
 
   async execute(id: string, city: City): Promise<any> {
-    const cityExists = await this.cityRepository.findById(id)
+    const cityExists = await this.repository.findById(id)
 
     if (cityExists.rowCount === 0) {
       return {
@@ -22,7 +21,7 @@ export default class UpdateCity {
       }
     }
 
-    const result = await this.cityRepository.update(id, city)
+    const result = await this.repository.update(id, city)
 
     if (result) {
       return {

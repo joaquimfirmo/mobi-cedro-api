@@ -1,10 +1,12 @@
+import { Container, Token } from 'typedi'
 import { badImplementation } from '@hapi/boom'
 import ICityRepository from '../../application/repositories/city-repository'
 import ICache from '../../application/cache/cache'
+import { cacheManager } from '../cacheManager'
 import Connection from '../database/connection'
 import City from '../../domain/entities/city'
 
-export default class CityRepository implements ICityRepository {
+export class CityRepository implements ICityRepository {
   constructor(
     private readonly connection: Connection,
     private readonly cache: ICache
@@ -133,3 +135,12 @@ export default class CityRepository implements ICityRepository {
     console.log('Cidades salvas no cache')
   }
 }
+
+// injetando classe CityRepository no container do typedi para ser usada como dependência
+const cityRepository = new Token<CityRepository>()
+Container.set(
+  cityRepository,
+  new CityRepository(Container.get(Connection), Container.get(cacheManager))
+)
+
+export { cityRepository }

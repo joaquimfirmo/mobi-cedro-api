@@ -1,17 +1,16 @@
-import { Service } from 'typedi'
-import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
-import CityRepository from '../../../infrastructure/repositories/city-repository'
+import { Service, Inject } from 'typedi'
+import { cityRepository } from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
 
 @Service()
 export default class DeleteCity {
   constructor(
-    @InjectRepository(CityRepository)
-    readonly cityRepository: ICityRepository
+    @Inject(cityRepository)
+    readonly repository: ICityRepository
   ) {}
 
   async execute(id: string): Promise<any> {
-    const cityExists = await this.cityRepository.findById(id)
+    const cityExists = await this.repository.findById(id)
 
     if (cityExists.rowCount === 0) {
       return {
@@ -21,7 +20,7 @@ export default class DeleteCity {
       }
     }
 
-    await this.cityRepository.delete(id)
+    await this.repository.delete(id)
 
     return {
       data: id,
