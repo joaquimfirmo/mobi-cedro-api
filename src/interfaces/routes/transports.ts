@@ -6,6 +6,7 @@ import CreateTransportDto from '../../application/dto/create-transports-dto'
 import {
   findAllTransports,
   findAllTransportsByCity,
+  findAllCitiesTransports,
   createTransport,
   updateTransport,
   deleteTransport,
@@ -46,6 +47,19 @@ module.exports = {
           },
         },
         handler: findAllTransportsByCity,
+      },
+
+      {
+        method: 'GET',
+        path: '/transportes/cidades',
+        options: {
+          description: 'Lista todas as cidades com transportes cadastrados',
+          auth: false,
+          plugins: {
+            rbac: 'none',
+          },
+        },
+        handler: findAllCitiesTransports,
       },
 
       {

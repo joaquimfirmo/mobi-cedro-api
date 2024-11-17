@@ -95,6 +95,37 @@ export default class TransportsRepository implements ITransportsRepository {
     }
   }
 
+  async findAllCitiesTransports(
+    limit: number = 20,
+    offset: number = 0
+  ): Promise<any> {
+    const cacheKey = `transports:city:${limit}:${offset}`
+    let result
+    result = this.getTransportsFromCache(cacheKey)
+
+    if (result) {
+      console.log('Retornando cidades com transportes do cache')
+      return result
+    }
+
+    try {
+      result = await this.connection.execute(
+        `SELECT * FROM "cidades" LIMIT $1 OFFSET $2`,
+        [limit, offset]
+      )
+
+      if (result.rowCount > 0) {
+        console.log('Salvando cidades com transportes no cache')
+        this.setTransportsToCache(cacheKey, result)
+      }
+
+      return result
+    } catch (error) {
+      console.log(error)
+      throw badImplementation('Erro ao buscar transportes')
+    }
+  }
+
   async findByCity(cityId: string): Promise<any> {
     const cacheKey = `transports:city:${cityId}`
     let result

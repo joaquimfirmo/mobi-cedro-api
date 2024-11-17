@@ -2,6 +2,7 @@ export default interface ITransportsRepository {
   create(data: any): Promise<any>
   findAll(limit: number, offset: number): Promise<any>
   findByCity(city: string): Promise<any>
+  findAllCitiesTransports(limit: number, offset: number): Promise<any>
   findById(id: string): Promise<any>
   update(id: string, data: any): Promise<any>
   findByHash(hash: string): Promise<any>
