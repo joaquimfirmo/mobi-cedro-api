@@ -41,6 +41,19 @@ module.exports = {
           cityController.findAll(request, h),
       },
       {
+        method: 'GET',
+        path: '/cidades/estados/{uf}',
+        options: {
+          description: 'Lista todas as cidades de um estado',
+          auth: false,
+          plugins: {
+            rbac: 'none',
+          },
+        },
+        handler: (request: Request, h: ResponseToolkit) =>
+          cityController.findAllCitiesByState(request, h),
+      },
+      {
         method: 'PUT',
         path: '/cidade/{id}',
         options: {

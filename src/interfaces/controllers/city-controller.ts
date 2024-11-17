@@ -5,6 +5,7 @@ import CreateCity from '../../application/usecases/city/create-city'
 import FindAllCity from '../../application/usecases/city/findAll-city'
 import UpdateCity from '../../application/usecases/city/update-city'
 import DeleteCity from '../../application/usecases/city/delete-city'
+import FindCitiesByState from '../../application/usecases/city/findCitiesByState'
 import { ResponseApi, StatusCodes } from '../../types/response-api.type'
 @Service()
 export default class CityController {
@@ -12,7 +13,8 @@ export default class CityController {
     private readonly createCity: CreateCity,
     private readonly findAllCity: FindAllCity,
     private readonly updateCity: UpdateCity,
-    private readonly deleteCity: DeleteCity
+    private readonly deleteCity: DeleteCity,
+    private readonly findCitiesByState: FindCitiesByState
   ) {}
 
   async create(request: Request, h: ResponseToolkit): Promise<ResponseObject> {
@@ -80,5 +82,21 @@ export default class CityController {
         message,
       })
       .code(status)
+  }
+
+  async findAllCitiesByState(
+    request: Request,
+    h: ResponseToolkit
+  ): Promise<ResponseObject> {
+    const uf = request.params.uf
+
+    const { data, message } = await this.findCitiesByState.execute(uf)
+
+    return h
+      .response({
+        data,
+        message,
+      })
+      .code(StatusCodes.success)
   }
 }
