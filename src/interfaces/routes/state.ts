@@ -1,5 +1,5 @@
 import { Server } from 'hapi'
-import { findAllState } from '../handlers/state/findAll-state'
+import { findAllState, findAllCitiesByState } from '../handlers/state'
 
 module.exports = {
   name: 'state',
@@ -17,6 +17,18 @@ module.exports = {
           },
         },
         handler: findAllState,
+      },
+      {
+        method: 'GET',
+        path: '/estados/{uf}/cidades',
+        options: {
+          description: 'Lista todas as cidades de um estado',
+          auth: false,
+          plugins: {
+            rbac: 'none',
+          },
+        },
+        handler: findAllCitiesByState,
       },
     ])
   },

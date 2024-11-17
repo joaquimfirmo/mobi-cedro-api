@@ -2,7 +2,7 @@ import { Container } from 'typedi'
 import { Request, ResponseToolkit } from 'hapi'
 import FindAllState from '../../../application/usecases/state/findAll-state'
 
-export async function findAllState(
+export default async function findAllState(
   request: Request,
   h: ResponseToolkit
 ): Promise<any> {
@@ -12,8 +12,8 @@ export async function findAllState(
 
   return h
     .response({
-      data,
       message,
+      data,
     })
     .code(status)
 }
