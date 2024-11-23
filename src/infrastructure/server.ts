@@ -8,7 +8,6 @@ const configRoutes = async (server: Hapi.Server): Promise<void> => {
   await server.register([
     require('../interfaces/routes/transports'),
     require('../interfaces/routes/company'),
-    require('../interfaces/routes/city'),
     require('../interfaces/routes/user'),
     require('../interfaces/routes/locations'),
   ])
