@@ -3,12 +3,14 @@ import Connection from '../database/connection'
 import IUserRepository from '../../application/repositories/user-repository'
 import ICache from '../../application/cache/cache'
 import User from '../../domain/entities/user'
-
-export default class UserRepository implements IUserRepository {
+import { BaseRepository } from './base-repository'
+class UserRepository extends BaseRepository implements IUserRepository {
   constructor(
     private readonly connection: Connection,
     private readonly cache?: ICache
-  ) {}
+  ) {
+    super()
+  }
 
   async create(user: User): Promise<any> {
     try {
@@ -107,3 +109,5 @@ export default class UserRepository implements IUserRepository {
     }
   }
 }
+
+export default UserRepository

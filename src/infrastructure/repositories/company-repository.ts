@@ -3,12 +3,15 @@ import Connection from '../database/connection'
 import ICompanyRepository from '../../application/repositories/company-repository'
 import ICache from '../../application/cache/cache'
 import Company from '../../domain/entities/company'
+import { BaseRepository } from './base-repository'
 
-export default class CompanyRepository implements ICompanyRepository {
+class CompanyRepository extends BaseRepository implements ICompanyRepository {
   constructor(
     private readonly connection: Connection,
     private readonly cache?: ICache
-  ) {}
+  ) {
+    super()
+  }
 
   async create(company: Company): Promise<any> {
     try {
@@ -123,3 +126,5 @@ export default class CompanyRepository implements ICompanyRepository {
     }
   }
 }
+
+export default CompanyRepository

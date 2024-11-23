@@ -3,11 +3,17 @@ import Connection from '../database/connection'
 import ITransportsRepository from '../../application/repositories/transports-repository'
 import Transport from '../../domain/entities/transports'
 import ICache from '../../application/cache/cache'
-export default class TransportsRepository implements ITransportsRepository {
+import { BaseRepository } from './base-repository'
+export default class TransportsRepository
+  extends BaseRepository
+  implements ITransportsRepository
+{
   constructor(
     private readonly connection: Connection,
     private readonly cache: ICache
-  ) {}
+  ) {
+    super()
+  }
 
   async create(data: Transport): Promise<any> {
     try {
