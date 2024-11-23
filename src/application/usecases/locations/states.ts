@@ -3,7 +3,7 @@ import State from '../../../types/states.type'
 import estados from '../../../utils/estados.json'
 
 @Service()
-export default class FindAllState {
+export default class States {
   constructor() {}
 
   execute() {

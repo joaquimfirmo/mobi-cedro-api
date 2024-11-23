@@ -2,7 +2,7 @@ import { Service } from 'typedi'
 import IBGEService from '../../../infrastructure/services/ibge-service'
 
 @Service()
-export default class FindAllCitiesByState {
+export default class CitiesByState {
   constructor(private readonly ibgeService: IBGEService) {}
 
   async execute(uf: string) {
