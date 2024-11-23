@@ -1,14 +1,13 @@
 import { Request, ResponseToolkit } from 'hapi'
 import { Container } from 'typedi'
-import FindAllCitiesTransports from '../../../application/usecases/transports/findAllCitiesTransports'
+import FindAllCitiesWithTransports from '../../../application/usecases/transports/findAllCitiesWithTransports'
 
-export default async function findAllCitiesTransports(
+export default async function findAllCitiesWithTransports(
   request: Request,
   h: ResponseToolkit
 ): Promise<any> {
-  const findAllCitiesTransports: FindAllCitiesTransports = Container.get(
-    FindAllCitiesTransports
-  )
+  const findAllCitiesWithTransports: FindAllCitiesWithTransports =
+    Container.get(FindAllCitiesWithTransports)
 
   const limit: number = request.query.limit
     ? parseInt(request.query.limit as string)
@@ -17,7 +16,10 @@ export default async function findAllCitiesTransports(
     ? parseInt(request.query.offset as string)
     : 0
 
-  const { data, message } = await findAllCitiesTransports.execute(limit, offset)
+  const { data, message } = await findAllCitiesWithTransports.execute(
+    limit,
+    offset
+  )
 
   return h
     .response({

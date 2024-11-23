@@ -10,7 +10,7 @@ const configRoutes = async (server: Hapi.Server): Promise<void> => {
     require('../interfaces/routes/company'),
     require('../interfaces/routes/city'),
     require('../interfaces/routes/user'),
-    require('../interfaces/routes/state'),
+    require('../interfaces/routes/locations'),
   ])
   return
 }

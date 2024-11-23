@@ -6,7 +6,7 @@ import CreateTransportDto from '../../application/dto/create-transports-dto'
 import {
   findAllTransports,
   findAllTransportsByCity,
-  findAllCitiesTransports,
+  findAllCitiesWithTransports,
   createTransport,
   updateTransport,
   deleteTransport,
@@ -59,7 +59,7 @@ module.exports = {
             rbac: 'none',
           },
         },
-        handler: findAllCitiesTransports,
+        handler: findAllCitiesWithTransports,
       },
 
       {
