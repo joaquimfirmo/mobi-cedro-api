@@ -1,14 +1,15 @@
 import City from '../../../domain/entities/city'
-import { cityRepository } from '../../../infrastructure/repositories/city-repository'
+import { CityRepository } from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
 import { cityIsValid } from '../../../utils/validateCity'
-import { Service, Inject } from 'typedi'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import { badRequest } from 'boom'
 
 @Service()
 export default class CreateCity {
   constructor(
-    @Inject(cityRepository)
+    @InjectRepository(CityRepository)
     private readonly repository: ICityRepository
   ) {}
 

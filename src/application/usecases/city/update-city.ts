@@ -1,12 +1,13 @@
-import { Service, Inject } from 'typedi'
+import { Service } from 'typedi'
+import { InjectRepository } from '../../../infrastructure/di/decorators/inject-repository'
 import City from '../../../domain/entities/city'
-import { cityRepository } from '../../../infrastructure/repositories/city-repository'
+import { CityRepository } from '../../../infrastructure/repositories/city-repository'
 import ICityRepository from '../../../application/repositories/city-repository'
 
 @Service()
 export default class UpdateCity {
   constructor(
-    @Inject(cityRepository)
+    @InjectRepository(CityRepository)
     readonly repository: ICityRepository
   ) {}
 
