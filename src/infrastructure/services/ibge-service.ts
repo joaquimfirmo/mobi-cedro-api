@@ -32,4 +32,27 @@ export default class IBGEService
     this.cache.set(cacheKey, result)
     return result
   }
+
+  async getCityByCode(code: number): Promise<any> {
+    const cacheKey = `city:${code}`
+
+    const cacheCity = this.cache.get(cacheKey)
+    if (cacheCity) {
+      console.log('Retornando cidade salva no cache')
+      return cacheCity
+    }
+
+    const result = await this.get(`/localidades/municipios/${code}`)
+    console.log('Salvando cidade no cache', result)
+    this.cache.set(cacheKey, result)
+    return result
+  }
+
+  async isValidCity(city: string, code: number) {
+    const findCity = await this.getCityByCode(code)
+    if (findCity.nome === city && findCity.id === code) {
+      return true
+    }
+    return false
+  }
 }
