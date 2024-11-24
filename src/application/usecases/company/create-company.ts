@@ -3,26 +3,27 @@ import { InjectRepository } from '../../../infrastructure/di/decorators/inject-r
 import Company from '../../../domain/entities/company'
 import CompanyRepository from '../../../infrastructure/repositories/company-repository'
 import ICompanyRepository from '../../../application/repositories/company-repository'
+import ICityRepository from '../../repositories/city-repository'
+import CityRepository from '../../../infrastructure/repositories/city-repository'
+import CityService from '../../../infrastructure/services/city-service'
 
 @Service()
 export default class CreateCompany {
   constructor(
+    private cityService: CityService,
     @InjectRepository(CompanyRepository)
-    readonly companyRepository: ICompanyRepository
+    readonly companyRepository: ICompanyRepository,
+    @InjectRepository(CityRepository)
+    readonly cityRepository: ICityRepository
   ) {}
   async execute(
     razao_social: string,
     nome_fantasia: string,
     cnpj: string,
-    id_cidade: string
+    cidade: string,
+    uf: string,
+    codigo_cidade: number
   ): Promise<any> {
-    const company: Company = new Company(
-      razao_social,
-      nome_fantasia,
-      cnpj,
-      id_cidade
-    )
-
     const cnpjExists = await this.verifyCnpjExist(cnpj)
 
     if (cnpjExists) {
@@ -43,10 +44,23 @@ export default class CreateCompany {
       }
     }
 
-    const result = await this.companyRepository.create(company)
+    const cityData = await this.cityService.findOrCreateCity(
+      cidade,
+      uf,
+      codigo_cidade
+    )
+
+    const company: Company = new Company(
+      razao_social,
+      nome_fantasia,
+      cnpj,
+      cityData.id
+    )
+
+    await this.companyRepository.create(company)
 
     return {
-      data: result.rows[0],
+      data: 'sucesso',
       message: 'Empresa criada com sucesso',
       status: 201,
     }

@@ -8,13 +8,15 @@ export async function createCompany(
 ): Promise<any> {
   const createCompany: CreateCompany = Container.get(CreateCompany)
 
-  const { razao_social, nome_fantasia, cnpj, id_cidade } =
+  const { razao_social, nome_fantasia, cnpj, cidade, uf, codigo_cidade } =
     request.payload as any
   const { data, message, status } = await createCompany.execute(
     razao_social,
     nome_fantasia,
     cnpj,
-    id_cidade
+    cidade,
+    uf,
+    codigo_cidade
   )
 
   return h

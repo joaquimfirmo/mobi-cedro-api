@@ -3,12 +3,12 @@ import {
   MinLength,
   MaxLength,
   Length,
-  IsUUID,
+  IsInt,
   IsNumberString,
 } from 'class-validator'
 
 import { IsValidCNPJ } from '../../utils/validation'
-import { IsValidForeignKey } from '../../utils/decorators/validators/foreignkey-validation'
+
 export default class CreateCompanyDto {
   @IsString()
   @MinLength(2, {
@@ -37,14 +37,19 @@ export default class CreateCompanyDto {
   @IsNumberString()
   cnpj: string
 
-  @IsUUID(4)
-  @IsValidForeignKey(
-    {
-      referenceTableName: 'cidades',
-    },
-    {
-      message: 'Cidade $value informada não existe no banco de dados',
-    }
-  )
-  id_cidade: string
+  @IsString()
+  @MinLength(2, {
+    message: 'Nome da cidade deve ter no mínimo 2 caracteres',
+  })
+  cidade: string
+
+  @IsString()
+  @MinLength(2)
+  @MaxLength(2)
+  uf: string
+
+  @IsInt({
+    message: 'Código da cidade deve ser um número inteiro',
+  })
+  codigo_cidade: number
 }
