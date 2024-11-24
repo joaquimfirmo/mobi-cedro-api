@@ -1,12 +1,12 @@
 import { Service } from 'typedi'
-import IBGEService from '../../../infrastructure/services/ibge-service'
+import IBGEClient from '../../../infrastructure/gateway/ibge-client'
 
 @Service()
 export default class CitiesByState {
-  constructor(private readonly ibgeService: IBGEService) {}
+  constructor(private readonly ibgeClient: IBGEClient) {}
 
   async execute(uf: string) {
-    const data = await this.ibgeService.getCitiesByState(uf)
+    const data = await this.ibgeClient.getCitiesByState(uf)
     if (data.length === 0) {
       return {
         data,
