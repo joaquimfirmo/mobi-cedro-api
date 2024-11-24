@@ -4,7 +4,7 @@ import ICache from '../../application/cache/cache'
 import Connection from '../database/connection'
 import City from '../../domain/entities/city'
 import { BaseRepository } from './base-repository'
-export class CityRepository extends BaseRepository implements ICityRepository {
+class CityRepository extends BaseRepository implements ICityRepository {
   constructor(
     private readonly connection: Connection,
     private readonly cache: ICache
@@ -15,8 +15,8 @@ export class CityRepository extends BaseRepository implements ICityRepository {
   async create(city: City): Promise<any> {
     try {
       const result = await this.connection.execute(
-        `INSERT INTO cidades (id, nome, uf) VALUES ($1, $2, $3)`,
-        [city.id, city.nome, city.uf]
+        `INSERT INTO cidades (id, nome, uf,cod_ibge) VALUES ($1, $2, $3, $4) RETURNING *`,
+        [city.id, city.nome, city.uf, city.cod_ibge]
       )
 
       if (result.rowCount > 0) {
@@ -49,14 +49,14 @@ export class CityRepository extends BaseRepository implements ICityRepository {
       if (result.rowCount > 0) {
         this.setCitiesToCache(cacheKey, {
           cities: result.rows.map(
-            (city: any) => new City(city.id, city.nome, city.uf)
+            (city: any) => new City(city.id, city.nome, city.uf, city.cod_ibge)
           ),
           rows: result.rowCount,
         })
       }
       return {
         cities: result.rows.map(
-          (city: any) => new City(city.id, city.nome, city.uf)
+          (city: any) => new City(city.id, city.nome, city.uf, city.cod_ibge)
         ),
         rows: result.rowCount,
       }
@@ -85,9 +85,22 @@ export class CityRepository extends BaseRepository implements ICityRepository {
         `SELECT * FROM "cidades" WHERE nome = $1 AND uf = $2`,
         [city.nome, city.uf]
       )
+      console.log(result)
       return result
     } catch (error) {
       throw badImplementation('Erro ao buscar cidade por nome e uf')
+    }
+  }
+
+  async findByNameAndCode(city: string, code: number): Promise<any> {
+    try {
+      const result = await this.connection.execute(
+        `SELECT * FROM "cidades" WHERE nome = $1 AND cod_ibge = $2 LIMIT 1`,
+        [city, code]
+      )
+      return result
+    } catch (error) {
+      throw badImplementation('Erro ao buscar cidade por nome e código')
     }
   }
 
@@ -135,3 +148,5 @@ export class CityRepository extends BaseRepository implements ICityRepository {
     console.log('Cidades salvas no cache')
   }
 }
+
+export default CityRepository
